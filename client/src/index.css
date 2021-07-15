@@ -1,0 +1,89 @@
+/* Fonts */
+@font-face {
+  font-family: "Arvo";
+  src: url("./Fonts/Arvo\ Regular/arvo-v14-latin-regular.ttf"),
+    url("./Fonts/Arvo\ Regular/arvo-v14-latin-regular.woff"),
+    url("./Fonts/Arvo\ Regular/arvo-v14-latin-regular.woff2"),
+    url("./Fonts/Arvo\ Regular/arvo-v14-latin-regular.eot");
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("Fonts/Playfair\ Display\ Regular/playfair-display-v22-latin-regular.ttf"),
+    url("Fonts/Playfair\ Display\ Regular/playfair-display-v22-latin-regular.woff"),
+    url("Fonts/Playfair\ Display\ Regular/playfair-display-v22-latin-regular.woff2"),
+    url("Fonts/Playfair\ Display\ Regular/playfair-display-v22-latin-regular.eot");
+}
+
+@font-face {
+  font-family: "Pacifico";
+  src: url("Fonts/Pacifico/pacifico-v17-latin-regular.eot"),
+    url("Fonts/Pacifico/pacifico-v17-latin-regular.woff"),
+    url("Fonts/Pacifico/pacifico-v17-latin-regular.woff2"),
+    url("Fonts/Pacifico/pacifico-v17-latin-regular.eot");
+}
+
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("./Fonts/Bebas\ Neue/bebas-neue-v2-latin-regular.woff"),
+    url("./Fonts/Bebas\ Neue/bebas-neue-v2-latin-regular.woff2"),
+    url("./Fonts/Bebas\ Neue/bebas-neue-v2-latin-regular.eot");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arvo, "Playfair Display", Georgia, "Times New Roman", Times,
+    serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.brand-color-bg {
+  background-color: rgb(22, 108, 236);
+}
+
+.brand-color-text {
+  color: rgb(22, 108, 236);
+}
+
+.brand-white-text {
+  color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-around {
+  justify-content: space-around;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}

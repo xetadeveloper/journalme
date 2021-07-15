@@ -1,0 +1,13 @@
+Server:
+    - Implement server
+    - Handle static files with middleware
+    - Review the dummy data being passed in, construct it properly
+    - Finish setting up dummy data
+    - Setup session and connect to session store
+    - Add save session field to preferences in the ER model
+    - Implement restore session route
+
+Client:
+    - Get an icon library to use
+    - Implement landing page
+    - Implement login and signup page
