@@ -1,5 +1,5 @@
 import { removeNull } from "../../Utility/utility";
-import { changeFetchStatus } from "../Actions/flagActions";
+import { changeFetchStatus, updateFlagState } from "../Actions/flagActions";
 import {
   getFailed,
   getSuccessful,
@@ -16,20 +16,24 @@ export default function httpMiddleware(store) {
         console.log("Running fetch");
         store.dispatch(changeFetchStatus({ fetchStatus: "fetching" }));
 
-        const { url, method, fetchBody, headers } = payload.httpMiddleware;
+        const { url, method, fetchBody, headers } = payload;
         const fetchOptions = removeNull(
-          new FetchOptions(url, method, fetchBody, headers)
+          new FetchOptions(method, fetchBody, headers)
         );
 
         // call fetch here
         fetch(url, fetchOptions)
           .then((response) => response.json())
           .then((data) => {
+            console.log("Fetch Result: ", data);
             switch (method) {
               case "GET":
-                data.error
-                  ? store.dispatch(getFailed(data))
-                  : store.dispatch(getSuccessful(data));
+                if (data.error) {
+                  store.dispatch(getFailed(data));
+                } else {
+                  store.dispatch(getSuccessful(data.app));
+                  store.dispatch(updateFlagState(data.flags));
+                }
                 break;
 
               case "POST":
@@ -41,7 +45,7 @@ export default function httpMiddleware(store) {
               default:
                 break;
             }
-            
+
             store.dispatch(changeFetchStatus({ fetchStatus: "done" }));
           });
       }
@@ -52,8 +56,7 @@ export default function httpMiddleware(store) {
 }
 
 class FetchOptions {
-  constructor(url, method, fetchBody, headers, mode, cache) {
-    this.url = url;
+  constructor(method, fetchBody, headers, mode, cache) {
     this.method = method;
     this.body = method !== "GET" ? JSON.stringify(fetchBody) : fetchBody;
     this.headers = headers;

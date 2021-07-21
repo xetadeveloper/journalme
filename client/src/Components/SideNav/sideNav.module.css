@@ -1,0 +1,70 @@
+.container {
+  width: 250px;
+  position: sticky;
+  height: 100vh;
+  color: inherit;
+  padding: 10px;
+  padding-left: 20px;
+  background-color: rgb(245, 245, 245);
+  border-right: 1px solid rgb(212, 210, 210);
+  overflow: scroll;
+  -ms-overflow-style: none;
+  /* border: 1px solid black; */
+}
+
+.container::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: rgb(206, 206, 206);
+  cursor: pointer;
+  border-radius: 300px;
+}
+
+.menuContainer {
+  height: auto;
+  padding: 10px 0;
+  font-size: 25px;
+  /* border: 1px solid black; */
+}
+
+.logo:hover {
+  color: initial;
+}
+
+.bigBtn {
+  padding: 10px 10px;
+  height: 40px;
+  width: auto;
+  border-radius: 15px;
+  border: 1px solid rgb(202, 202, 202);
+  background-color: white;
+  color: inherit;
+  font-size: 17px;
+  margin-top: 30px;
+  font-weight: 600;
+  /* border: 1px solid black; */
+}
+
+.bigBtn > svg {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.bigBtn:hover {
+  background-color: rgb(22, 108, 236);
+  color: white;
+}
+
+.navigation {
+  /* border: 1px solid black; */
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    display: none;
+  }
+}

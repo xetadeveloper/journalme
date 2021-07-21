@@ -1,0 +1,27 @@
+.container {
+  padding: 20px 0;
+  /* border: 1px solid black; */
+}
+
+.fullHeight {
+  height: 100vh;
+}
+
+.cancel {
+  text-align: end;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 20px;
+  /* border: 1px solid black; */
+}
+
+.cancel:hover {
+    color: rgb(22, 108, 236);
+  }
+  
+
+.navigation {
+  /* border: 1px solid black; */
+  flex-grow: 2;
+}
+

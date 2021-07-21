@@ -8,6 +8,6 @@ Server:
     - Implement restore session route
 
 Client:
-    - Get an icon library to use
     - Implement landing page
     - Implement login and signup page
+    - (Optional) In preferences, we'll have a setting for big sidenav or small sidenav

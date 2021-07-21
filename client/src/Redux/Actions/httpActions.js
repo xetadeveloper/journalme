@@ -1,4 +1,6 @@
 import {
+  GET_FAILED,
+  GET_SUCCESSFUL,
   POST_FAILED,
   POST_SUCCESSFUL,
   RESTORE_SESSION,
@@ -7,6 +9,7 @@ import {
 // Http Actions
 export function reopenLastSession(payload) {
   if (payload) {
+    console.log("Adding URL...");
     payload.url = "api/restoreSession";
   }
 
@@ -32,13 +35,15 @@ export function postFailed(payload) {
 
 export function getFailed(payload) {
   return {
-    type: POST_FAILED,
+    type: GET_FAILED,
     payload,
   };
 }
 export function getSuccessful(payload) {
   return {
-    type: POST_FAILED,
+    type: GET_SUCCESSFUL,
     payload,
   };
 }
+
+
