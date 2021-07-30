@@ -1,0 +1,49 @@
+.toggleContainer {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid rgb(190, 189, 189);
+}
+
+.bluebg,
+.whitebg {
+  height: 100%;
+  width: 100%;
+}
+
+.toggleContainer,
+.bluebg,
+.whitebg {
+  border-radius: 20px;
+}
+
+.whitebg {
+  background-color: rgb(180, 180, 180);
+}
+
+.selected {
+  max-width: 100%;
+}
+
+.notSelected {
+  max-width: 0;
+}
+
+.toggleBtn {
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  top: 0;
+  background-color: rgb(240, 240, 240);
+  border-radius: 50%;
+  border: 1px solid rgb(134, 133, 133);
+}
+
+.toggleBtnOn {
+  right: 0;
+}
+
+.toggleBtnOff {
+  left: 0;
+}

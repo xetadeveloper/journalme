@@ -1,0 +1,41 @@
+.container {
+  /* border: 1px solid black; */
+}
+
+.header {
+  /* border: 1px solid black; */
+  padding-right: 20px;
+}
+
+.header svg {
+  font-size: 1.3rem;
+}
+
+.btnHolder {
+  column-gap: 20px;
+}
+
+.btnHolder * {
+  cursor: pointer;
+}
+
+.btnHolder *:hover {
+  color: #166cec;
+}
+
+.editBtn {
+  color: #166cec;
+}
+
+.divider {
+  width: 100%;
+  background-color: grey;
+  /* border: 1px solid grey; */
+  margin-bottom: 50px;
+}
+
+.formBtnHolder {
+  margin-top: 30px;
+  padding: 0 20px;
+  /* border: 1px solid black; */
+}

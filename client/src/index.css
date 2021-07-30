@@ -175,6 +175,10 @@ button {
 }
 
 /* Custom Styles */
+html {
+  font-size: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -182,10 +186,22 @@ body {
     Times, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url("./Images/background2.jpg"); */
+  /* background-image: url("./Images/florian-klauer-mk7D-4UCfmg-unsplash.jpg"); */
+  /* background-image: url('./Images/jess-bailey-ycTvvg1mPU4-unsplash.jpg'); */
   background-size: cover;
   background-repeat: no-repeat;
   color: rgb(99, 98, 98);
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background-color: #dfdfdf;
+}
+
+body::-webkit-scrollbar-thumb{
+  background-color: #888787;
+  border-radius: 5px;
 }
 
 code {
@@ -206,24 +222,38 @@ h4 {
   font-size: 1rem;
 }
 h5 {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
+}
+
+h6 {
+  font-size: 0.8rem;
 }
 p {
   font-size: 1rem;
 }
 
+/* Colors */
 .brand-color-bg {
-  background-color: rgb(22, 108, 236);
+  background-color: #166cec;
 }
 
 .brand-color-text {
-  color: rgb(22, 108, 236);
+  color: #166cec;
 }
 
 .brand-white-text {
   color: white;
 }
 
+.grey-bg {
+  background-color: #f6f6f6;
+}
+
+.grey-text {
+  color: #737272;
+}
+
+/* Display */
 .flex {
   display: flex;
 }
@@ -256,12 +286,20 @@ p {
   align-items: flex-end;
 }
 
+/* Others */
+
 .logo {
   font-family: Pacifico, Arvo, Georgia;
+  font-size: 1.5625rem;
 }
 
+.logo:hover {
+  color: initial;
+}
+
+/* Media Queries */
 @media screen and (max-width: 768px) {
-  html {
-    font-size: 16px;
+  .logo {
+    font-size: 1.2rem;
   }
 }

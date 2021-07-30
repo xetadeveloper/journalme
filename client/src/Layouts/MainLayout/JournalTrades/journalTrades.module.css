@@ -1,0 +1,109 @@
+.container {
+  /* border: 1px solid black; */
+  /* padding: 0 30px; */
+}
+
+.container::-webkit-scrollbar {
+  width: 10px;
+  background-color: blue;
+}
+
+.header {
+  padding: 0 20px 10px;
+  /* border: 1px solid black; */
+}
+
+.searchFilters {
+  /* border: 1px solid black; */
+  padding-bottom: 30px;
+}
+
+.filterHeader {
+  text-align: center;
+  padding: 30px;
+}
+
+.filterHolder {
+  /* border: 1px solid black; */
+  column-gap: 30px;
+}
+
+.filterItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 10px;
+  /* border: 1px solid black; */
+}
+
+.filterItem * {
+  font-family: inherit;
+  color: inherit;
+}
+
+.filterItem h5 {
+  /* border: 1px solid black; */
+}
+
+.filterItem h5,
+.filterHeader,
+.header {
+  /* border: 1px solid black; */
+  font-weight: 800;
+}
+
+.filterItem select {
+  min-width: 100px;
+}
+
+.filterItem select option {
+  margin-bottom: 10px;
+}
+
+.filterItem input,
+.filterItem select {
+  border: 1px solid #c5c2c2;
+  padding: 3px;
+  outline: 0;
+}
+
+.filterItem > input[type='number'] {
+  min-width: 50px;
+  width: 100px;
+  text-align: center;
+}
+
+.filterItem > div {
+  /* border: 1px solid black; */
+  width: 100%;
+  display: flex;
+  column-gap: 30px;
+  justify-content: center;
+}
+
+.filterItem > div > div {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.tradeListHolder {
+  overflow: hidden;
+  /* border: 1px solid black; */
+  row-gap: 30px;
+}
+
+.toggleHolder {
+  width: 40px;
+  height: 18px;
+}
+
+.showAllTrades {
+  column-gap: 10px;
+  /* border: 1px solid black; */
+}
+
+.options {
+  /* border: 1px solid black; */
+}

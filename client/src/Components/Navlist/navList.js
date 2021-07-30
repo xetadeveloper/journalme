@@ -7,21 +7,30 @@ import style from './navList.module.css';
 import NavListItem from './NavListItem/navListItem';
 
 export default function NavList(props) {
-  const { setShowNav, showCancel, smallScreen, navItemsList } = props;
+  const { setShowNav, showCancel, smallScreen, isWideScreen, navItemsList } =
+    props;
 
   function renderNavItems(navItemsList) {
     return navItemsList.map((link, index) => {
-      return <NavListItem key={index} {...link} smallScreen={smallScreen} />;
+      return (
+        <NavListItem
+          key={index}
+          {...link}
+          smallScreen={smallScreen}
+          isWideScreen={isWideScreen}
+        />
+      );
     });
   }
 
   return (
     <div
-      className={`flex flex-col ${style.container} ${
-        smallScreen && style.fullHeight
-      }`}>
+      className={`flex
+       ${smallScreen && 'flex-col'} 
+      ${style.container} ${isWideScreen && style.containerWide}
+      ${smallScreen && style.fullHeight} `}>
       {/* Cancel Button */}
-      {showCancel && (
+      {showCancel && !isWideScreen && (
         <div
           className={`${style.cancel}`}
           onClick={() => {
@@ -33,7 +42,7 @@ export default function NavList(props) {
       <ul
         className={`
         ${smallScreen && 'flex flex-col justify-content-center'} 
-        ${style.navigation}`}>
+        ${style.navigation} ${isWideScreen && style.navlistWide}`}>
         {renderNavItems(navItemsList)}
       </ul>
     </div>

@@ -1,14 +1,16 @@
 .container {
   width: 250px;
-  position: sticky;
   height: 100vh;
-  color: inherit;
-  padding: 10px;
+  position: sticky;
+  top: 0;
   padding-left: 20px;
-  background-color: rgb(245, 245, 245);
-  border-right: 1px solid rgb(212, 210, 210);
+  padding-right: 10px;
+  padding-top: 15px;
+  /* border-right: 1px solid rgb(212, 210, 210); */
+  row-gap: 30px;
   overflow: scroll;
   -ms-overflow-style: none;
+  flex-shrink: 0;
   /* border: 1px solid black; */
 }
 
@@ -24,47 +26,48 @@
 }
 
 .menuContainer {
-  height: auto;
-  padding: 10px 0;
-  font-size: 25px;
   /* border: 1px solid black; */
 }
 
-.logo:hover {
-  color: initial;
-}
-
-.bigBtn {
-  padding: 10px 10px;
+.userBtn {
   height: 40px;
-  width: auto;
-  border-radius: 15px;
-  border: 1px solid rgb(202, 202, 202);
-  background-color: white;
-  color: inherit;
-  font-size: 17px;
-  margin-top: 30px;
-  font-weight: 600;
+  width: 40px;
   /* border: 1px solid black; */
 }
 
-.bigBtn > svg {
-  margin-left: 10px;
-  font-size: 20px;
+.userIcon {
+  font-size: 1rem;
 }
 
-.bigBtn:hover {
-  background-color: rgb(22, 108, 236);
-  color: white;
+.navBtn {
+  margin-top: 20px;
+  position: relative;
+}
+
+.plusIcon {
+  /* border: 1px solid black; */
+  position: absolute;
+  right: 20px;
+  font-size: 1.5rem;
+}
+
+.btnText {
+  /* border: 1px solid black; */
+  word-spacing: 2px;
 }
 
 .navigation {
   /* border: 1px solid black; */
-  margin-top: 30px;
 }
 
 @media screen and (max-width: 768px) {
   .container {
-    display: none;
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 200px;
   }
 }

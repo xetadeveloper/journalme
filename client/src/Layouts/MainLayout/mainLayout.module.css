@@ -1,5 +1,24 @@
-.container{
-    width: 100%;
-    position: relative;
+.container {
+  width: 100%;
+  position: relative;
+  margin: auto;
+  /* border: 1px solid #c52424; */
 }
 
+.pageHolder {
+  flex-grow: 2;
+  padding: 20px 20px 20px 30px;
+  /* border: 1px solid blue; */
+}
+
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 14px;
+  }
+}

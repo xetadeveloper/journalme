@@ -1,0 +1,19 @@
+.btnContainer {
+  background-color: white;
+  width: 100%;
+  min-height: 40px;
+  max-height: 100%;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: inherit;
+  border: 1px solid rgb(226, 226, 226);
+  box-shadow: 0px 2px 8px 3px rgb(205, 204, 204);
+  cursor: pointer;
+}
+
+.btnContainer:hover {
+  background-color: rgb(22, 108, 236);
+  color: rgb(250, 245, 245);
+}

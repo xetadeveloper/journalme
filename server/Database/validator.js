@@ -1,93 +1,97 @@
-import { usersDummyData, tradesDummyData } from "./dummyData.js";
+import { usersDummyData, tradesDummyData } from './dummyData.js';
 
 const usersSchema = {
-  name: "users",
+  name: 'users',
   dummyData: usersDummyData,
   validator: {
     $jsonSchema: {
-      bsonType: "object",
-      required: ["username", "firstname", "lastname", "email", "password"],
+      bsonType: 'object',
+      required: ['username', 'firstname', 'lastname', 'email', 'password'],
       properties: {
         username: {
-          bsonType: "string",
-          description: "Must be present and a string",
+          bsonType: 'string',
+          description: 'Must be present and a string',
         },
         password: {
-          bsonType: "string",
-          description: "Must be present and a string",
+          bsonType: 'string',
+          description: 'Must be present and a string',
         },
         firstname: {
-          bsonType: "string",
-          description: "Must be present and a string",
+          bsonType: 'string',
+          description: 'Must be present and a string',
         },
         lastname: {
-          bsonType: "string",
-          description: "Must be present and a string",
+          bsonType: 'string',
+          description: 'Must be present and a string',
         },
         email: {
-          bsonType: "string",
-          description: "Must be present and a string",
+          bsonType: 'string',
+          description: 'Must be present and a string',
         },
         preferences: {
-          bsonType: "object",
+          bsonType: 'object',
           properties: {
             strategies: {
-              bsonType: "array",
+              bsonType: 'array',
               items: {
-                bsonType: "string",
-                description: "Must be an array of string",
+                bsonType: 'string',
+                description: 'Must be an array of string',
               },
             },
             currency: {
-              type: "string",
-              description: "Should be an enum of currency symbols",
+              type: 'string',
+              description: 'Should be an enum of currency symbols',
             },
             saveSession: {
-              bsonType: "boolean",
+              bsonType: 'boolean',
               description: "To save the user's session or not",
             },
           },
         },
         journal: {
-          bsonType: "array",
+          bsonType: 'array',
           items: {
-            bsonType: "object",
-            required: ["journalName", "market", "startCapital"],
+            bsonType: 'object',
+            required: ['journalID','journalName', 'market', 'startCapital'],
             properties: {
+              journalID: {
+                bsonType: 'int',
+                description: 'Name of the journal',
+              },
               journalName: {
-                bsonType: "string",
-                description: "Name of the journal",
+                bsonType: 'string',
+                description: 'Name of the journal',
               },
               journalDesc: {
-                bsonType: "string",
-                description: "additional description of journal",
+                bsonType: 'string',
+                description: 'additional description of journal',
               },
               market: {
-                bsonType: "string",
-                description: "The market the journal is meant for",
+                bsonType: 'string',
+                description: 'The market the journal is meant for',
               },
               startCapital: {
-                bsonType: "string",
-                description: "Starting capital for that market",
+                bsonType: 'string',
+                description: 'Starting capital for that market',
               },
               totalProfit: {
-                bsonType: "string",
-                description: "Overall Profit/Loss",
+                bsonType: 'string',
+                description: 'Overall Profit/Loss',
               },
               winningTrades: {
-                bsonType: "string",
-                description: "No of winning trades",
+                bsonType: 'string',
+                description: 'No of winning trades',
               },
               losingTrades: {
-                bsonType: "string",
-                description: "No of losing trades",
+                bsonType: 'string',
+                description: 'No of losing trades',
               },
-              winRate: { bsonType: "string", description: "Win rate" },
-              loseRate: { bsonType: "string", description: "lose rate" },
-              acctBalance: {
-                bsonType: "string",
-                description: "Account balancec after trades",
+              balance: {
+                bsonType: 'string',
+                description: 'Account balance after trades',
               },
+              loseRate: { bsonType: 'string', description: 'Trades lose rate' },
+              winRate: { bsonType: 'string', description: 'Trades Win rate' },
             },
           },
         },
@@ -97,71 +101,71 @@ const usersSchema = {
 };
 
 const tradesSchema = {
-  name: "trades",
+  name: 'trades',
   dummyData: tradesDummyData,
   validator: {
     $jsonSchema: {
-      bsonType: "object",
+      bsonType: 'object',
       required: [
-        "journalID",
-        "capital",
-        "tradesize",
-        "strategy",
-        "entryTime",
-        "exitTime",
-        "entryDate",
-        "exitDate",
-        "tradeStatus",
-        "leverage",
-        "commission",
-        "pl",
-        "comment",
+        'journalID',
+        'capital',
+        'tradesize',
+        'strategy',
+        'entryTime',
+        'exitTime',
+        'entryDate',
+        'exitDate',
+        'tradeStatus',
+        'leverage',
+        'commission',
+        'pl',
+        'comment',
       ],
       properties: {
         journalID: {
-          bsonType: "objectID",
+          bsonType: 'int',
         },
         capital: {
-          bsonType: "double",
+          bsonType: 'double',
         },
         tradesize: {
-          bsonType: "double",
+          bsonType: 'double',
         },
         strategy: {
-          bsonType: "string",
+          bsonType: 'string',
         },
         entryTime: {
-          bsonType: "timestamp",
+          bsonType: 'timestamp',
         },
         exitTime: {
-          bsonType: "timestamp",
+          bsonType: 'timestamp',
         },
         entryDate: {
-          bsonType: "date",
+          bsonType: 'date',
         },
         exitDate: {
-          bsonType: "date",
+          bsonType: 'date',
         },
         tradeStatus: {
-          enum: ["Win", "Lost"],
+          enum: ['Win', 'Lost'],
         },
         leverage: {
-          bsonType: "int",
+          bsonType: 'int',
         },
         commission: {
-          bsonType: "double",
+          bsonType: 'double',
         },
         pl: {
-          bsonType: "double",
+          bsonType: 'double',
         },
         comment: {
-          bsonType: "date",
+          bsonType: 'date',
         },
       },
     },
   },
 };
 
-export const validationLevel = "strict";
-export const validationAction = "error";
+export const validationLevel = 'strict';
+export const validationAction = 'error';
 export const DBCollections = [usersSchema, tradesSchema];

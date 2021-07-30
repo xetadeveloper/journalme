@@ -10,4 +10,6 @@ Server:
 Client:
     - Implement landing page
     - Implement login and signup page
-    - (Optional) In preferences, we'll have a setting for big sidenav or small sidenav
+    - Fix the user button and drop down in wide screen layout for the home page
+    - Do the analysis page
+    - Change the format of the date in the journaltrades page

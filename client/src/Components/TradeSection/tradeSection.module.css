@@ -1,0 +1,62 @@
+.tradeSection {
+  border-bottom: 1px solid black;
+  overflow: hidden;
+}
+
+.tradeList,
+.tradeSection,
+.tradeListHolder {
+  /* border: 1px solid black; */
+}
+
+.tradeHeader,
+.tradeMonth {
+  border: 1px solid #918f8f;
+  border-left: 0;
+  border-right: 0;
+}
+
+.tradeMonth {
+  padding: 10px 20px 10px 40px;
+  font-weight: 900;
+  border-top: 1px solid black;
+}
+
+.tradeMonth svg {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.tradeHeader {
+  padding: 15px 40px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  border-top: 0;
+}
+
+.hideTradeList .tradeList {
+  max-height: 0;
+}
+
+.showTradeList .tradeList {
+  max-height: 100vh;
+}
+
+.hideTradeList .tradeList,
+.showTradeList .tradeList {
+  transition: max-height 0.5s ease-in-out;
+}
+
+.caretUp {
+  transform: rotate(0deg);
+}
+
+.caretDown {
+  transform: rotate(90deg);
+}
+
+.caretDown,
+.caretUp {
+  transition: transform 0.2s ease-in-out;
+}

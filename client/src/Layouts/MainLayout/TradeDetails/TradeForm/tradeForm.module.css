@@ -1,0 +1,104 @@
+.formInputHolder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 30px;
+  column-gap: 30px;
+  /* border: 1px solid black; */
+}
+
+.formItem {
+  display: grid;
+  grid-template-columns: 100px 300px;
+  align-items: center;
+  column-gap: 20px;
+  /* border: 1px solid black; */
+}
+
+.formLabel {
+  /* border: 1px solid black; */
+}
+
+.formInput {
+  padding: 8px;
+  border: 1px solid grey;
+  border-radius: 7px;
+  outline: none;
+  color: #737272;
+  font-size: inherit;
+  font-family: inherit;
+  /* border: 1px solid black; */
+}
+
+.formInput::placeholder {
+  color: #c4c2c2;
+}
+
+.formInput:disabled {
+  border: none;
+  background-color: transparent;
+  padding: 9px;
+}
+
+.formInput[type='date'] {
+  font-size: inherit;
+}
+
+.currencyField {
+  /* position: relative; */
+  border: 1px solid grey;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  column-gap: 1px;
+  padding-left: 8px;
+}
+
+.currencyField .formInput {
+  border: none;
+  flex-grow: 2;
+  padding-left: 0;
+}
+
+.currencyFieldDisabled {
+  border: none;
+  background-color: transparent;
+  padding-left: 9px;
+}
+
+.comments {
+  /* grid-column: 1/1; */
+  grid-row: span 5;
+}
+
+.comments > .formInput {
+  height: 100%;
+  resize: none;
+  font-size: inherit;
+  overflow-y: scroll;
+}
+
+.comments > .formInput:read-only {
+  border: 1px solid rgb(185, 184, 184);
+}
+
+.comments > .formInput::-webkit-scrollbar {
+  width: 10px;
+  background-color: #ebe3e3;
+  border-radius: 10px;
+}
+
+.comments > .formInput::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #b8b6b6;
+}
+
+@media screen and (max-width: 1024px) {
+  .formInputHolder {
+    grid-template-columns: 1fr;
+  }
+
+  .comments {
+    grid-column: 1/1;
+    grid-row: span 5;
+  }
+}

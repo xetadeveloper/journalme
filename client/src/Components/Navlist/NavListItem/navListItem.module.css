@@ -1,9 +1,10 @@
 .linkContainer {
   text-align: center;
+  /* border: 1px solid black; */
 }
 
 .border {
-  border: 1px solid rgb(214, 214, 214);
+  border: 1px solid #d6d6d6;
   border-left: none;
   border-right: none;
   border-top: none;
@@ -13,25 +14,55 @@
   display: inline-block;
   width: 100%;
   padding: 30px 20px;
-  display: grid;
-  grid-template-columns: 12fr 1fr;
   align-items: center;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.navlink:hover {
-  background-color: rgb(22, 108, 236);
+.navlink > *{
+  /* border: 1px solid black; */
+}
+
+.navlinkWide {
+  padding: 10px 20px;
+  position: relative;
+  /* border: 1px solid black; */
+}
+
+.bluebg:hover {
+  background-color: #166cec;
   color: white;
-}
-
-.accordionLink {
-  background-color: rgb(223, 223, 223);
-  width: 80%;
 }
 
 .navlink:hover,
 .accordionLink {
   border-radius: 10px;
+}
+
+.navlinkWide:hover {
+  background-color: #f6f6f6;
+  border-radius: 0;
+  color: #737272;
+  background-color: #166cec;
+  color: white;
+}
+
+
+.navlinkAccordion{
+  display: flex;
+  flex-direction: column;
+}
+
+.accordionLink {
+  background-color: #dfdfdf;
+  width: 80%;
+}
+
+.accordionLinkWide {
+  position: absolute;
+  top: 100%;
+  /* z-index: 5; */
+  width: 100%;
 }
 
 .accordionLink > * {
