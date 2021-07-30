@@ -1,4 +1,9 @@
-import { FETCH_STATUS, RESET_SESSION_RESTORED, UPDATE_FLAG_STATE } from "../ActionTypes/flagActionTypes";
+import {
+  FETCH_STATUS,
+  RESET_ERROR_FLAG,
+  RESET_SESSION_RESTORED,
+  UPDATE_FLAG_STATE,
+} from '../ActionTypes/flagActionTypes';
 
 export function changeFetchStatus(payload) {
   return {
@@ -17,6 +22,13 @@ export function updateFlagState(payload) {
 export function resetSessionRestored(payload) {
   return {
     type: RESET_SESSION_RESTORED,
+    payload,
+  };
+}
+
+export function resetErrorFlag(payload) {
+  return {
+    type: RESET_ERROR_FLAG,
     payload,
   };
 }

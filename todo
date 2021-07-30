@@ -8,8 +8,11 @@ Server:
     - Implement restore session route
 
 Client:
-    - Implement landing page
     - Implement login and signup page
+    - Implement landing page
     - Fix the user button and drop down in wide screen layout for the home page
     - Do the analysis page
+    - Do the recent trades page
     - Change the format of the date in the journaltrades page
+    - implement useMemo for the depenedencies in login useEffect
+    - implement update and delete features of the trade details page 

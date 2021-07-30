@@ -1,0 +1,15 @@
+.container {
+  /* border: 1px solid black; */
+}
+
+.navbar {
+  /* border: 1px solid black; */
+  padding: 10px 20px;
+}
+
+.navlist {
+  /* border: 1px solid black; */
+  column-gap: 20px;
+}
+
+

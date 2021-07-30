@@ -1,16 +1,16 @@
 // Modules
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // Components
 
 // Styles
-// import style from "./landing.module.css";
+import style from './landing.module.css';
 
 // Redux
-import { connect } from "react-redux";
-import { reopenLastSession } from "../../Redux/Actions/httpActions";
-import { resetSessionRestored } from "../../Redux/Actions/flagActions";
+import { connect } from 'react-redux';
+import { reopenLastSession } from '../../Redux/Actions/httpActions';
+import { resetSessionRestored } from '../../Redux/Actions/flagActions';
 
 function LandingPage(props) {
   const { isLoggedIn, isSessionRestored, reopenLastSession, user } = props;
@@ -32,7 +32,33 @@ function LandingPage(props) {
     }
   }, [isSessionRestored, history, user, resetSessionRestored]);
 
-  return <div>Landing Page</div>;
+  return (
+    <div className={`${style.container}`}>
+      {/* Navbar */}
+      <nav
+        className={`flex justify-content-between align-items-center grey-bg ${style.navbar}`}>
+        <h1 className={`logo`}>JournalMe</h1>
+        <ul
+          className={`flex justify-content-between align-items-center ${style.navlist}`}>
+          <li>
+            <NavLink to='/about'>Home</NavLink>
+          </li>
+          <li>
+            <NavLink to='/about'>About</NavLink>
+          </li>
+          <li>
+            <NavLink to='/about'>Contact Us</NavLink>
+          </li>
+          <li>
+            <NavLink to='/about'>Blog</NavLink>
+          </li>
+          <li>
+            <NavLink to='/login'>Login</NavLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -48,7 +74,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     reopenLastSession: () =>
-      dispatch(reopenLastSession({ httpMiddleware: true, method: "GET" })),
+      dispatch(reopenLastSession({ httpMiddleware: true, method: 'GET' })),
     resetSessionRestored: () => dispatch(resetSessionRestored()),
   };
 }

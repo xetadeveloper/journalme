@@ -1,52 +1,63 @@
-import { removeNull } from "../../Utility/utility";
-import { changeFetchStatus, updateFlagState } from "../Actions/flagActions";
+import { removeNull } from '../../Utility/utility';
+import { changeFetchStatus, updateFlagState } from '../Actions/flagActions';
 import {
   getFailed,
   getSuccessful,
   postFailed,
   postSuccessful,
-} from "../Actions/httpActions";
+} from '../Actions/httpActions';
 
 export default function httpMiddleware(store) {
   return function (next) {
     return function (action) {
       const { payload } = action;
 
+      console.log('Payload: ', payload);
+
       if (payload && payload.httpMiddleware) {
-        console.log("Running fetch");
-        store.dispatch(changeFetchStatus({ fetchStatus: "fetching" }));
+        console.log('Running fetch');
+        store.dispatch(changeFetchStatus({ fetchStatus: 'fetching' }));
 
         const { url, method, fetchBody, headers } = payload;
+        console.log('Fetch Body: ', fetchBody);
+
         const fetchOptions = removeNull(
           new FetchOptions(method, fetchBody, headers)
         );
 
+        console.log('Fetch OPtions: ', fetchOptions);
+
         // call fetch here
         fetch(url, fetchOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Fetch Result: ", data);
+          .then(response => response.json())
+          .then(data => {
+            console.log('Fetch Result: ', data);
             switch (method) {
-              case "GET":
-                if (data.error) {
-                  store.dispatch(getFailed(data));
+              case 'GET':
+                if (data.app.error) {
+                  store.dispatch(getFailed(data.app));
+                  store.dispatch(updateFlagState(data.flags));
                 } else {
                   store.dispatch(getSuccessful(data.app));
                   store.dispatch(updateFlagState(data.flags));
                 }
                 break;
 
-              case "POST":
-                data.error
-                  ? store.dispatch(postFailed(data))
-                  : store.dispatch(postSuccessful(data));
+              case 'POST':
+                if (data.app.error) {
+                  store.dispatch(postFailed(data.app));
+                  store.dispatch(updateFlagState(data.flags));
+                } else {
+                  store.dispatch(postSuccessful(data.app));
+                  store.dispatch(updateFlagState(data.flags));
+                }
                 break;
 
               default:
                 break;
             }
 
-            store.dispatch(changeFetchStatus({ fetchStatus: "done" }));
+            store.dispatch(changeFetchStatus({ fetchStatus: 'done' }));
           });
       }
 
@@ -58,9 +69,9 @@ export default function httpMiddleware(store) {
 class FetchOptions {
   constructor(method, fetchBody, headers, mode, cache) {
     this.method = method;
-    this.body = method !== "GET" ? JSON.stringify(fetchBody) : fetchBody;
+    this.body = method !== 'GET' ? JSON.stringify(fetchBody) : fetchBody;
     this.headers = headers;
-    this.mode = mode || "cors";
-    this.cache = cache || "default";
+    this.mode = mode || 'cors';
+    this.cache = cache || 'default';
   }
 }

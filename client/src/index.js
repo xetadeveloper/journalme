@@ -14,7 +14,7 @@ import LandingPage from './Layouts/Landing/landing';
 import MainLayout from './Layouts/MainLayout/mainLayout';
 import AboutUs from './Layouts/About/about';
 import ContactUs from './Layouts/ContactUs/contactUs';
-import Login from './Layouts/Login/login';
+import LoginContainer from './Layouts/LoginContainer/loginContainer';
 import NotFound from './Layouts/NotFound/notFound';
 
 function App() {
@@ -23,7 +23,13 @@ function App() {
       <Switch>
         <Route path='/contactus' component={ContactUs} />
         <Route path='/journal' component={MainLayout} />
-        <Route path='/login' component={Login} />
+        <Route path='/login' component={LoginContainer} />
+        <Route
+          path='/logout'
+          render={routeprops => (
+            <LoginContainer {...routeprops} logout={true} />
+          )}
+        />
         <Route path='/about' component={AboutUs} />
         <Route path='/' exact component={LandingPage} />
         <Route component={NotFound} />

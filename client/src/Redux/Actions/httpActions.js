@@ -9,7 +9,6 @@ import {
 // Http Actions
 export function reopenLastSession(payload) {
   if (payload) {
-    console.log("Adding URL...");
     payload.url = "api/restoreSession";
   }
 

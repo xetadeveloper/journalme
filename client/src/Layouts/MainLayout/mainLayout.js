@@ -1,11 +1,11 @@
 // Modules
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { dummyJournals } from '../../dummyData';
 
 // Redux
 import { connect } from 'react-redux';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 
 // Styles
 import style from './mainLayout.module.css';
@@ -25,6 +25,13 @@ function MainLayout(props) {
   const { user, isLoggedIn } = props;
 
   const { path } = useRouteMatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      history.push('/login');
+    }
+  });
 
   // Default Navigation List
   const navItemsList = [

@@ -1,0 +1,99 @@
+.loginContainer {
+  /* border: 1px solid black; */
+  height: 100vh;
+  color: white;
+  background-image: url('../../Images/pexels-lorenzo-241544.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logoHolder {
+  /* border: 1px solid black; */
+  flex-grow: 2;
+  row-gap: 30px;
+  text-shadow: 2px 2px 18px #166cec;
+}
+
+.logoText {
+  font-size: 6rem;
+  color: #fdfcfc;
+}
+
+.logoText:hover {
+  color: #5e98ee;
+  cursor: default;
+}
+
+.formContainer {
+  /* border: 1px solid black; */
+  flex-grow: 2;
+  /* background-color: #166cec60; */
+  text-align: center;
+}
+
+.form {
+  /* border: 1px solid black; */
+  background-color: white;
+  /* width: 400px; */
+  row-gap: 30px;
+  padding: 30px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px 8px #166cec;
+}
+
+.formItem {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  column-gap: 10px;
+  text-align: end;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.formLabel {
+  /* border: 1px solid black; */
+}
+
+.formInput {
+  border: 1px solid grey;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 10px;
+  outline: none;
+  border-radius: 8px;
+}
+
+.formBtn {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #166cec;
+  background-color: transparent;
+  font-weight: 900;
+  font-family: inherit;
+  font-size: inherit;
+  color: #2e2d2d;
+  outline: none;
+}
+
+.formBtn:hover {
+  color: white;
+  background-color: #166cec;
+  border: 1px solid grey;
+}
+
+.error {
+  border: 1px solid #ce0808;
+}
+
+.switchForm {
+  cursor: pointer;
+}
+
+.switchForm:hover {
+  color: #166cec;
+  font-weight: 900;
+}
+
+.journalLink {
+  font-size: 0.8rem;
+}

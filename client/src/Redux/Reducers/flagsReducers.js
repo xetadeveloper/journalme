@@ -1,13 +1,19 @@
 import {
   FETCH_STATUS,
+  RESET_ERROR_FLAG,
+  RESET_SESSION_RESTORED,
   UPDATE_FLAG_STATE,
-} from "../ActionTypes/flagActionTypes";
+} from '../ActionTypes/flagActionTypes';
 
-const initialState = { fetchStatus: "done" };
+const initialState = {
+  fetchStatus: 'done',
+  isSessionRestored: false,
+  isError: false,
+};
 
 export default function flagReducers(state = initialState, action) {
   const { type, payload } = action;
-  // console.log("Reducer Type: ", type);
+  console.log("Flag Reducer Type: ", type);
 
   switch (type) {
     case FETCH_STATUS:
@@ -15,6 +21,12 @@ export default function flagReducers(state = initialState, action) {
 
     case UPDATE_FLAG_STATE:
       return { ...state, ...payload };
+
+    case RESET_SESSION_RESTORED:
+      return { ...state, isSessionRestored: false };
+
+    case RESET_ERROR_FLAG:
+      return { ...state, isError: false};
   }
 
   return state;
