@@ -1,2 +1,2 @@
-export { getRouter as getRoutes } from "./getRoutes.js";
-export { postRouter as postRoutes } from "./postRoutes.js";
+export { getRoutes } from './getRoutes.js';
+export { postRoutes } from './postRoutes.js';

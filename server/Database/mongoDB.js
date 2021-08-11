@@ -1,22 +1,23 @@
-import mongo from "mongodb";
-import { serverErrorFound } from "../Utility/errorHandling.js";
+import mongo from 'mongodb';
 import {
   DBCollections,
   validationAction,
   validationLevel,
-} from "./validator.js";
+} from './validator.js';
+// import { serverErrorFound } from '../Utility/errorHandling.js';
 
 const { MongoClient } = mongo;
-const productionMode = process.env.NODE_ENV == "production";
+const productionMode = process.env.NODE_ENV == 'production';
 
-const defaultDBName = process.env.defaultDBName;
-const dbUrl = productionMode ? process.env.devDBUrl : process.env.prodDBUrl;
+const defaultDB = process.env.defaultDB;
+const dbUrl = productionMode ? process.env.prodDBUrl : process.env.devDBUrl;
 
 const DBPool = {};
 let client;
 
-async function connectDB(dbName = defaultDBName) {
+async function connectDB(dbName = defaultDB) {
   if (!client) {
+    // console.log('DBUrl: ', dbUrl);
     client = new MongoClient(dbUrl, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -25,13 +26,16 @@ async function connectDB(dbName = defaultDBName) {
     try {
       await client.connect();
     } catch (err) {
+      console.log('Error Occured: ', err.message);
       throw err;
     }
   }
 
   const db = client.db(dbName);
-
-  if (!checkDBExists) {
+  // const exists = ;
+  // console.log('DB Exists: ', exists);
+  if (!(await checkDBExists(db, dbName))) {
+    console.log('DB does not exist');
     await configureDB(db, DBCollections, validationLevel, validationAction);
   }
 
@@ -46,8 +50,9 @@ async function checkDBExists(db, dbName) {
   await db
     .admin()
     .listDatabases()
-    .then((list) => {
-      list.forEach((database) => {
+    .then(list => {
+      // console.log('List: ', list);
+      list.databases.forEach(database => {
         if (database.name === dbName) {
           exists = true;
         }
@@ -60,35 +65,41 @@ async function checkDBExists(db, dbName) {
 async function configureDB(db, collections, validationLevel, validationAction) {
   try {
     // Setup DB for first time use
-    collections.forEach((coll) => {
+    collections.forEach(coll => {
+      console.log(`Creating collection ${coll.name}...`);
+
       db.createCollection(coll.name, {
         validator: coll.validator,
         validationAction,
         validationLevel,
       })
-        .then((createdColl) => {
-          console.log(`Collection ${coll.name} created...`);
-
+        .then(createdColl => {
+          // console.log(`Collection ${coll.name} created...`);
           // if (!productionMode) {
           //   // Create dummy data
           //   createdColl.insertMany(coll.dummyData)
           // }
         })
-        .catch((err) => {
+        .catch(err => {
+          console.log('Error Occured In Creating Collections: ', err);
           throw err;
         });
     });
   } catch (err) {
+    console.log('Error Occured In Overall Creation: ', err);
     throw err;
   }
 }
 
-export async function getDBInstance(dbName = defaultDBName) {
+export async function getDBInstance(dbName = defaultDB) {
   if (DBPool[dbName]) {
+    // console.log('DB already connected..');
     return DBPool[dbName];
   } else {
+    // console.log('DB not connected....');
     try {
-      connectDB(dbName).then((db) => {
+      // console.log('DB Name: ', dbName);
+      connectDB(dbName).then(db => {
         return db;
       });
     } catch (err) {
@@ -101,11 +112,11 @@ export function closeClientInstance() {
   if (client) {
     try {
       client.close();
-      console.log("Client has been closed...");
+      console.log('Client has been closed...');
     } catch (err) {
       throw err;
     }
   } else {
-    console.log("Client was not initialized...");
+    console.log('Client was not initialized...');
   }
 }

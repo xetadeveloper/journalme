@@ -43,20 +43,20 @@ const usersSchema = {
               description: 'Should be an enum of currency symbols',
             },
             saveSession: {
-              bsonType: 'boolean',
+              bsonType: 'bool',
               description: "To save the user's session or not",
             },
           },
         },
-        journal: {
+        journals: {
           bsonType: 'array',
           items: {
             bsonType: 'object',
-            required: ['journalID','journalName', 'market', 'startCapital'],
+            required: ['journalID', 'journalName', 'market', 'startCapital'],
             properties: {
               journalID: {
-                bsonType: 'int',
-                description: 'Name of the journal',
+                bsonType: 'string',
+                description: 'ID of the journal',
               },
               journalName: {
                 bsonType: 'string',
@@ -71,27 +71,33 @@ const usersSchema = {
                 description: 'The market the journal is meant for',
               },
               startCapital: {
-                bsonType: 'string',
+                bsonType: 'double',
                 description: 'Starting capital for that market',
               },
               totalProfit: {
-                bsonType: 'string',
+                bsonType: 'double',
                 description: 'Overall Profit/Loss',
               },
               winningTrades: {
-                bsonType: 'string',
+                bsonType: 'int',
                 description: 'No of winning trades',
               },
               losingTrades: {
-                bsonType: 'string',
+                bsonType: 'int',
                 description: 'No of losing trades',
               },
               balance: {
-                bsonType: 'string',
+                bsonType: 'double',
                 description: 'Account balance after trades',
               },
-              loseRate: { bsonType: 'string', description: 'Trades lose rate' },
-              winRate: { bsonType: 'string', description: 'Trades Win rate' },
+              loseRate: {
+                bsonType: 'double',
+                description: 'Trades lose rate',
+              },
+              winRate: {
+                bsonType: 'double',
+                description: 'Trades Win rate',
+              },
             },
           },
         },
@@ -108,6 +114,7 @@ const tradesSchema = {
       bsonType: 'object',
       required: [
         'journalID',
+        'userID',
         'capital',
         'tradesize',
         'strategy',
@@ -123,10 +130,10 @@ const tradesSchema = {
       ],
       properties: {
         journalID: {
-          bsonType: 'int',
+          bsonType: 'string',
         },
-        capital: {
-          bsonType: 'double',
+        userID: {
+          bsonType: 'objectId',
         },
         tradesize: {
           bsonType: 'double',
@@ -135,10 +142,10 @@ const tradesSchema = {
           bsonType: 'string',
         },
         entryTime: {
-          bsonType: 'timestamp',
+          bsonType: 'string',
         },
         exitTime: {
-          bsonType: 'timestamp',
+          bsonType: 'string',
         },
         entryDate: {
           bsonType: 'date',
@@ -159,7 +166,7 @@ const tradesSchema = {
           bsonType: 'double',
         },
         comment: {
-          bsonType: 'date',
+          bsonType: 'string',
         },
       },
     },

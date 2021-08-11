@@ -7,13 +7,13 @@ import style from '../loginContainer.module.css';
 
 export default function Login(props) {
   const { handleSubmit, handleInputChange, errorFields } = props;
-  const { showSignUpForm, setShowSignUpForm, isLoggedIn, user } = props;
+  const { showSignUpForm, setShowSignUpForm, isLoggedIn, username } = props;
 
   const history = useHistory();
 
   useEffect(() => {
     if (isLoggedIn) {
-      history.push(`/journal/${user}`);
+      history.push(`/journal/${username}`);
     }
   });
 
@@ -53,10 +53,10 @@ export default function Login(props) {
           <input
             type='text'
             placeholder='First Name'
-            name='firstName'
+            name='firstname'
             onChange={handleInputChange}
             className={`${style.formInput} ${
-              errorFields.firstName && style.error
+              errorFields.firstname && style.error
             }`}
           />
         </div>
@@ -67,10 +67,10 @@ export default function Login(props) {
           <input
             type='text'
             placeholder='Last Name'
-            name='lastName'
+            name='lastname'
             onChange={handleInputChange}
             className={`${style.formInput} ${
-              errorFields.lastName && style.error
+              errorFields.lastname && style.error
             }`}
           />
         </div>

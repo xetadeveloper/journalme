@@ -18,14 +18,14 @@ function LoginContainer(props) {
     resetErrorFlag,
     logout,
     isLoggedIn,
-    user,
+    username,
   } = props;
 
   const initialFormData = {
     username: '',
     password: '',
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
   };
 
@@ -59,18 +59,23 @@ function LoginContainer(props) {
   useEffect(() => {
     if (isError) {
       // get Error
-      const localErrorField = { ...errorFields };
-      for (let field in errorFields) {
-        console.log('Field: ', field);
-        error.forEach(errorField => {
-          console.log('Error Field: ', errorField.field);
-          if (field === errorField.field) {
-            localErrorField[field] = errorField;
-          }
-        });
+      if (error.type === 'inputerror') {
+        const localErrorField = { ...errorFields };
+        for (let field in errorFields) {
+          console.log('Field: ', field);
+          error.forEach(errorField => {
+            console.log('Error Field: ', errorField.field);
+            if (field === errorField.field) {
+              localErrorField[field] = errorField;
+            }
+          });
+        }
+
+        setErrorFields(localErrorField);
+      }else if(error.type === 'insertError'){
+        // Show modal for insert error
       }
 
-      setErrorFields(localErrorField);
       resetErrorFlag();
     }
   }, [isError]);
@@ -88,7 +93,7 @@ function LoginContainer(props) {
         {
           /* Add autocomplete to form */
           logout ? (
-            <Logout user={user} />
+            <Logout user={username} />
           ) : (
             <Login
               handleSubmit={handleSubmit}
@@ -97,7 +102,7 @@ function LoginContainer(props) {
               showSignUpForm={showSignUpForm}
               setShowSignUpForm={setShowSignUpForm}
               isLoggedIn={isLoggedIn}
-              user={user}
+              username={username}
             />
           )
         }
@@ -107,9 +112,9 @@ function LoginContainer(props) {
 }
 
 function mapStateToProps(state) {
-  const { error, isLoggedIn, user } = state.app;
+  const { error, isLoggedIn, username } = state.app;
   const { isError } = state.flags;
-  return { isError, error, isLoggedIn, user };
+  return { isError, error, isLoggedIn, username };
 }
 
 function mapDispatchToProps(dispatch) {

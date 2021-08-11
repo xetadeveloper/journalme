@@ -1,14 +1,11 @@
 Server:
-    - Implement server
     - Handle static files with middleware
-    - Review the dummy data being passed in, construct it properly
-    - Finish setting up dummy data
-    - Setup session and connect to session store
     - Add save session field to preferences in the ER model
-    - Implement restore session route
+    - Finish restore session route (This will be done when connecting server to the client)
 
 Client:
     - Implement login and signup page
+    - Create the modals
     - Implement landing page
     - Fix the user button and drop down in wide screen layout for the home page
     - Do the analysis page
@@ -16,3 +13,4 @@ Client:
     - Change the format of the date in the journaltrades page
     - implement useMemo for the depenedencies in login useEffect
     - implement update and delete features of the trade details page 
+    - Remove preferences accoridion and make it one page
