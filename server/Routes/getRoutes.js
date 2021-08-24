@@ -14,10 +14,20 @@ router.get('/serverhealth', (req, res) => {
 router.get('/restoreSession', (req, res) => {
   console.log('Restore Session Route called....');
   // Check the session store if there's any session available
-  res.status(200).send({
-    app: { isLoggedIn: false, user: 'lind' },
-    flags: { isSessionRestored: false },
-  });
+  if (req.session.userID) {
+    res.status(200).send({
+      app: {
+        isLoggedIn: true,
+        userInfo: { username: req.session.username, _id: req.session.userID },
+      },
+      flags: { isSessionRestored: true },
+    });
+  } else {
+    res.status(400).send({
+      app: { isLoggedIn: false },
+      flags: { isSessionRestored: false, loginRedirect: true },
+    });
+  }
 });
 
 export { router as getRoutes };

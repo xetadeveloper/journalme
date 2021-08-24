@@ -8,11 +8,12 @@ import style from './home.module.css';
 import SearchBar from '../../../Components/SearchBar/searchBar';
 import ToggleSwitch from '../../../Components/ToggleSwitch/toggleSwitch';
 import Journal from '../../../Components/Journal/journal';
+import Modal from '../../../Components/Modals/modal';
 
 export default function Home(props) {
-  const { isMobile, isWideScreen, isTablet, journalInfo } = props;
+  const { isMobile, isWideScreen, isTablet, journals } = props;
 
-  // console.log('JournalInfo: ', journalInfo);
+  // console.log('JournalInfo: ', journals);
 
   const [showSmallJournal, setShowSmallJournal] = useState(false);
   const [filteredJournals, setFilteredJournals] = useState([]);
@@ -56,7 +57,7 @@ export default function Home(props) {
   function searchHandler(evt) {
     const searchText = evt.target.value;
 
-    const filtered = journalInfo.filter(
+    const filtered = journals.filter(
       journal =>
         journal.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
     );
@@ -67,7 +68,6 @@ export default function Home(props) {
   return (
     <section
       className={` flex flex-col justify-content-center ${style.container}`}>
-      {/* {isWideScreen && 'What a Wide Screen!'} */}
       {
         /* Search and Theme Switch */
         !isMobile && !isWideScreen && (
@@ -92,12 +92,16 @@ export default function Home(props) {
       }
 
       {/* Body of the home */}
-      <section
-        className={`${style.journalsHolder} ${
-          showSmallJournal && style.smallJournals
-        }`}>
-        {renderJournals(journalInfo)}
-      </section>
+      {journals && journals.length ? (
+        <section
+          className={`${style.journalsHolder} ${
+            showSmallJournal && style.smallJournals
+          }`}>
+          {renderJournals(journals)}
+        </section>
+      ) : (
+        'No Journal Available'
+      )}
     </section>
   );
 }

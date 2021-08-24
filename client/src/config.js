@@ -12,3 +12,15 @@ export const monthsArray = [
   'November',
   'December',
 ];
+
+export const errorTypes = {
+  servererror: 'servererror',
+  databaseerror: 'databaseerror',
+  updateerror: 'updateerror',
+  deleteerror: 'deleteerror',
+  notfounderror: 'notfounderror',
+  inserterror: 'inserterror',
+  emptybodyerror: 'emptybodyerror',
+  emptyqueryerror: 'emptyqueryerror',
+  duplicateusererror: 'duplicateusererror'
+};

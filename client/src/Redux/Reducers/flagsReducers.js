@@ -1,6 +1,9 @@
 import {
   FETCH_STATUS,
+  RESET_DATA_DELETED,
+  RESET_DATA_UPDATED,
   RESET_ERROR_FLAG,
+  RESET_LOGIN_REDIRECT,
   RESET_SESSION_RESTORED,
   UPDATE_FLAG_STATE,
 } from '../ActionTypes/flagActionTypes';
@@ -13,7 +16,7 @@ const initialState = {
 
 export default function flagReducers(state = initialState, action) {
   const { type, payload } = action;
-  console.log("Flag Reducer Type: ", type);
+  // console.log('Flag Reducer Type: ', type);
 
   switch (type) {
     case FETCH_STATUS:
@@ -23,10 +26,24 @@ export default function flagReducers(state = initialState, action) {
       return { ...state, ...payload };
 
     case RESET_SESSION_RESTORED:
+      console.log('Resetting session restored flag');
       return { ...state, isSessionRestored: false };
 
     case RESET_ERROR_FLAG:
-      return { ...state, isError: false};
+      console.log('Resetting error flag');
+      return { ...state, isError: false };
+
+    case RESET_LOGIN_REDIRECT:
+      console.log('Resetting login redirect flag');
+      return { ...state, loginRedirect: false };
+
+    case RESET_DATA_UPDATED:
+      console.log('Resetting data updated flag');
+      return { ...state, isUpdated: false };
+
+    case RESET_DATA_DELETED:
+      console.log('Resetting data deleted flag');
+      return { ...state, isDeleted: false };
   }
 
   return state;

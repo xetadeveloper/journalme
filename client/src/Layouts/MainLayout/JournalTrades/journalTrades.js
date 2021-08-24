@@ -1,20 +1,25 @@
 // Modules
 import React, { useEffect, useState } from 'react';
 import { monthsArray } from '../../../config';
+import { useLocation } from 'react-router-dom';
 
 // Styles
 import style from './journalTrades.module.css';
 
 // Components
 import TradeSection from '../../../Components/TradeSection/tradeSection';
-import { useLocation } from 'react-router-dom';
 import ToggleSwitch from '../../../Components/ToggleSwitch/toggleSwitch';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
+import Modal from '../../../Components/Modals/modal';
 
 export default function JournalTrades(props) {
-  const { journalInfo } = props;
+  const { journals, isLoggedIn, username, strategies } = props;
+  const { getJournalTrades, userID, journalTrades } = props;
+
   const [collapseTrades, setCollapseTrades] = useState(false);
   const [filteredTrades, setFilteredTrades] = useState([]);
+
+  // console.log('Journals: ', journals);
 
   const initialFormData = {
     profitLoss: 'Select Option',
@@ -27,17 +32,36 @@ export default function JournalTrades(props) {
   const [formData, setFormData] = useState(initialFormData);
   // console.log('FormData: ', formData);
   const { search } = useLocation();
-  const journalName = new URLSearchParams(search).get('journalName');
+  const journalID = new URLSearchParams(search).get('journalID');
 
   // Use the journalID to find journal or make sure no two journals have the same name
-  const journal = journalInfo.find(
-    journalItem => journalItem.name === journalName
-  );
+  const journal =
+    journals &&
+    journals.find(journalItem => journalItem.journalID === journalID);
 
-  console.log('Journal: ', journal);
+  // console.log('Journal Found: ', journal);
+
+  const { journalName, market } = journal || {};
+  const { trades, tradesNotFound } = journalTrades || {};
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (journals) {
+        // console.log('There are journals in the store');
+        if (journal) {
+          // console.log('A journal was found');
+          // console.log('Going to fetch trades from server');
+          getJournalTrades(username, journalID);
+        } else {
+          // console.log('Journal was not found');
+        }
+      }
+    }
+  }, [isLoggedIn, journals, journal, username, userID, journalID]);
 
   // This function will filter all the date ranges and render a trade section for each range
   function createDateRanges(trades) {
+    console.log('Trades: ', trades);
     let tradeSections = monthsArray.map((month, index) => {
       let filtered = trades.filter(
         trade => new Date(trade.entryDate).getMonth() === index
@@ -53,7 +77,7 @@ export default function JournalTrades(props) {
             tradeList={filtered}
             monthRange={`${year} ${month}`}
             collapseTrades={collapseTrades}
-            journalName={journalName}
+            journalID={journalID}
           />
         );
       }
@@ -141,7 +165,7 @@ export default function JournalTrades(props) {
         className={`flex justify-content-between align-items-center  ${style.header}`}>
         <h2>{journalName} Trades</h2>
         <h4>
-          Currency: <span>{journal.currency}</span>
+          Market: <span>{market}</span>
         </h4>
       </section>
 
@@ -179,7 +203,7 @@ export default function JournalTrades(props) {
               name='strategy'
               value={formData.strategy}>
               <option>Select Strategy</option>
-              {renderOptions(journal.strategyList)}
+              {strategies && renderOptions(strategies)}
             </select>
           </div>
 
@@ -225,7 +249,7 @@ export default function JournalTrades(props) {
               />
             </div>
           </div>
-          {journal.trades && journal.trades.length && (
+          {trades && trades.length && (
             <div>
               <SmallButton
                 btnText='Analyze Trades'
@@ -247,11 +271,21 @@ export default function JournalTrades(props) {
         </div>
         <div>
           {filteredTrades[0] === 'No Trade' && <h4>No Trade Found</h4>}
-          {journal.trades && journal.trades.length
-            ? createDateRanges(
-                filteredTrades.length ? filteredTrades : journal.trades
-              )
-            : 'No trades available for this journal'}
+
+          <Modal
+            isLoggedIn={isLoggedIn}
+            modalState={{
+              show: !tradesNotFound && !trades,
+              type: 'loading',
+              message: 'Fetching Trades',
+            }}
+          />
+
+          {trades && trades.length
+            ? createDateRanges(filteredTrades.length ? filteredTrades : trades)
+            : tradesNotFound
+            ? 'No trades available for this journal'
+            : ''}
         </div>
       </section>
     </section>

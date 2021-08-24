@@ -9,12 +9,12 @@ import { FiChevronRight } from 'react-icons/fi';
 import TradeItem from './TradeItem/tradeItem';
 
 export default function TradeSection(props) {
-  const { monthRange, tradeList, collapseTrades, journalName } = props;
+  const { monthRange, tradeList, collapseTrades, journalID } = props;
   const [showTradeList, setShowTradeList] = useState(false);
 
   function renderTrades(tradeList) {
-    return tradeList.map(trade => (
-      <TradeItem trade={trade} journalName={journalName} />
+    return tradeList.map((trade, index) => (
+      <TradeItem key={index} trade={trade} journalID={journalID} />
     ));
   }
 

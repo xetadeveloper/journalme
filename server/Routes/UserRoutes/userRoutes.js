@@ -44,7 +44,7 @@ router.get('/journals', async (req, res) => {
       const userCollection = db.collection('users');
 
       userCollection
-        .findOne({ username: user })
+        .findOne({ username: user }, { projection: { password: 0 } })
         .then(result => {
           // console.log('Search result: ', result);
           if (result) {
@@ -100,7 +100,7 @@ router.post('/createJournal', async (req, res) => {
       usersCollection
         .findOneAndUpdate(
           { username: user },
-          { $push: { journal: journal } },
+          { $push: { journals: journal } },
           queryOptions
         )
         .then(updateResult => {
@@ -287,9 +287,11 @@ router.get('/trades', async (req, res) => {
     emptyRequestQueryError(res);
     return;
   }
+  const { userID } = req.session;
 
-  const { userID, journalID } = data;
+  const { journalID } = data;
 
+  console.log('UserId: ', userID);
   getDBInstance()
     .then(db => {
       const tradesCollection = db.collection('trades');
@@ -312,7 +314,11 @@ router.get('/trades', async (req, res) => {
             console.log('Trades not found...');
             res.status(500).json({
               app: {
-                journalTrades: null,
+                journalTrades: {
+                  journalID: journalID,
+                  trades: null,
+                  tradesNotFound: true,
+                },
                 error: {
                   type: errorTypes.notfounderror,
                   message:
@@ -322,6 +328,56 @@ router.get('/trades', async (req, res) => {
               flags: { isError: true },
             });
           }
+        });
+    })
+    .catch(err => {
+      serverErrorFound(res, err, err, stack);
+    });
+});
+
+// Get a specific trade
+router.get('/oneTrade', async (req, res) => {
+  const data = appMode === 'prod' ? req.query : dummyTradeQuery;
+
+  console.log('Getting specific trade: ', data);
+
+  if (!Object.entries(data).length) {
+    emptyRequestQueryError(res);
+    return;
+  }
+
+  const { tradeID } = data;
+
+  getDBInstance()
+    .then(db => {
+      const tradesCollection = db.collection('trades');
+
+      tradesCollection
+        .findOne({ _id: tradeID })
+        .then(result => {
+          console.log('Result: ', result);
+          if (result) {
+            console.log('Trade Found...');
+            res.status(200).json({
+              app: { currentTrade: result },
+            });
+          } else {
+            console.log('Trade not found...');
+            res.status(500).json({
+              app: {
+                currentTrade: null,
+                error: {
+                  type: errorTypes.notfounderror,
+                  message:
+                    'Error occured on server. Trade could not be found, contact support',
+                },
+              },
+              flags: { isError: true },
+            });
+          }
+        })
+        .catch(err => {
+          dbOperationError(res, err, err.stack);
         });
     })
     .catch(err => {
@@ -341,9 +397,10 @@ router.post('/updateTrade', async (req, res) => {
   }
 
   const { tradeID } = data;
+  delete data.tradeID;
   const trade = new Trade(data).removeEmptyFields().convertMongoTypes();
 
-  console.log('Updating Trade: ', trade);
+  console.log('Updating Converted Trade: ', trade);
 
   getDBInstance()
     .then(db => {
@@ -352,7 +409,7 @@ router.post('/updateTrade', async (req, res) => {
       tradesCollection
         .updateOne({ _id: ObjectID(tradeID) }, { $set: trade })
         .then(result => {
-          console.log('Result: ', result);
+          // console.log('Result: ', result);
 
           if (result.modifiedCount) {
             console.log('Trade updated...');
@@ -479,6 +536,8 @@ router.post('/createTrade', async (req, res) => {
       serverErrorFound(res, err, `Error getting DB instance: ${err.message}`);
     });
 });
+
+// Get 10 recent trades
 
 //========== Preferences ========//
 router.use('/preferences', prefRoutes);

@@ -23,6 +23,10 @@
   color: #166cec;
 }
 
+.btnDisabled:hover {
+  color: inherit;
+}
+
 .editBtn {
   color: #166cec;
 }

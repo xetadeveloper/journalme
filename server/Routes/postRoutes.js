@@ -13,6 +13,7 @@ import userRoutes from './UserRoutes/userRoutes.js';
 
 // Middleware
 import { isLoggedIn } from '../Middlewares/middleware.js';
+import { errorTypes } from '../config.js';
 
 const router = Router();
 
@@ -84,7 +85,7 @@ router.post('/login', async (req, res) => {
                             console.log('Could not update save session data');
                             res.status(500).json({
                               error: {
-                                type: 'updateerror',
+                                type: errorTypes.updateerror,
                                 message: 'Could not update save session data',
                               },
                             });
@@ -137,7 +138,7 @@ router.post('/login', async (req, res) => {
             res.status(200).json({
               app: {
                 error: {
-                  type: 'inputerror',
+                  type: errorTypes.notfounderror,
                   errorFields: [
                     {
                       field: 'username',
@@ -187,7 +188,7 @@ router.post('/signup', async (req, res) => {
             res.status(400).json({
               app: {
                 error: {
-                  type: 'inputerror',
+                  type: errorTypes.duplicateusererror,
                   errorFields: [
                     {
                       field: 'username',
@@ -245,7 +246,7 @@ router.post('/signup', async (req, res) => {
                         // console.log('Insert Result: ', result);
                         if (result.insertedCount > 0) {
                           delete result.ops[0].password;
-                          
+
                           console.log('User created successfully...');
                           req.session.userID = result.ops[0]._id;
                           req.session.username = username;

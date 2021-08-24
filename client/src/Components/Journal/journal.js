@@ -11,11 +11,12 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 export default function Journal(props) {
   const { isMobile, isWideScreen, isTablet, showSmallJournal, journal } = props;
 
+
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  function openJournalHandler(journalName) {
-    history.push(`${url}/journaltrades?journalName=${journalName}`);
+  function openJournalHandler(journalID) {
+    history.push(`${url}/journaltrades?journalID=${journalID}`);
   }
 
   // Render Appropriate View

@@ -10,7 +10,7 @@ export const errorTypes = {
   inserterror: 'inserterror',
   emptybodyerror: 'emptybodyerror',
   emptyqueryerror: 'emptyqueryerror',
+  duplicateusererror: 'duplicateusererror',
 };
 
-
-export const appMode = 'prod'
+export const appMode = 'prod';

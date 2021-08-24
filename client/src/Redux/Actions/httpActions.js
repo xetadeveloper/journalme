@@ -9,7 +9,7 @@ import {
 // Http Actions
 export function reopenLastSession(payload) {
   if (payload) {
-    payload.url = "api/restoreSession";
+    payload.url = "/api/restoreSession";
   }
 
   return {

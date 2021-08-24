@@ -1,6 +1,6 @@
 // Modules
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Styles
 import style from './tradeDetails.module.css';
@@ -9,97 +9,184 @@ import style from './tradeDetails.module.css';
 import { FiSettings, FiTrash2 } from 'react-icons/fi';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
 import TradeForm from './TradeForm/tradeForm';
+import Modal from '../../../Components/Modals/modal';
 
 export default function TradeDetails(props) {
-  const { journalInfo } = props;
+  // Props
+  const { getJournalTrades, journalTrades, strategies } = props;
+  const { isLoggedIn, username, updateTrade } = props;
+  const { isUpdated, resetDataUpdatedFlag, isDeleted } = props;
+  const { resetDataDeletedFlag, deleteTrade } = props;
+
+  // Variables
   const tradeID = new URLSearchParams(useLocation().search).get('tradeID');
-  const journalName = new URLSearchParams(useLocation().search).get(
-    'journalName'
-  );
+  const journalID = new URLSearchParams(useLocation().search).get('journalID');
+  const history = useHistory();
 
-  const journal = journalInfo.find(
-    journalItem => journalItem.name === journalName
-  );
+  const trade =
+    journalTrades && journalTrades.trades.find(trade => trade._id == tradeID);
+  // console.log('Journal Trades: ', journalTrades);
+  // console.log('Trade Found: ', trade);
 
-  const trade = journal.trades.find(trade => trade.tradeID == tradeID);
+  const { strategy, tradesize, tradeStatus } = trade || {};
+  const { entryTime, exitTime, entryDate } = trade || {};
+  const { exitDate, leverage, commission, comment, pl } = trade || {};
 
-  const { strategy, tradeSize, tradeStatus } = trade;
-  const { entryTime, exitTime, entryDate } = trade;
-  const { exitDate, leverage, commission, comments, profitLoss } = trade;
+  // console.log('Leverage: ', leverage);
 
   const formIntial = {
     tradeID,
     strategy: strategy || '',
-    tradeSize: tradeSize || '',
+    tradesize: tradesize || '',
     tradeStatus: tradeStatus || '',
     entryTime: entryTime || '',
     exitTime: exitTime || '',
-    entryDate: entryDate || '',
-    exitDate: exitDate || '',
+    entryDate: (entryDate && entryDate.split()[0]) || '',
+    exitDate: (exitDate && exitDate.split()[0]) || '',
     leverage: leverage || '',
     commission: commission || '',
-    comments: comments || '',
-    profitLoss: profitLoss || '',
+    comment: comment || '',
+    pl: pl || '',
   };
 
-  const [formData, setformData] = useState(formIntial);
-  const [editMode, seteditMode] = useState(false);
+  // States
+  const [formData, setFormData] = useState(formIntial);
+  const [editMode, setEditMode] = useState(false);
+  const [modal, setModal] = useState({ show: false });
 
+  // console.log('Form Initial: ', formIntial);
   // console.log('FormData: ', formData);
 
-  function handleSubmit(evt) {
+  // Handles the fetching of trade details from server if not available
+  useEffect(() => {
+    if (!journalTrades) {
+      // console.log('No trade found going to fetch from server');
+      getJournalTrades(username, journalID);
+    }
+
+    setFormData(formIntial);
+  }, [journalTrades]);
+
+  // Handles trade update
+  useEffect(() => {
+    if (isUpdated) {
+      resetDataUpdatedFlag();
+      setModal({
+        show: true,
+        type: 'message',
+        message: 'Trade has been updated',
+        modalCloseHandler: () => {
+          setEditMode(false);
+        },
+      });
+    }
+  }, [isUpdated]);
+
+  // Handles trade deletion
+  useEffect(() => {
+    if (isDeleted) {
+      resetDataDeletedFlag();
+      setModal({
+        show: true,
+        type: 'message',
+        message: 'Trade has been deleted',
+        modalCloseHandler: () => {
+          // go back to journalTrades
+          history.push(
+            `/journal/${username}/journaltrades?journalID=${journalID}`
+          );
+        },
+      });
+    }
+  }, [isDeleted]);
+
+  function handleUpdate(evt) {
     evt.preventDefault();
     console.log('Form Submitted...');
     // Validate form here and determine which input values to send
 
-    const formToSend = {};
+    const fetchBody = {};
 
     // console.log('FormData: ', formData);
 
     for (let elem in formData) {
       if (!(formData[elem] === formIntial[elem])) {
         // console.log(`${elem} is different from initial`);
-        formToSend[elem] = formData[elem];
+        fetchBody[elem] = formData[elem];
       }
     }
 
-    // console.log("This is the form we're sending: ", formToSend);
+    fetchBody.tradeID = tradeID;
+
+    console.log("This is the form we're sending: ", fetchBody);
+
     // Send the form to server for update by calling redux update action
+    updateTrade(username, fetchBody);
+  }
+
+  // Handles deletion confirmation
+  function handleDeleteClick() {
+    setModal({
+      show: true,
+      type: 'confirm',
+      message: 'Do you want to delete this trade?',
+      actionHandler: () => {
+        deleteTrade(username, { tradeID });
+      },
+      modalCloseHandler: () => {
+        if (editMode) {
+          setEditMode(false);
+        }
+      },
+    });
   }
 
   return (
     <div className={`flex flex-col grey-text ${style.container}`}>
+      {/* Modal */}
+      <Modal
+        isLoggedIn={isLoggedIn}
+        modalState={modal}
+        setModalState={setModal}
+      />
+
       <div
         className={` flex justify-content-between align-items-center ${style.header}`}>
         <h1>Trade Details</h1>
         <div className={`flex ${style.btnHolder}`}>
           <FiSettings
-            className={`flex ${editMode && style.editBtn}`}
+            className={`${editMode && style.editBtn}`}
             onClick={() => {
-              seteditMode(prev => !prev);
+              setEditMode(prev => !prev);
             }}
           />
-          <FiTrash2 />
+          <FiTrash2
+            onClick={!editMode && handleDeleteClick}
+            className={`${editMode && style.btnDisabled}`}
+          />
         </div>
       </div>
       <hr className={`${style.divider}`}></hr>
       <form
-        action='/'
         className={`${style.formContainer}`}
-        onSubmit={handleSubmit}
+        onSubmit={handleUpdate}
         id='tradeForm'>
         <TradeForm
           editMode={editMode}
           formData={formData}
-          strategyList={journal.strategyList}
+          strategyList={strategies}
           tradeStatusList={['Won', 'Lost']}
-          setformData={setformData}
+          setformData={setFormData}
         />
         {editMode && (
           <div
             className={`flex justify-content-between ${style.formBtnHolder}`}>
             <div className={`${style.formBtn}`}>
-              <SmallButton btnText='Update Trade' btnType='submit' />
+              <SmallButton
+                btnText='Update Trade'
+                btnType='submit'
+                clickHandler={handleUpdate}
+              />
             </div>
             <div>
               <SmallButton btnText='Cancel Edit' />

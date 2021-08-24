@@ -3,10 +3,11 @@ import {
   GET_SUCCESSFUL,
   POST_FAILED,
   POST_SUCCESSFUL,
-} from "../ActionTypes/actionTypes";
+} from '../ActionTypes/actionTypes';
 
 const initialState = {
   isLoggedIn: false,
+  userInfo: {},
 };
 
 export default function appReducer(state = initialState, action) {

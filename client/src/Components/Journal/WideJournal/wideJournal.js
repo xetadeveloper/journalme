@@ -6,8 +6,16 @@ import SmallButton from '../../Buttons/SmallButton/smallButton';
 
 export default function WideJournal(props) {
   const { showSmallJournal, chartImage, openJournalHandler, journal } = props;
+  // console.log('Journal: ', journal);
 
-  const { name, currency, tradeNo, tradeWins, tradeLosses, balance } = journal;
+  const {
+    journalName,
+    market,
+    winningTrades,
+    losingTrades,
+    balance,
+    journalID,
+  } = journal;
 
   return (
     <div
@@ -16,24 +24,24 @@ export default function WideJournal(props) {
           ${style.journal}          
           ${showSmallJournal && style.smallJournal}`}>
       {/* Journal Info */}
-      <h3 className={`${style.nameDetail}`}>{name}</h3>
+      <h3 className={`${style.nameDetail}`}>{journalName}</h3>
       <div className={`flex`}>
         <div
           className={`flex flex-col align-items-center ${style.journalInfo}`}>
           <div className={`flex flex-col ${style.journalDetails}`}>
             <h4 className={style.currencyDetail}>
-              Currency: <span>{currency} </span>
+              Market: <span>{market} </span>
             </h4>
           </div>
           <div className={`flex flex-col ${style.progressDetails}`}>
             <h4 className={style.detail}>
-              No. Of Trades <span>{tradeNo}</span>
+              No. Of Trades <span>{winningTrades + losingTrades}</span>
             </h4>
             <h4 className={style.detail}>
-              No. Of Wins <span>{tradeWins}</span>
+              No. Of Wins <span>{winningTrades}</span>
             </h4>
             <h4 className={style.detail}>
-              No. Of Losses <span>{tradeLosses}</span>
+              No. Of Losses <span>{losingTrades}</span>
             </h4>
           </div>
         </div>
@@ -54,7 +62,7 @@ export default function WideJournal(props) {
               btnType='button'
               btnText='Open Journal'
               clickHandler={() => {
-                openJournalHandler(name);
+                openJournalHandler(journalID);
               }}
             />
           </div>

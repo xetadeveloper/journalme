@@ -27,8 +27,10 @@ function LandingPage(props) {
   const history = useHistory();
   useEffect(() => {
     if (isSessionRestored) {
+      console.log('Session Restored In Landing...');
       resetSessionRestored();
-      history.push(`/journal/${user}`);
+      // If session has been restored we'll only change the user profile icon to logged in instead,
+      // which will be a link to the home page
     }
   }, [isSessionRestored, history, user, resetSessionRestored]);
 
@@ -53,7 +55,7 @@ function LandingPage(props) {
             <NavLink to='/about'>Blog</NavLink>
           </li>
           <li>
-            <NavLink to='/login'>Login</NavLink>
+            <NavLink to='/login'>{isLoggedIn ? 'Journals' : 'Login'}</NavLink>
           </li>
         </ul>
       </nav>

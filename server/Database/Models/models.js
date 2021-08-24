@@ -150,6 +150,7 @@ export class Preferences {
 // Trade Model
 export class Trade {
   constructor(trade) {
+    // console.log('Trade: ', trade);
     this.journalID = '';
     this.userID = '';
     this.tradesize = '';
@@ -175,13 +176,14 @@ export class Trade {
 
   convertMongoTypes() {
     // console.log('userID: ', this.userID);
+    // console.log('COmments: ', this.comment);
     const mongoTypes = {
       journalID: this.journalID,
-      userID: ObjectId(this.userID),
       tradesize: Double(this.tradesize),
       strategy: this.strategy,
       entryTime: this.entryTime,
       exitTime: this.exitTime,
+      userID: this.userID ? ObjectId(this.userID) : null,
       entryDate: this.entryDate ? new Date(this.entryDate) : null,
       exitDate: this.exitDate ? new Date(this.exitDate) : null,
       tradeStatus: this.tradeStatus,

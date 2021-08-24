@@ -12,20 +12,19 @@ export default function httpMiddleware(store) {
     return function (action) {
       const { payload } = action;
 
-      console.log('Payload: ', payload);
-
       if (payload && payload.httpMiddleware) {
         console.log('Running fetch');
         store.dispatch(changeFetchStatus({ fetchStatus: 'fetching' }));
 
         const { url, method, fetchBody, headers } = payload;
-        console.log('Fetch Body: ', fetchBody);
+        // console.log('Fetch Body: ', fetchBody);
+        // console.log('Url: ', url);
 
         const fetchOptions = removeNull(
           new FetchOptions(method, fetchBody, headers)
         );
 
-        console.log('Fetch OPtions: ', fetchOptions);
+        // console.log('Fetch Options: ', fetchOptions);
 
         // call fetch here
         fetch(url, fetchOptions)
@@ -34,7 +33,7 @@ export default function httpMiddleware(store) {
             console.log('Fetch Result: ', data);
             switch (method) {
               case 'GET':
-                if (data.app.error) {
+                if (data.app && data.app.error) {
                   store.dispatch(getFailed(data.app));
                   store.dispatch(updateFlagState(data.flags));
                 } else {
@@ -44,7 +43,7 @@ export default function httpMiddleware(store) {
                 break;
 
               case 'POST':
-                if (data.app.error) {
+                if (data.app && data.app.error) {
                   store.dispatch(postFailed(data.app));
                   store.dispatch(updateFlagState(data.flags));
                 } else {

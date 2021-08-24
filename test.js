@@ -52,6 +52,4 @@ const dummyUpdate = {
 
 const pref = new Preferences(dummyPreferences);
 
-new User(dummyUser).encryptPassword().then(user => {
-  console.log('User: ', user);
-});
+console.log(ObjectId(undefined));

@@ -1,0 +1,11 @@
+.item{
+    border: 1px solid #b8b6b6;
+    border-left: none;
+    border-right: none;
+    padding: 20px;
+}
+
+.item:hover{
+  background-color: #166cec;
+  color: white;
+}

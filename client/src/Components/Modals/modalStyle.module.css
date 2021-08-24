@@ -1,0 +1,99 @@
+.modal-body {
+  height: 300px;
+  width: 400px;
+  border: 1px solid #cac9c9;
+  position: relative;
+}
+
+.modal-skin {
+  background-color: #166cec;
+  color: white;
+}
+
+.modal-btn-holder {
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+.modal-btn {
+  height: 30px;
+  min-width: 60px;
+  width: auto;
+  border: 1px solid #9c9a9a;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #737272;
+  padding: 0 10px;
+}
+
+.modal-btn:hover {
+  color: white;
+  background-color: #6a9ff0;
+  border: 1px solid #166cec;
+}
+
+.modal-btn-lg {
+  min-width: 20%;
+  height: 35px;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+}
+
+
+.modal-btn:hover,
+.modal-close-btn:hover {
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  color: black;
+}
+
+.modal-text,
+.modal-input {
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+}
+
+.modal-text {
+  text-align: center;
+  line-height: 25px;
+}
+
+.modal-input {
+  height: 35px;
+  width: 70%;
+  border-radius: 5px;
+  border: 1px solid #c7c6c6;
+  padding: 10px;
+  color: inherit;
+  outline-color: #96c909a9;
+}
+
+/* For Loading Modal */
+.loading {
+  row-gap: 30px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.faSpin {
+  animation: spin 1s infinite ease-in-out;
+}

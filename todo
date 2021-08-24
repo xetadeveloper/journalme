@@ -1,16 +1,16 @@
 Server:
     - Handle static files with middleware
     - Add save session field to preferences in the ER model
-    - Finish restore session route (This will be done when connecting server to the client)
+    - Implement recent trades route
+    - Maybe implement time to live logic for backend session with a lastAccessed variable in the session object and a setTimeout
 
 Client:
-    - Implement login and signup page
-    - Create the modals
     - Implement landing page
+    - fix the search functionality in journal home and journal trades
     - Fix the user button and drop down in wide screen layout for the home page
+    - Implement logout
     - Do the analysis page
     - Do the recent trades page
-    - Change the format of the date in the journaltrades page
     - implement useMemo for the depenedencies in login useEffect
-    - implement update and delete features of the trade details page 
-    - Remove preferences accoridion and make it one page
+    - Implement the sub pages of preferences
+    - Make all the pages responsive

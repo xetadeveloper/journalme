@@ -10,7 +10,14 @@ import SmallButton from '../../Buttons/SmallButton/smallButton';
 export default function MobileJournal(props) {
   const { openJournalHandler, journal } = props;
 
-  const { name, currency, tradeNo, tradeWins, tradeLosses, balance } = journal;
+  const {
+    journalName,
+    market,
+    winningTrades,
+    losingTrades,
+    balance,
+    journalID,
+  } = journal;
 
   return (
     <div
@@ -19,24 +26,24 @@ export default function MobileJournal(props) {
           ${style.journal}          
         `}>
       {/* Journal Info */}
-      <h3 className={style.nameDetail}>{name}</h3>
+      <h3 className={style.nameDetail}>{journalName}</h3>
       <div className={`flex flex-col ${style.journalInfoHolder}`}>
         <div className={`${style.journalInfo}`}>
           <div className={` ${style.journalDetails}`}>
             <h4 className={style.currencyDetail}>
-              Currency: <span>{currency}</span>
+              Currency: <span>{market}</span>
             </h4>
           </div>
           <div
             className={`flex justify-content-center ${style.progressDetails}`}>
             <h4 className={style.detail}>
-              No. Of Trades <span>{tradeNo}</span>
+              No. Of Trades <span>{winningTrades + losingTrades}</span>
             </h4>
             <h4 className={style.detail}>
-              No. Of Wins <span>{tradeWins}</span>
+              No. Of Wins <span>{winningTrades}</span>
             </h4>
             <h4 className={style.detail}>
-              No. Of Losses <span>{tradeLosses}</span>
+              No. Of Losses <span>{losingTrades}</span>
             </h4>
           </div>
         </div>
@@ -51,7 +58,7 @@ export default function MobileJournal(props) {
               btnType='button'
               btnText='Open Journal'
               clickHandler={() => {
-                openJournalHandler(name);
+                openJournalHandler(journalID);
               }}
             />
           </div>
