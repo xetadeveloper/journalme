@@ -3,8 +3,8 @@ import React from 'react';
 import style from './tradeForm.module.css';
 
 export default function TradeForm(props) {
-  const { editMode, formData, setformData, strategyList, tradeStatusList } =
-    props;
+  const { editMode, formData, setformData, strategyList } = props;
+  const { tradeStatusList, createMode } = props;
 
   const { strategy, tradesize, tradeStatus, entryTime } = formData;
   const { exitDate, leverage, commission, comment } = formData;
@@ -16,7 +16,12 @@ export default function TradeForm(props) {
 
   function handleInputChange(evt) {
     setformData(prev => {
-      return { ...prev, [evt.target.name]: evt.target.value };
+      const inputName = evt.target.name;
+      const inputValue = evt.target.value;
+      return {
+        ...prev,
+        [inputName]: { ...prev[inputName], value: inputValue },
+      };
     });
   }
 
@@ -38,9 +43,10 @@ export default function TradeForm(props) {
             disabled={!editMode}
             className={`${style.formInput}`}
             type='number'
-            value={tradesize}
+            value={tradesize.value}
             name='tradesize'
             onChange={handleInputChange}
+            required={createMode}
           />
         </div>
       </div>
@@ -55,9 +61,10 @@ export default function TradeForm(props) {
             disabled={!editMode}
             className={`${style.formInput}`}
             type='number'
-            value={commission}
+            value={commission.value}
             name='commission'
             onChange={handleInputChange}
+            required={createMode}
           />
         </div>
       </div>
@@ -69,10 +76,11 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='text'
           name='strategy'
-          value={strategy}
-          onChange={handleInputChange}>
+          value={strategy.value}
+          onChange={handleInputChange}
+          required={createMode}>
           <option>Select Strategy</option>
-          {strategyList && renderOptions(strategyList, strategy)}
+          {strategyList && renderOptions(strategyList, strategy.value)}
         </select>
       </div>
 
@@ -83,10 +91,11 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='text'
           name='tradeStatus'
-          value={tradeStatus}
-          onChange={handleInputChange}>
+          value={tradeStatus.value}
+          onChange={handleInputChange}
+          required={createMode}>
           <option>Win or Lost Trade?</option>
-          {renderOptions(tradeStatusList, tradeStatus)}
+          {renderOptions(tradeStatusList, tradeStatus.value)}
         </select>
       </div>
 
@@ -97,8 +106,9 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='time'
           name='entryTime'
-          value={entryTime}
+          value={entryTime.value}
           onChange={handleInputChange}
+          required={createMode}
         />
       </div>
 
@@ -109,8 +119,9 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='time'
           name='exitTime'
-          value={exitTime}
+          value={exitTime.value}
           onChange={handleInputChange}
+          required={createMode}
         />
       </div>
 
@@ -121,8 +132,9 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='date'
           name='entryDate'
-          value={entryDate.split('T')[0]}
+          value={entryDate.value.split('T')[0]}
           onChange={handleInputChange}
+          required={createMode}
         />
       </div>
 
@@ -133,8 +145,9 @@ export default function TradeForm(props) {
           className={`${style.formInput}`}
           type='date'
           name='exitDate'
-          value={exitDate.split('T')[0]}
+          value={exitDate.value.split('T')[0]}
           onChange={handleInputChange}
+          required={createMode}
         />
       </div>
 
@@ -149,8 +162,9 @@ export default function TradeForm(props) {
             className={`${style.formInput}`}
             type='text'
             name='leverage'
-            value={leverage}
+            value={leverage.value}
             onChange={handleInputChange}
+            required={createMode}
           />
         </div>
       </div>
@@ -161,14 +175,19 @@ export default function TradeForm(props) {
           className={style.currencyField}
           className={`${style.currencyField} 
           ${!editMode && style.currencyFieldDisabled}`}>
-          <span className={style.currency}>{pl > 0 ? '$' : '-$'}</span>
+          <span className={style.currency}>
+            {!formData.tradeStatus.value || formData.tradeStatus.value === 'Won'
+              ? '$'
+              : '-$'}
+          </span>
           <input
             disabled={!editMode}
             className={`${style.formInput}`}
             type='number'
             name='pl'
-            value={Math.abs(pl)}
+            value={pl.value ? Math.abs(pl.value) : undefined}
             onChange={handleInputChange}
+            required={createMode}
           />
         </div>
       </div>
@@ -181,7 +200,7 @@ export default function TradeForm(props) {
           className={`${style.formInput} `}
           readOnly={!editMode}
           name='comment'
-          value={comment}
+          value={comment.value}
           onChange={handleInputChange}
         />
       </div>

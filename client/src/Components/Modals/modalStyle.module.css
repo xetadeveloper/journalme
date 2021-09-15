@@ -1,8 +1,12 @@
 .modal-body {
-  height: 300px;
-  width: 400px;
+  min-height: 300px;
+  min-width: 400px;
   border: 1px solid #cac9c9;
   position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 1px 5px 5px #e0e0e0;
 }
 
 .modal-skin {
@@ -49,7 +53,6 @@
   font-size: 1.2rem;
 }
 
-
 .modal-btn:hover,
 .modal-close-btn:hover {
   cursor: pointer;
@@ -59,30 +62,41 @@
   color: black;
 }
 
-.modal-text,
-.modal-input {
-  margin-bottom: 30px;
-  font-size: 1.2rem;
-}
-
 .modal-text {
   text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
   line-height: 25px;
 }
 
+/* Input Modal */
 .modal-input {
   height: 35px;
-  width: 70%;
   border-radius: 5px;
   border: 1px solid #c7c6c6;
-  padding: 10px;
-  color: inherit;
-  outline-color: #96c909a9;
+  padding: 0px 10px;
+  color: rgb(71, 71, 71);
+  outline-color: #6e6e6e;
+}
+
+.modalInputHolder {
+  /* border: 1px solid black; */
+  row-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.modalInputText {
+  font-size: 1rem;
 }
 
 /* For Loading Modal */
 .loading {
   row-gap: 30px;
+}
+
+/* Atomic Classes */
+.redBorder {
+  border: 2px solid rgb(233, 76, 76);
 }
 
 @keyframes spin {
@@ -96,4 +110,17 @@
 
 .faSpin {
   animation: spin 1s infinite ease-in-out;
+}
+
+@media screen and (max-width: 425px) {
+  .modal-body {
+    min-height: 200px;
+    min-width: 300px;
+    border: 1px solid #cac9c9;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 5px #e0e0e0;
+  }
 }

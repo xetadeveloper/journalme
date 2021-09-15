@@ -23,7 +23,7 @@
 
 .journalInfoHolder {
   row-gap: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .journalInfo,
@@ -97,7 +97,8 @@
 /* Chart */
 .chart {
   /* border: 1px solid black; */
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 10px;
 }
 
 .chartImg {

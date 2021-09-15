@@ -3,6 +3,7 @@ import {
   GET_SUCCESSFUL,
   POST_FAILED,
   POST_SUCCESSFUL,
+  SHOW_ERROR,
 } from '../ActionTypes/actionTypes';
 
 const initialState = {
@@ -22,6 +23,11 @@ export default function appReducer(state = initialState, action) {
     case GET_SUCCESSFUL:
       console.log(`Action Type: ${type}`);
       return { ...state, ...payload };
+      break;
+
+    case SHOW_ERROR:
+      return { ...state, error: { ...payload } };
+      break;
   }
 
   return state;

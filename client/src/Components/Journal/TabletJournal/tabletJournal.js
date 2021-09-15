@@ -6,18 +6,13 @@ import style from './tabletJournal.module.css';
 
 // Components
 import SmallButton from '../../Buttons/SmallButton/smallButton';
+import TradeChart from '../../TradeChart/tradeChart';
 
 export default function TabletJournal(props) {
-  const { showSmallJournal, chartImage, openJournalHandler, journal } = props;
+  const { showSmallJournal, openJournalHandler, journal, chartData } = props;
 
-  const {
-    journalName,
-    market,
-    winningTrades,
-    losingTrades,
-    balance,
-    journalID,
-  } = journal;
+  const { journalName, market, winningTrades } = journal;
+  const { losingTrades, balance, journalID } = journal;
 
   return (
     <div
@@ -51,7 +46,17 @@ export default function TabletJournal(props) {
         {/* Chart Display */}
         {!showSmallJournal && (
           <div className={`${style.chart}`}>
-            <img src={chartImage} className={style.chartImg} />
+            <TradeChart
+              chartData={chartData}
+              chartOptions={{
+                panEnabled: true,
+                chartTitle: {
+                  chartName: 'Trades Analysis',
+                  font: { size: 12, family: 'Arvo' },
+                },
+                axisFont: { size: 10, family: 'Arvo', weight: 800 },
+              }}
+            />
           </div>
         )}
 

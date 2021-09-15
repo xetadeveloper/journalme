@@ -1,23 +1,16 @@
 // Modules
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { dummyJournals } from '../../dummyData';
 
 // Redux
 import { connect } from 'react-redux';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
-import {
-  deleteTrade,
-  getJournalTrades,
-  getUserInfo,
-  updateTrade,
-} from '../../Redux/Actions/appActions';
+import { getUserInfo, showError } from '../../Redux/Actions/appActions';
 import {
   resetErrorFlag,
   resetLoginRedirect,
   resetSessionRestored,
-  resetDataUpdatedFlag,
-  resetDataDeletedFlag,
 } from '../../Redux/Actions/flagActions';
 import { reopenLastSession } from '../../Redux/Actions/httpActions';
 
@@ -33,28 +26,32 @@ import TradeDetails from './TradeDetails/tradeDetails';
 import Modal from '../../Components/Modals/modal';
 import Preferences from './Preferences/preferences';
 import Profile from './Profile/profile';
-import Settings from './Settings/settings';
+import JournalPreferences from './JournalPreferences/journalPreferences';
 import RecentTrades from './RecentTrades/recentTrades';
+import SlidingModal from '../../Components/SlidingModal/slidingModal';
+import CreateJournal from './CreateJournal/createJournal';
+import TradeAnalysis from './TradeAnalysis/tradeAnalysis';
 
 function MainLayout(props) {
   const isMobile = useMediaQuery({ query: '(max-width: 425px)' });
   const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
   const isWideScreen = useMediaQuery({ query: '(min-width: 1441px)' });
 
-  // Props
-  const { isLoggedIn, userInfo, getUserInfo, getJournalTrades } = props;
-  const { journalTrades, isError, error, resetErrorFlag, isUpdated } = props;
-  const { resetSessionRestored, reopenLastSession, isSessionRestored } = props;
-  const { loginRedirect, resetLoginRedirect, updateTrade } = props;
-  const { resetDataUpdatedFlag, isDeleted, deleteTrade } = props;
-  const { resetDataDeletedFlag } = props;
+  const orientation = { isMobile, isTablet, isWideScreen };
 
-  // console.log('UserInfo: ', userInfo);
+  // Props
+  const { isLoggedIn, userInfo, getUserInfo, showError } = props;
+  const { journalTrades, isError, error, resetErrorFlag } = props;
+  const { resetSessionRestored, reopenLastSession, isSessionRestored } = props;
+  const { loginRedirect, resetLoginRedirect, recentTrades } = props;
+  const { userTrades } = props;
+
+  // States
+  const [slidingModals, setSlidingModals] = useState([]);
+  const [modalState, setModalState] = useState({ show: false });
+
   const { username, journals, firstname, preferences, _id } = userInfo || {};
   const { strategies } = preferences || {};
-
-  // console.log('Username: ', username);
-
   const { path } = useRouteMatch();
   const history = useHistory();
 
@@ -78,6 +75,16 @@ function MainLayout(props) {
   useEffect(() => {
     if (isError) {
       console.log('Error Occured: ', error);
+
+      setSlidingModals(prev => [
+        ...prev,
+        {
+          slidingState: {
+            show: true,
+            message: error.message,
+          },
+        },
+      ]);
       resetErrorFlag();
     }
   }, [isError]);
@@ -107,28 +114,115 @@ function MainLayout(props) {
     { linkName: 'Need Help?', linkPath: '/contactus' },
   ];
 
+  // Creates Error or informational modals
+  function createSlidingModals() {
+    // console.log('Full Sliding MOdals State: ', slidingModals);
+
+    return slidingModals.map((modalState, index) => {
+      const { slidingState } = modalState;
+      // console.log(`Modal State for modal ${index}: `, modalState);
+      return (
+        <SlidingModal
+          key={index}
+          modalIndex={index}
+          slidingState={slidingState}
+          slidingModals={slidingModals}
+          setSlidingModals={setSlidingModals}
+        />
+      );
+    });
+  }
+
+  // Redirects to trade creation page
+  function handleCreateTrade(evt, error) {
+    setModalState({
+      show: true,
+      type: 'selectModal',
+      submitBtnText: 'Create Trade',
+      error,
+      inputData: [
+        {
+          inputName: 'journalName',
+          optionList: journals.map(journal => journal.journalName),
+          inputMsg: 'Select Journal For Trade?',
+          placeholderOption: 'Select Journal',
+          required: true,
+          defaultOption: 'Select Journal',
+        },
+      ],
+      actionHandler: (evt, formData) => {
+        const { journalName } = formData;
+
+        // console.log('Journal: ', journalName);
+
+        if (journalName.value === journalName.placeholderOption) {
+          const error = {
+            type: 'inputerror',
+            message: 'One or more required inputs have not been selected',
+            errorFields: [
+              {
+                field: 'journalName',
+                message: 'Select a journal',
+              },
+            ],
+          };
+
+          showError(error);
+          handleCreateTrade(null, error);
+          return;
+        }
+
+        const journalID = journals.find(
+          journal => journal.journalName === journalName.value
+        ).journalID;
+
+        // console.log('JournalID in modal: ', journalID);
+
+        setModalState({ show: false });
+
+        history.push(
+          `/journal/${username}/createTrade?journalID=${journalID}&createMode=true`
+        );
+      },
+    });
+  }
+
   return (
     <div
       className={`flex 
       ${(isMobile || isWideScreen) && 'flex-col'} 
       ${style.container}`}>
+      {/* Loading modal */}
       <Modal
         isLoggedIn={isLoggedIn}
         modalState={{
           show: !firstname,
           type: 'loading',
-          message: 'Fetching Journals',
+          message: 'Fetching Data',
         }}
       />
+
+      {/* Generic Modal */}
+      <Modal modalState={modalState} setModalState={setModalState} />
+
+      {/* Sliding Modal */}
+      {slidingModals.length ? (
+        <div className={`flex flex-col ${style.slidingModalHolder}`}>
+          {createSlidingModals()}
+        </div>
+      ) : null}
 
       {isMobile || isWideScreen ? (
         <Navbar
           navItemsList={navItemsList}
-          isWideScreen={isWideScreen}
-          isMobile={isMobile}
+          orientation={orientation}
+          handleCreateTrade={handleCreateTrade}
         />
       ) : (
-        <SideNav navItemsList={navItemsList} />
+        <SideNav
+          navItemsList={navItemsList}
+          handleCreateTrade={handleCreateTrade}
+        />
       )}
 
       <div className={`${style.pageHolder}`}>
@@ -139,21 +233,23 @@ function MainLayout(props) {
             render={routeprops => (
               <TradeDetails
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
-                getJournalTrades={getJournalTrades}
+                orientation={orientation}
                 journalTrades={journalTrades}
-                updateTrade={updateTrade}
                 strategies={strategies}
-                userID={_id}
-                isLoggedIn={isLoggedIn}
                 username={username}
-                isUpdated={isUpdated}
-                resetDataUpdatedFlag={resetDataUpdatedFlag}
-                isDeleted={isDeleted}
-                deleteTrade={deleteTrade}
-                resetDataDeletedFlag={resetDataDeletedFlag}
+              />
+            )}
+          />
+
+          {/* For displaying trades analysis */}
+          <Route
+            path={`${path}/:user/journaltrades/analyzetrades`}
+            render={routeprops => (
+              <TradeAnalysis
+                {...routeprops}
+                orientation={orientation}
+                userInfo={userInfo}
+                journalTrades={journalTrades}
               />
             )}
           />
@@ -164,16 +260,11 @@ function MainLayout(props) {
             render={routeprops => (
               <JournalTrades
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
-                journals={journals}
-                userID={_id}
+                orientation={orientation}
                 isLoggedIn={isLoggedIn}
-                username={username}
                 strategies={strategies}
-                getJournalTrades={getJournalTrades}
                 journalTrades={journalTrades}
+                userInfo={userInfo}
               />
             )}
           />
@@ -184,22 +275,21 @@ function MainLayout(props) {
             render={routeprops => (
               <Profile
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
+                userInfo={userInfo}
+                isLoggedIn={isLoggedIn}
+                orientation={orientation}
               />
             )}
           />
 
           {/* For displaying and editing settings */}
           <Route
-            path={`${path}/:user/preferences/settings`}
+            path={`${path}/:user/preferences/journalpreferences`}
             render={routeprops => (
-              <Settings
+              <JournalPreferences
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
+                userInfo={userInfo}
+                orientation={orientation}
               />
             )}
           />
@@ -210,9 +300,8 @@ function MainLayout(props) {
             render={routeprops => (
               <Preferences
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
+                orientation={orientation}
+                username={username}
               />
             )}
           />
@@ -223,9 +312,36 @@ function MainLayout(props) {
             render={routeprops => (
               <RecentTrades
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
+                orientation={orientation}
+                recentTrades={recentTrades}
+                username={username}
+                orientation={orientation}
+              />
+            )}
+          />
+
+          {/* For creating journals*/}
+          <Route
+            path={`${path}/:user/createJournal`}
+            render={routeprops => (
+              <CreateJournal
+                {...routeprops}
+                orientation={orientation}
+                userInfo={userInfo}
+              />
+            )}
+          />
+
+          {/* For creating trades*/}
+          <Route
+            path={`${path}/:user/createTrade`}
+            render={routeprops => (
+              <TradeDetails
+                {...routeprops}
+                orientation={orientation}
+                journalTrades={journalTrades}
+                strategies={strategies}
+                username={username}
               />
             )}
           />
@@ -236,10 +352,9 @@ function MainLayout(props) {
             render={routeprops => (
               <Home
                 {...routeprops}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                isWideScreen={isWideScreen}
+                orientation={orientation}
                 journals={journals}
+                userTrades={userTrades}
               />
             )}
           />
@@ -252,8 +367,8 @@ function MainLayout(props) {
 function mapStateToProps(state) {
   // console.log('State: ', state);
   const { isLoggedIn, userInfo, journalTrades, error } = state.app;
-  const { isError, isSessionRestored, loginRedirect, isUpdated, isDeleted } =
-    state.flags;
+  const { recentTrades, userTrades } = state.app;
+  const { isError, isSessionRestored, loginRedirect, isUpdated } = state.flags;
 
   return {
     isLoggedIn,
@@ -263,8 +378,8 @@ function mapStateToProps(state) {
     journalTrades,
     isSessionRestored,
     loginRedirect,
-    isUpdated,
-    isDeleted,
+    recentTrades,
+    userTrades,
   };
 }
 
@@ -273,54 +388,16 @@ function mapDispatchToProps(dispatch) {
     getUserInfo: username =>
       dispatch(getUserInfo({ username, httpMiddleware: true, method: 'GET' })),
 
-    resetErrorFlag: () => dispatch(resetErrorFlag()),
-
     reopenLastSession: () =>
       dispatch(reopenLastSession({ httpMiddleware: true, method: 'GET' })),
+
+    resetErrorFlag: () => dispatch(resetErrorFlag()),
 
     resetSessionRestored: () => dispatch(resetSessionRestored()),
 
     resetLoginRedirect: () => dispatch(resetLoginRedirect()),
 
-    resetDataUpdatedFlag: () => dispatch(resetDataUpdatedFlag()),
-
-    resetDataDeletedFlag: () => dispatch(resetDataDeletedFlag()),
-
-    getJournalTrades: (username, journalID) =>
-      dispatch(
-        getJournalTrades({
-          username,
-          journalID,
-          httpMiddleware: true,
-          method: 'GET',
-        })
-      ),
-
-    updateTrade: (username, fetchBody) =>
-      dispatch(
-        updateTrade({
-          username,
-          fetchBody,
-          httpMiddleware: true,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-      ),
-
-    deleteTrade: (username, fetchBody) =>
-      dispatch(
-        deleteTrade({
-          username,
-          fetchBody,
-          httpMiddleware: true,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-      ),
+    showError: error => dispatch(showError(error)),
   };
 }
 

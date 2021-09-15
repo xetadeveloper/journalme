@@ -74,12 +74,12 @@ export class Journal {
     this.journalDesc = '';
     this.market = '';
     this.startCapital = '';
-    this.totalProfit = '';
-    this.winningTrades = '';
-    this.losingTrades = '';
-    this.balance = '';
-    this.loseRate = '';
-    this.winRate = '';
+    this.totalProfit = 0;
+    this.winningTrades = 0;
+    this.losingTrades = 0;
+    this.balance = 0;
+    this.loseRate = 0;
+    this.winRate = 0;
 
     if (journalData) {
       Object.assign(this, journalData);
@@ -92,13 +92,13 @@ export class Journal {
       journalName: this.journalName,
       journalDesc: this.journalDesc,
       market: this.market,
-      startCapital: Double(this.startCapital),
-      totalProfit: Double(this.totalProfit),
-      winningTrades: Int32(this.winningTrades),
-      losingTrades: Int32(this.losingTrades),
-      balance: Double(this.balance),
-      loseRate: Double(this.loseRate),
-      winRate: Double(this.winRate),
+      startCapital: this.startCapital ? Double(this.startCapital) : Double(0),
+      totalProfit: this.totalProfit ? Double(this.totalProfit) : Double(0),
+      winningTrades: this.winningTrades ? Int32(this.winningTrades) : Int32(0),
+      losingTrades: this.losingTrades ? Int32(this.losingTrades) : Int32(0),
+      balance: this.balance ? Double(this.balance) : Double(0),
+      loseRate: this.loseRate ? Double(this.loseRate) : Double(0),
+      winRate: this.winRate ? Double(this.winRate) : Double(0),
     };
 
     for (let prop in mongoTypes) {
@@ -108,7 +108,7 @@ export class Journal {
           Object.keys(mongoTypes[prop]).indexOf('value') > -1 &&
           !mongoTypes[prop].value)
       ) {
-        delete mongoTypes[prop];
+        // delete mongoTypes[prop];
       }
     }
 
@@ -124,22 +124,13 @@ export class Journal {
 // Preferences Model
 export class Preferences {
   constructor(preferences) {
-    this.strategy = '';
+    this.strategies = '';
     this.saveSession = '';
     this.currency = '';
 
     if (preferences) {
       Object.assign(this, preferences);
     }
-  }
-
-  getSingleFields() {
-    let newPref = {
-      currency: this.currency,
-      saveSession: this.saveSession,
-    };
-
-    return removeNull.call(newPref);
   }
 
   removeEmptyFields() {

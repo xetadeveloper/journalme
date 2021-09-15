@@ -186,10 +186,6 @@ body {
     Times, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url("./Images/florian-klauer-mk7D-4UCfmg-unsplash.jpg"); */
-  /* background-image: url('./Images/jess-bailey-ycTvvg1mPU4-unsplash.jpg'); */
-  background-size: cover;
-  background-repeat: no-repeat;
   color: rgb(99, 98, 98);
   overflow-y: scroll;
 }
@@ -199,7 +195,7 @@ body::-webkit-scrollbar {
   background-color: #dfdfdf;
 }
 
-body::-webkit-scrollbar-thumb{
+body::-webkit-scrollbar-thumb {
   background-color: #888787;
   border-radius: 5px;
 }
@@ -251,6 +247,15 @@ p {
 
 .grey-text {
   color: #737272;
+}
+
+.icon {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: #166cec;
 }
 
 /* Display */

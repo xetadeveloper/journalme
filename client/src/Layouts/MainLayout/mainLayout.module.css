@@ -11,14 +11,36 @@
   /* border: 1px solid blue; */
 }
 
+.slidingModalHolder {
+  /* border: 1px solid blue; */
+  position: absolute;
+  top: 20px;
+  right: 0;
+  z-index: 200;
+  row-gap: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 300px;
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   html {
     font-size: 14px;
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 425px) {
   html {
-    font-size: 14px;
+    font-size: 12px;
+  }
+
+  .pageHolder {
+    padding: 10px 10px;
   }
 }

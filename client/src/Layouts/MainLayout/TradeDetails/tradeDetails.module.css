@@ -43,3 +43,31 @@
   padding: 0 20px;
   /* border: 1px solid black; */
 }
+
+.formBtn {
+  font-size: 0.8rem;
+}
+
+.formContainer {
+  display: grid;
+  justify-content: center;
+}
+
+@media screen and (max-width: 425px) {
+  .container {
+    /* border: 1px solid black; */
+  }
+
+  .headerText {
+    font-size: 1.6rem;
+  }
+
+  .header {
+    /* border: 1px solid black; */
+    padding-right: 0px;
+  }
+
+  .header svg {
+    font-size: 1.1rem;
+  }
+}

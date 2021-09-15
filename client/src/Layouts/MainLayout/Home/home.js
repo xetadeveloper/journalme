@@ -1,5 +1,6 @@
 // Modules
 import React, { useEffect, useState } from 'react';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 
 // Styles
 import style from './home.module.css';
@@ -9,14 +10,17 @@ import SearchBar from '../../../Components/SearchBar/searchBar';
 import ToggleSwitch from '../../../Components/ToggleSwitch/toggleSwitch';
 import Journal from '../../../Components/Journal/journal';
 import Modal from '../../../Components/Modals/modal';
+import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
 
 export default function Home(props) {
-  const { isMobile, isWideScreen, isTablet, journals } = props;
-
+  const { orientation, journals, userTrades } = props;
+  const { isMobile, isWideScreen } = orientation;
   // console.log('JournalInfo: ', journals);
 
+  const { url } = useRouteMatch();
   const [showSmallJournal, setShowSmallJournal] = useState(false);
-  const [filteredJournals, setFilteredJournals] = useState([]);
+  const [filteredJournals, setFilteredJournals] = useState(false);
+  const [modalState, setModalState] = useState({ show: false });
 
   // console.log('Filtered Journals: ', filteredJournals);
 
@@ -27,40 +31,59 @@ export default function Home(props) {
   }, [isWideScreen]);
 
   function renderJournals(journals) {
-    if (filteredJournals.length) {
-      return filteredJournals.map((journal, index) => (
-        <div key={index}>
-          <Journal
-            isMobile={isMobile}
-            isWideScreen={isWideScreen}
-            isTablet={isTablet}
-            showSmallJournal={showSmallJournal}
-            journal={journal}
-          />
-        </div>
-      ));
-    } else {
-      return journals.map((journal, index) => (
-        <div key={index}>
-          <Journal
-            isMobile={isMobile}
-            isWideScreen={isWideScreen}
-            isTablet={isTablet}
-            showSmallJournal={showSmallJournal}
-            journal={journal}
-          />
-        </div>
-      ));
+    if (filteredJournals && filteredJournals.length) {
+      return filteredJournals.map((journal, index) => {
+        // Find the trades for the journals
+        const trades = userTrades.filter(
+          trade => trade.journalID === journal.journalID
+        );
+
+        return (
+          <div key={index}>
+            <Journal
+              orientation={orientation}
+              showSmallJournal={showSmallJournal}
+              journal={journal}
+              trades={trades}
+            />
+          </div>
+        );
+      });
+    } else if (!filteredJournals) {
+      return journals.map((journal, index) => {
+        // Find the trades for the journals
+        const trades =
+          userTrades &&
+          userTrades.filter(trade => trade.journalID === journal.journalID);
+
+        return (
+          <div key={index}>
+            <Journal
+              orientation={orientation}
+              showSmallJournal={showSmallJournal}
+              journal={journal}
+              trades={trades}
+            />
+          </div>
+        );
+      });
     }
   }
 
   function searchHandler(evt) {
     const searchText = evt.target.value;
 
-    const filtered = journals.filter(
-      journal =>
-        journal.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1
-    );
+    if (!searchText.trim()) {
+      setFilteredJournals(false);
+      return;
+    }
+
+    const filtered = journals.filter(journal => {
+      const found = journal.journalName
+        .toLowerCase()
+        .startsWith(searchText.toLowerCase());
+      return found;
+    });
 
     setFilteredJournals(filtered);
   }
@@ -68,6 +91,7 @@ export default function Home(props) {
   return (
     <section
       className={` flex flex-col justify-content-center ${style.container}`}>
+      <Modal modalState={modalState} setModalState={setModalState} />
       {
         /* Search and Theme Switch */
         !isMobile && !isWideScreen && (
@@ -83,10 +107,17 @@ export default function Home(props) {
                 />
               </div>
             </div>
-            <SearchBar
-              searchHandler={searchHandler}
-              searchText='Search Journals'
-            />
+            <NavLink
+              to={`${url}/createJournal`}
+              className={style.createJournalBtn}>
+              <SmallButton btnText='Create Journal' />
+            </NavLink>
+            <div className={style.searchField}>
+              <SearchBar
+                searchHandler={searchHandler}
+                searchText='Search Journals'
+              />
+            </div>
           </section>
         )
       }

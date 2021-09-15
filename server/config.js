@@ -11,6 +11,9 @@ export const errorTypes = {
   emptybodyerror: 'emptybodyerror',
   emptyqueryerror: 'emptyqueryerror',
   duplicateusererror: 'duplicateusererror',
+  inputerror: 'inputerror',
 };
 
 export const appMode = 'prod';
+
+export const saltRounds = 10;

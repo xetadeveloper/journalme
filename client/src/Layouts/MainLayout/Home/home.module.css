@@ -13,7 +13,6 @@
   column-gap: 10px;
   font-size: 0.9rem;
   color: #a09d9d;
-
 }
 
 .toggleSwitch {
@@ -22,9 +21,16 @@
   /* border: 1px solid black; */
 }
 
+.createJournalBtn {
+  font-size: 0.8rem;
+}
+
+.searchField {
+  /* border: 1px solid black; */
+}
+
 .journalsHolder {
   /* border: 1px solid rgb(179, 11, 11); */
-  /* padding: 0 20px; */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1000px));
   justify-content: center;
@@ -35,4 +41,10 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   justify-items: center;
   gap: 20px 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .searchField {
+    width: 150px;
+  }
 }

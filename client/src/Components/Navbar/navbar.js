@@ -1,7 +1,7 @@
 // Modules
 import React, { useState } from 'react';
-import { FiMenu, FiPlus, FiUser } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { FiLogOut, FiMenu, FiPlus, FiPlusCircle, FiUser } from 'react-icons/fi';
+import { Link, useHistory } from 'react-router-dom';
 
 // Styles
 import style from './navbar.module.css';
@@ -13,7 +13,10 @@ import RoundButton from '../Buttons/RoundButton/roundButton';
 
 export default function Navbar(props) {
   const [showNav, setShowNav] = useState(false);
-  const { navItemsList, isWideScreen, isMobile } = props;
+  const { navItemsList, handleCreateTrade, orientation } = props;
+  const { isWideScreen, isMobile } = orientation;
+
+  const history = useHistory();
 
   return (
     <nav
@@ -24,36 +27,37 @@ export default function Navbar(props) {
           <h2 className={`logo`}>JournalMe </h2>
         </Link>
 
-        <div className={` ${style.userBtn}`}>
+        {/* Create Trade */}
+        <div className={` ${style.userBtn}`} onClick={handleCreateTrade}>
           <RoundButton>
-            <FiUser className={style.userIcon} />
+            <FiPlus className={style.userIcon} />
           </RoundButton>
         </div>
 
         {/* Navigation */}
         <div
-          className={`${style.navlist} ${
-            !isWideScreen && showNav && style.showNavigation
-          } ${isWideScreen && style.navlistWideScreen}`}>
+          className={`${style.navlist} 
+          ${!isWideScreen && showNav && style.showNavigation} 
+          ${isWideScreen && style.navlistWideScreen}`}>
           <NavList
-            setShowNav={setShowNav}
             showCancel={isMobile}
             smallScreen={isMobile}
             isWideScreen={isWideScreen}
             navItemsList={navItemsList}
+            setShowNav={setShowNav}
           />
         </div>
 
         <div className={`flex ${style.btnHolder}`}>
           <div className={`flex align-items-center ${style.menuBtn}`}>
-            {isWideScreen ? (
-              <div className={`${style.wideScreenButton}`}>
-                <SmallButton>
+            {isWideScreen && (
+              <div
+                className={`${style.wideScreenButton}`}
+                onClick={handleCreateTrade}>
+                <SmallButton btnClick={handleCreateTrade}>
                   New Trade <FiPlus className={style.plusIcon} />
                 </SmallButton>
               </div>
-            ) : (
-              <FiPlus />
             )}
           </div>
           {!isWideScreen && (

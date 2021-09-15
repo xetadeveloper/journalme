@@ -1,9 +1,12 @@
+import { SHOW_ERROR } from '../ActionTypes/actionTypes';
 import {
   FETCH_STATUS,
+  RESET_DATA_CREATED,
   RESET_DATA_DELETED,
   RESET_DATA_UPDATED,
   RESET_ERROR_FLAG,
   RESET_LOGIN_REDIRECT,
+  RESET_PROFILE_UPLOAD,
   RESET_SESSION_RESTORED,
   UPDATE_FLAG_STATE,
 } from '../ActionTypes/flagActionTypes';
@@ -44,6 +47,17 @@ export default function flagReducers(state = initialState, action) {
     case RESET_DATA_DELETED:
       console.log('Resetting data deleted flag');
       return { ...state, isDeleted: false };
+
+    case RESET_DATA_CREATED:
+      console.log('Resetting data cteated flag');
+      return { ...state, isCreated: false };
+
+    case RESET_PROFILE_UPLOAD:
+      console.log('Resetting profile upload flag');
+      return { ...state, isProfilePicUpdated: false };
+
+    case SHOW_ERROR:
+      return { ...state, isError: true };
   }
 
   return state;

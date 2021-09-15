@@ -1,6 +1,8 @@
 // Modules
 import React from 'react';
-import { FiX } from 'react-icons/fi';
+import { FiLogOut, FiX } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
+import RoundButton from '../Buttons/RoundButton/roundButton';
 
 // Styles
 import style from './navList.module.css';
@@ -10,6 +12,8 @@ export default function NavList(props) {
   const { setShowNav, showCancel, smallScreen, isWideScreen, navItemsList } =
     props;
 
+  // console.log('Props: ', props)
+
   function renderNavItems(navItemsList) {
     return navItemsList.map((link, index) => {
       return (
@@ -18,6 +22,7 @@ export default function NavList(props) {
           {...link}
           smallScreen={smallScreen}
           isWideScreen={isWideScreen}
+          setShowNav={setShowNav}
         />
       );
     });
@@ -31,12 +36,19 @@ export default function NavList(props) {
       ${smallScreen && style.fullHeight} `}>
       {/* Cancel Button */}
       {showCancel && !isWideScreen && (
-        <div
-          className={`${style.cancel}`}
-          onClick={() => {
-            setShowNav(false);
-          }}>
-          <FiX />
+        <div className={`flex align-items-center justify-content-between ${style.menuHolder}`}>
+          <NavLink className={`${style.userBtn}`} to='/logout'>
+            <RoundButton>
+              <FiLogOut className={style.userIcon} />
+            </RoundButton>
+          </NavLink>
+          <div
+            className={`${style.cancel}`}
+            onClick={() => {
+              setShowNav(false);
+            }}>
+            <FiX />
+          </div>
         </div>
       )}
       <ul

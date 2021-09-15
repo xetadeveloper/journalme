@@ -1,0 +1,79 @@
+.container {
+  border: 1px solid rgb(194, 191, 191);
+  background-color: #166cec;
+  background-color: #e7e4e4;
+  position: relative;
+  color: white;
+  color: inherit;
+  padding: 10px 20px 15px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+
+.slideIn {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.slideOut {
+  animation: slideOut 0.5s ease-in-out;
+}
+
+.hideModal {
+  right: -100%;
+}
+
+.showModal {
+  right: 0;
+}
+
+.headerText {
+  color: rgb(243, 83, 83);
+  font-size: 1.8rem;
+  /* border: 1px solid black; */
+}
+.cancelHolder {
+  width: 100%;
+  /* border: 1px solid black; */
+  justify-content: flex-end;
+}
+.cancelBtn {
+  /* border: 1px solid black; */
+  /* float: right; */
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.cancelBtn:hover {
+  cursor: pointer;
+  color: #166cec;
+}
+
+.messageBody {
+  column-gap: 10px;
+}
+
+.errorMsg {
+  /* border: 1px solid black; */
+  padding: 7px 0;
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 20px;
+}
+
+@keyframes slideIn {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
+  }
+}

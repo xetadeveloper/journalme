@@ -4,8 +4,10 @@ import { User } from '../Database/Models/models.js';
 import { getDBInstance } from '../Database/mongoDB.js';
 import bcrypt from 'bcrypt';
 import {
+  badInputError,
   dbOperationError,
   emptyRequestBodyError,
+  executionError,
   serverErrorFound,
 } from '../Utility/errorHandling.js';
 
@@ -83,12 +85,12 @@ router.post('/login', async (req, res) => {
                             });
                           } else {
                             console.log('Could not update save session data');
-                            res.status(500).json({
-                              error: {
-                                type: errorTypes.updateerror,
-                                message: 'Could not update save session data',
-                              },
-                            });
+                            executionError(
+                              res,
+                              500,
+                              errorTypes.updateerror,
+                              'Could not update save session data'
+                            );
                           }
                         })
                         .catch(err => {
@@ -125,6 +127,11 @@ router.post('/login', async (req, res) => {
                       },
                     });
                   }
+                } else {
+                  // send error message
+                  badInputError(res, [
+                    { field: 'password', message: 'Incorrect Password' },
+                  ]);
                 }
               })
               .catch(err => {
@@ -135,22 +142,16 @@ router.post('/login', async (req, res) => {
                 );
               });
           } else {
-            res.status(200).json({
-              app: {
-                error: {
-                  type: errorTypes.notfounderror,
-                  errorFields: [
-                    {
-                      field: 'username',
-                      message: `User with username ${username} does not exist`,
-                    },
-                  ],
+            badInputError(
+              res,
+              [
+                {
+                  field: 'username',
+                  message: `User with username ${username} does not exist`,
                 },
-              },
-              flags: {
-                isError: true,
-              },
-            });
+              ],
+              errorTypes.notfounderror
+            );
           }
         })
         .catch(err => {
@@ -185,23 +186,12 @@ router.post('/signup', async (req, res) => {
           // console.log('Result: ', emailResult);
           if (emailResult) {
             console.log('User with email exists already...');
-            res.status(400).json({
-              app: {
-                error: {
-                  type: errorTypes.duplicateusererror,
-                  errorFields: [
-                    {
-                      field: 'username',
-                      message:
-                        'User with this email exists already, log in instead',
-                    },
-                  ],
-                },
+            badInputError(res, [
+              {
+                field: 'username',
+                message: 'User with this email exists already, log in instead',
               },
-              flags: {
-                isError: true,
-              },
-            });
+            ]);
           } else {
             // Check for existing username
             usersCollection
@@ -209,22 +199,12 @@ router.post('/signup', async (req, res) => {
               .then(usernameResult => {
                 if (usernameResult) {
                   console.log('Username already taken...');
-                  res.status(400).json({
-                    app: {
-                      error: {
-                        type: 'inputerror',
-                        errorFields: [
-                          {
-                            field: 'username',
-                            message: 'Username already taken',
-                          },
-                        ],
-                      },
+                  badInputError(res, [
+                    {
+                      field: 'username',
+                      message: 'Username already taken',
                     },
-                    flags: {
-                      isError: true,
-                    },
-                  });
+                  ]);
                 } else {
                   // hash password
                   // console.log('User is about to be created...');
@@ -258,16 +238,12 @@ router.post('/signup', async (req, res) => {
                             },
                           });
                         } else {
-                          res.status(500).json({
-                            app: {
-                              error: {
-                                type: 'inserterror',
-                                message:
-                                  'User was not created. Contact Support',
-                              },
-                            },
-                            flags: { isError: true },
-                          });
+                          executionError(
+                            res,
+                            500,
+                            errorTypes.inserterror,
+                            'User was not created. Contact Support'
+                          );
                         }
                       })
                       .catch(err => {
@@ -320,9 +296,3 @@ router.post('/logout', async (req, res) => {
 router.use('/:user', isLoggedIn, userRoutes);
 
 export { router as postRoutes };
-
-// (req, res, next) => {
-//   req.user = req.params.user;
-//   console.log('Here  here');
-//   next();
-// },

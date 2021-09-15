@@ -6,12 +6,13 @@ import ConfirmModal from './ConfirmModal/confirmModal';
 import MessageModal from './MessageModal/messageModal';
 import InputModal from './InputModal/inputModal';
 import LoadingModal from './LoadingModal/loadingModal';
+import SelectModal from './SelectModal/selectModal'
 
 //Styles
 import style from './modal.module.css';
 
 export default function Modal(props) {
-  let { modalState, setModalState } = props;
+  const { modalState, setModalState } = props;
   const { parentProps } = props;
 
   const { show, modalCloseHandler } = modalState;
@@ -19,10 +20,11 @@ export default function Modal(props) {
   /**This closes the modal */
   function closeModal() {
     if (modalCloseHandler) {
+      // This is for extra actions when closing the modal, for example cleanup
       modalCloseHandler();
     }
 
-    setModalState(false);
+    setModalState({ show: false });
   }
 
   return (
@@ -52,6 +54,12 @@ export default function Modal(props) {
             />
           ) : modalState.type === 'loading' ? (
             <LoadingModal
+              modalState={modalState}
+              setModalState={setModalState}
+              closeModal={closeModal}
+            />
+          ) : modalState.type === 'selectModal' ? (
+            <SelectModal
               modalState={modalState}
               setModalState={setModalState}
               closeModal={closeModal}

@@ -1,6 +1,8 @@
 .tradeSection {
   border-bottom: 1px solid black;
   overflow: hidden;
+  line-height: 20px;
+  text-align: center;
 }
 
 .tradeList,
@@ -33,6 +35,11 @@
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   border-top: 0;
+  border-top: 1px solid black;
+}
+
+.tradeDelete {
+  grid-template-columns: repeat(5, 1fr) 0.5fr;
 }
 
 .hideTradeList .tradeList {
@@ -59,4 +66,15 @@
 .caretDown,
 .caretUp {
   transition: transform 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  .tradeHeader {
+    padding: 10px 0px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tradeMonth {
+    padding: 10px 5px 10px 10px;
+  }
 }

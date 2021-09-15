@@ -13,8 +13,10 @@ import { reopenLastSession } from '../../Redux/Actions/httpActions';
 import { resetSessionRestored } from '../../Redux/Actions/flagActions';
 
 function LandingPage(props) {
-  const { isLoggedIn, isSessionRestored, reopenLastSession, user } = props;
+  const { isLoggedIn, isSessionRestored, reopenLastSession, userInfo } = props;
   const { resetSessionRestored } = props;
+
+  console.log('User: ', userInfo);
 
   // Handles the reopening of last saved session
   useEffect(() => {
@@ -32,7 +34,7 @@ function LandingPage(props) {
       // If session has been restored we'll only change the user profile icon to logged in instead,
       // which will be a link to the home page
     }
-  }, [isSessionRestored, history, user, resetSessionRestored]);
+  }, [isSessionRestored, history, userInfo.username, resetSessionRestored]);
 
   return (
     <div className={`${style.container}`}>
@@ -49,13 +51,18 @@ function LandingPage(props) {
             <NavLink to='/about'>About</NavLink>
           </li>
           <li>
-            <NavLink to='/about'>Contact Us</NavLink>
+            <NavLink to='/contactus'>Contact Us</NavLink>
           </li>
           <li>
-            <NavLink to='/about'>Blog</NavLink>
+            <NavLink to='/blog'>Blog</NavLink>
           </li>
           <li>
-            <NavLink to='/login'>{isLoggedIn ? 'Journals' : 'Login'}</NavLink>
+            <NavLink
+              to={`${
+                isLoggedIn ? `/journal/${userInfo.username}` : '/login'
+              }`}>
+              {isLoggedIn ? 'Journals' : 'Login'}
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -64,12 +71,12 @@ function LandingPage(props) {
 }
 
 function mapStateToProps(state) {
-  const { isLoggedIn, user } = state.app;
+  const { isLoggedIn, userInfo } = state.app;
   const { isSessionRestored } = state.flags;
   return {
     isLoggedIn,
     isSessionRestored,
-    user,
+    userInfo,
   };
 }
 

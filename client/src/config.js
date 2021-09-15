@@ -22,5 +22,13 @@ export const errorTypes = {
   inserterror: 'inserterror',
   emptybodyerror: 'emptybodyerror',
   emptyqueryerror: 'emptyqueryerror',
-  duplicateusererror: 'duplicateusererror'
+  duplicateusererror: 'duplicateusererror',
+};
+
+export const chartDefaults = {
+  font: {
+    size: 14,
+    weight: 600,
+    family: 'Arvo',
+  },
 };

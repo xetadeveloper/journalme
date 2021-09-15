@@ -1,0 +1,64 @@
+.container {
+  /* border: 1px solid black; */
+  font-size: inherit;
+  padding: 20px;
+}
+
+.chartContainer {
+  /* border: 1px solid black; */
+  row-gap: 30px;
+}
+
+.chartHolder {
+  /* border: 1px solid black; */
+  height: 500px;
+  width: 1000px;
+  /* position: relative; */
+}
+
+.controlHolder {
+  /* border: 1px solid black; */
+  column-gap: 20px;
+}
+
+.analysis {
+  /* border: 1px solid black; */
+  row-gap: 30px;
+  margin-top: 30px;
+}
+
+.analysisItem{
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 30px;
+  column-gap: 10px;
+}
+
+.itemHolder{
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  column-gap: 10px;
+}
+
+.analysisHeader{
+  /* border: 1px solid black; */
+  text-align: end;
+  font-weight: 800;
+}
+
+@media screen and (max-width: 768px) {
+  .chartHolder {
+    /* border: 1px solid black; */
+    height: 250px;
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 322px) {
+  .chartHolder {
+    border: 1px solid black;
+    transform: rotate(90deg);
+  }
+}

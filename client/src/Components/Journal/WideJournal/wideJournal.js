@@ -3,19 +3,14 @@ import React from 'react';
 // Styles
 import style from './wideJournal.module.css';
 import SmallButton from '../../Buttons/SmallButton/smallButton';
+import TradeChart from '../../TradeChart/tradeChart';
 
 export default function WideJournal(props) {
-  const { showSmallJournal, chartImage, openJournalHandler, journal } = props;
+  const { showSmallJournal, openJournalHandler, journal, chartData } = props;
   // console.log('Journal: ', journal);
 
-  const {
-    journalName,
-    market,
-    winningTrades,
-    losingTrades,
-    balance,
-    journalID,
-  } = journal;
+  const { journalName, market, winningTrades, losingTrades } = journal;
+  const { balance, journalID } = journal;
 
   return (
     <div
@@ -49,7 +44,17 @@ export default function WideJournal(props) {
         {/* Chart Display */}
         {!showSmallJournal && (
           <div className={`${style.chart}`}>
-            <img src={chartImage} className={style.chartImg} />
+            {/* Show chart here */}
+            <TradeChart
+              chartData={chartData}
+              chartOptions={{
+                panEnabled: true,
+                chartTitle: {
+                  chartName: 'Trades Analysis',
+                  font: { size: 18, family: 'Arvo' },
+                },
+              }}
+            />
           </div>
         )}
 

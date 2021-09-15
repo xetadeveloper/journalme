@@ -7,6 +7,7 @@ import style from '../modalStyle.module.css';
 
 export default function ConfirmModal(props) {
   const { modalState, closeModal } = props;
+  const { message, actionHandler } = modalState;
 
   return (
     <div
@@ -20,11 +21,9 @@ export default function ConfirmModal(props) {
       <button className={`${style['modal-close-btn']}`} onClick={closeModal}>
         <FiX />
       </button>
-      <h2 className={`${style['modal-text']}`}>{modalState.message}</h2>
+      <h2 className={`${style['modal-text']}`}>{message}</h2>
       <div className={`flex flex-space-between ${style['modal-btn-holder']}`}>
-        <button
-          className={`${style['modal-btn']}`}
-          onClick={modalState.actionHandler}>
+        <button className={`${style['modal-btn']}`} onClick={actionHandler}>
           Yes
         </button>
         <button className={`${style['modal-btn']}`} onClick={closeModal}>

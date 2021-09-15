@@ -6,6 +6,7 @@ import {
   dbOperationError,
   emptyRequestBodyError,
   emptyRequestQueryError,
+  executionError,
   serverErrorFound,
 } from '../../Utility/errorHandling.js';
 import { Journal, Trade } from '../../Database/Models/models.js';
@@ -24,6 +25,7 @@ import prefRoutes from '../PreferencesRoutes/preferencesRoutes.js';
 import profileRoutes from '../ProfileRoutes/profileRoutes.js';
 
 const { ObjectID } = mongoTypes;
+const { deleteerror, updateerror, inserterror, notfounderror } = errorTypes;
 const router = express.Router({ mergeParams: true });
 
 const queryOptions = {
@@ -39,38 +41,55 @@ router.get('/journals', async (req, res) => {
   const { user } = req.params;
   console.log('User: ', user);
 
+  // Either two queries are run for user info and user trades or a lookup is used, find out which is faster
   getDBInstance()
     .then(db => {
       const userCollection = db.collection('users');
 
-      userCollection
-        .findOne({ username: user }, { projection: { password: 0 } })
-        .then(result => {
-          // console.log('Search result: ', result);
-          if (result) {
+      const pipeline = [
+        { $match: { username: user } },
+        { $project: { password: 0 } },
+        {
+          $lookup: {
+            from: 'trades',
+            localField: '_id',
+            foreignField: 'userID',
+            as: 'userTrades',
+          },
+        },
+      ];
+      try {
+        const aggCursor = userCollection.aggregate(pipeline);
+
+        aggCursor.toArray((err, result) => {
+          if (err) {
+            console.log('Error: ', err);
+            dbOperationError(res, err, 'Error in finding user info');
+            return;
+          }
+
+          if (result[0]) {
             console.log('User found');
             res.status(200).json({
-              app: { isLoggedIn: true, userInfo: result },
-            });
-          } else {
-            console.log('User not found');
-            res.status(500).json({
               app: {
                 isLoggedIn: true,
-                userInfo: null,
-                error: {
-                  type: errorTypes.notfounderror,
-                  message:
-                    'Error retrieving user info from database. Contact Support',
-                },
+                userInfo: result[0],
+                userTrades: result[0].userTrades,
               },
-              flags: { isError: true },
             });
+          } else {
+            executionError(
+              res,
+              500,
+              notfounderror,
+              'Could not find user info in DB. Contact Support'
+            );
           }
-        })
-        .catch(err => {
-          dbOperationError(res, err, 'Error in finding user info');
         });
+      } catch (err) {
+        dbOperationError(res, err, 'Error in finding user info');
+        console.log('Error in method: ', err);
+      }
     })
     .catch(err => {
       serverErrorFound(res, err, 'Error getting DB instance');
@@ -89,6 +108,8 @@ router.post('/createJournal', async (req, res) => {
   }
 
   const { user } = req.params;
+
+  data.balance = data.startCapital;
 
   getDBInstance()
     .then(db => {
@@ -115,7 +136,7 @@ router.post('/createJournal', async (req, res) => {
             res.status(500).json({
               app: {
                 error: {
-                  type: errorTypes.inserterror,
+                  type: inserterror,
                   message:
                     'Error in creating journal. Journal was not inserted',
                 },
@@ -184,7 +205,7 @@ router.post('/updateJournal', async (req, res) => {
                 userInfo: returned.value,
                 isLoggedIn: true,
                 error: {
-                  type: errorTypes.updateerror,
+                  type: updateerror,
                   message: 'Journal was not updated. Contact Support',
                 },
               },
@@ -226,11 +247,12 @@ router.post('/deleteJournal', async (req, res) => {
 
           const { user } = req.params;
           console.log('Deleting Journal...');
-
+          // console.log('User: ', user);
+          // console.log('JournalID: ', journalID);
           usersCollection
             .findOneAndUpdate(
               { username: user },
-              { $pull: { journal: { journalID: journalID } } },
+              { $pull: { journals: { journalID: journalID } } },
               queryOptions
             )
             .then(returned => {
@@ -247,7 +269,7 @@ router.post('/deleteJournal', async (req, res) => {
                   app: {
                     isLoggedIn: true,
                     error: {
-                      type: errorTypes.deleteerror,
+                      type: deleteerror,
                       message: 'Journal cannot be deleted. Contact Support',
                     },
                   },
@@ -319,13 +341,7 @@ router.get('/trades', async (req, res) => {
                   trades: null,
                   tradesNotFound: true,
                 },
-                error: {
-                  type: errorTypes.notfounderror,
-                  message:
-                    'Error occured on server. Trades could not be found, contact support',
-                },
               },
-              flags: { isError: true },
             });
           }
         });
@@ -367,7 +383,7 @@ router.get('/oneTrade', async (req, res) => {
               app: {
                 currentTrade: null,
                 error: {
-                  type: errorTypes.notfounderror,
+                  type: notfounderror,
                   message:
                     'Error occured on server. Trade could not be found, contact support',
                 },
@@ -396,7 +412,7 @@ router.post('/updateTrade', async (req, res) => {
     return;
   }
 
-  const { tradeID } = data;
+  const { tradeID, prevPlValue } = data;
   delete data.tradeID;
   const trade = new Trade(data).removeEmptyFields().convertMongoTypes();
 
@@ -413,14 +429,141 @@ router.post('/updateTrade', async (req, res) => {
 
           if (result.modifiedCount) {
             console.log('Trade updated...');
-            res.status(200).json({
-              flags: { isUpdated: true },
-            });
+
+            // Update Journal if PL has changed
+            if (trade.pl) {
+              // Update the journal
+              const usersCollection = db.collection('users');
+              const username = req.session.username;
+
+              // GEt journal details
+              usersCollection
+                .findOne(
+                  { username: username },
+                  { projection: { journals: 1 } }
+                )
+                .then(result => {
+                  if (result) {
+                    console.log('Journals: ', result.journals);
+                    const tradeJournal = result.journals.find(
+                      journal => journal.journalID === trade.journalID
+                    );
+
+                    const { totalProfit, balance, loseRate, startCapital } =
+                      tradeJournal;
+                    const { winningTrades, losingTrades, winRate } =
+                      tradeJournal;
+
+                    const journalUpdate = {
+                      totalProfit,
+                      balance,
+                      loseRate,
+                      winRate,
+                      winningTrades,
+                      losingTrades,
+                    };
+
+                    console.log('Updated Trade: ', trade);
+                    const plValue = Number(trade.pl.value);
+
+                    if (prevPlValue < 0 && plValue > 0) {
+                      // Profit
+                      journalUpdate.winningTrades =
+                        journalUpdate.winningTrades + 1;
+
+                      journalUpdate.losingTrades =
+                        journalUpdate.losingTrades - 1;
+                    } else if (prevPlValue > 0 && plValue < 0) {
+                      journalUpdate.losingTrades =
+                        journalUpdate.losingTrades + 1;
+
+                      journalUpdate.winningTrades =
+                        journalUpdate.winningTrades - 1;
+                    }
+
+                    journalUpdate.winRate =
+                      (journalUpdate.winningTrades /
+                        (journalUpdate.winningTrades +
+                          journalUpdate.losingTrades)) *
+                      100;
+
+                    journalUpdate.loseRate =
+                      (journalUpdate.losingTrades /
+                        (journalUpdate.winningTrades +
+                          journalUpdate.losingTrades)) *
+                      100;
+
+                    journalUpdate.balance =
+                      journalUpdate.balance - prevPlValue + plValue;
+
+                    journalUpdate.totalProfit =
+                      journalUpdate.totalProfit - prevPlValue + plValue;
+
+                    const tempJournal = new Journal(journalUpdate)
+                      .removeEmptyFields()
+                      .convertMongoTypes();
+
+                    const journalUpdateDetails = appendPropertyName(
+                      tempJournal,
+                      'journals.$'
+                    );
+
+                    console.log(
+                      'JournalUpdate Details: ',
+                      journalUpdateDetails
+                    );
+
+                    usersCollection
+                      .findOneAndUpdate(
+                        {
+                          username: username,
+                          'journals.journalID': trade.journalID,
+                        },
+                        { $set: journalUpdateDetails },
+                        { projection: { password: 0 }, returnOriginal: false }
+                      )
+                      .then(result => {
+                        if (result.lastErrorObject.updatedExisting) {
+                          res.status(201).json({
+                            app: {
+                              userInfo: result.value,
+                            },
+                            flags: { isUpdated: true },
+                          });
+                        } else {
+                          executionError(
+                            res,
+                            500,
+                            updateerror,
+                            'Could not update journal. Contact Support'
+                          );
+                        }
+                      })
+                      .catch(err => {
+                        dbOperationError(res, err, err.stack);
+                      });
+                  } else {
+                    executionError(
+                      res,
+                      500,
+                      notfounderror,
+                      'Unable to find journal related to trade. Contact Support'
+                    );
+                  }
+                })
+                .catch(err => {
+                  dbOperationError(res, err, err.stack);
+                });
+            } else {
+              res.status(200).json({
+                flags: { isUpdated: true },
+              });
+            }
           } else {
             res.status(500).json({
               app: {
                 error: {
-                  type: errorTypes.updateerror,
+                  type: updateerror,
                   message: 'Error in updating trade. Contact Support',
                 },
               },
@@ -448,26 +591,130 @@ router.post('/deleteTrade', async (req, res) => {
     return;
   }
 
-  const { tradeID } = data;
+  const trade = new Trade(data).removeEmptyFields();
+
+  console.log('Trade to be deleted: ', trade);
 
   getDBInstance()
     .then(db => {
       const tradesCollection = db.collection('trades');
 
       tradesCollection
-        .deleteOne({ _id: ObjectID(tradeID) })
+        .deleteOne({ _id: ObjectID(trade._id) })
         .then(result => {
           console.log('Result: ', result.deletedCount);
 
           if (result.deletedCount) {
-            res.status(200).json({
-              flags: { isDeleted: true },
-            });
+            // Update journal information
+            const usersCollection = db.collection('users');
+            const username = req.session.username;
+
+            usersCollection
+              .findOne({ username: username }, { projection: { journals: 1 } })
+              .then(result => {
+                if (result) {
+                  console.log('Journals: ', result.journals);
+                  const tradeJournal = result.journals.find(
+                    journal => journal.journalID === trade.journalID
+                  );
+
+                  const { totalProfit, balance, loseRate } = tradeJournal;
+                  const { winningTrades, losingTrades, winRate } = tradeJournal;
+
+                  const journalUpdate = {
+                    totalProfit,
+                    balance,
+                    loseRate,
+                    winRate,
+                    winningTrades,
+                    losingTrades,
+                  };
+
+                  console.log('Deleted Trade: ', trade);
+                  const plValue = Number(trade.pl);
+
+                  if (plValue > 0) {
+                    // Profit
+                    journalUpdate.winningTrades =
+                      journalUpdate.winningTrades - 1;
+                  } else {
+                    journalUpdate.losingTrades = journalUpdate.losingTrades - 1;
+                  }
+
+                  journalUpdate.winRate =
+                    (journalUpdate.winningTrades /
+                      (journalUpdate.winningTrades +
+                        journalUpdate.losingTrades)) *
+                    100;
+
+                  journalUpdate.loseRate =
+                    (journalUpdate.losingTrades /
+                      (journalUpdate.winningTrades +
+                        journalUpdate.losingTrades)) *
+                    100;
+
+                  journalUpdate.balance = journalUpdate.balance - plValue;
+
+                  journalUpdate.totalProfit =
+                    journalUpdate.totalProfit - plValue;
+
+                  const tempJournal = new Journal(journalUpdate)
+                    .removeEmptyFields()
+                    .convertMongoTypes();
+
+                  const journalUpdateDetails = appendPropertyName(
+                    tempJournal,
+                    'journals.$'
+                  );
+
+                  console.log('JournalUpdate Details: ', journalUpdateDetails);
+
+                  usersCollection
+                    .findOneAndUpdate(
+                      {
+                        username: username,
+                        'journals.journalID': trade.journalID,
+                      },
+                      { $set: journalUpdateDetails },
+                      { projection: { password: 0 }, returnOriginal: false }
+                    )
+                    .then(result => {
+                      if (result.lastErrorObject.updatedExisting) {
+                        res.status(200).json({
+                          app: {
+                            userInfo: result.value,
+                          },
+                          flags: { isDeleted: true },
+                        });
+                      } else {
+                        executionError(
+                          res,
+                          500,
+                          updateerror,
+                          'Could not update journal. Contact Support'
+                        );
+                      }
+                    })
+                    .catch(err => {
+                      dbOperationError(res, err, err.stack);
+                    });
+                } else {
+                  executionError(
+                    res,
+                    500,
+                    notfounderror,
+                    'Unable to find journal related to trade. Contact Support'
+                  );
+                }
+              })
+              .catch(err => {
+                dbOperationError(res, err, err.stack);
+              });
           } else {
             res.status(500).json({
               app: {
                 error: {
-                  type: errorTypes.deleteerror,
+                  type: deleteerror,
                   message: 'Error in deleting trade. Contact Support',
                 },
               },
@@ -501,22 +748,129 @@ router.post('/createTrade', async (req, res) => {
 
       const trade = new Trade(data).removeEmptyFields().convertMongoTypes();
 
+      if (!trade.comment) {
+        trade.comment = 'N/A';
+      }
+
+      trade.userID = req.session.userID;
+
       console.log('Trade to be inserted: ', trade);
       tradesCollection
         .insertOne(trade)
         .then(result => {
           // console.log('Insert Result: ', result);
-          if (result.insertedCount > 0) {
-            // console.log('Trade Inserted...');
-            res.status(201).json({
-              app: { newTrade: result.ops },
-              flags: { isCreated: true },
-            });
+          if (result.insertedCount) {
+            console.log('Trade Inserted...');
+            const insertedTrade = result.ops;
+            // Update journal information
+            const usersCollection = db.collection('users');
+            const username = req.session.username;
+
+            usersCollection
+              .findOne({ username: username }, { projection: { journals: 1 } })
+              .then(result => {
+                if (result) {
+                  console.log('Journals: ', result.journals);
+                  const tradeJournal = result.journals.find(
+                    journal => journal.journalID === trade.journalID
+                  );
+
+                  const { totalProfit, balance, loseRate, startCapital } =
+                    tradeJournal;
+                  const { winningTrades, losingTrades, winRate } = tradeJournal;
+
+                  const journalUpdate = {
+                    totalProfit,
+                    balance,
+                    loseRate,
+                    winRate,
+                    winningTrades,
+                    losingTrades,
+                  };
+
+                  console.log('Inserted Trade: ', trade);
+                  const plValue = Number(trade.pl.value);
+
+                  if (plValue > 0) {
+                    // Profit
+                    journalUpdate.winningTrades =
+                      journalUpdate.winningTrades + 1;
+                  } else {
+                    journalUpdate.losingTrades = journalUpdate.losingTrades + 1;
+                  }
+
+                  journalUpdate.winRate =
+                    (journalUpdate.winningTrades /
+                      (journalUpdate.winningTrades +
+                        journalUpdate.losingTrades)) *
+                    100;
+                  journalUpdate.loseRate =
+                    (journalUpdate.losingTrades /
+                      (journalUpdate.winningTrades +
+                        journalUpdate.losingTrades)) *
+                    100;
+                  journalUpdate.balance = journalUpdate.balance + plValue;
+                  journalUpdate.totalProfit =
+                    journalUpdate.totalProfit + plValue;
+
+                  const tempJournal = new Journal(journalUpdate)
+                    .removeEmptyFields()
+                    .convertMongoTypes();
+
+                  const journalUpdateDetails = appendPropertyName(
+                    tempJournal,
+                    'journals.$'
+                  );
+
+                  console.log('JournalUpdate Details: ', journalUpdateDetails);
+
+                  usersCollection
+                    .findOneAndUpdate(
+                      {
+                        username: username,
+                        'journals.journalID': trade.journalID,
+                      },
+                      { $set: journalUpdateDetails },
+                      { projection: { password: 0 }, returnOriginal: false }
+                    )
+                    .then(result => {
+                      if (result.lastErrorObject.updatedExisting) {
+                        res.status(201).json({
+                          app: {
+                            newTrade: insertedTrade,
+                            userInfo: result.value,
+                          },
+                          flags: { isCreated: true },
+                        });
+                      } else {
+                        executionError(
+                          res,
+                          500,
+                          updateerror,
+                          'Could not update journal. Contact Support'
+                        );
+                      }
+                    })
+                    .catch(err => {
+                      dbOperationError(res, err, err.stack);
+                    });
+                } else {
+                  executionError(
+                    res,
+                    500,
+                    notfounderror,
+                    'Unable to find journal related to trade. Contact Support'
+                  );
+                }
+              })
+              .catch(err => {
+                dbOperationError(res, err, err.stack);
+              });
           } else {
             res.status(500).json({
               app: {
                 error: {
-                  type: errorTypes.inserterror,
+                  type: inserterror,
                   message: 'Error in creating trade. Trade was not inserted',
                 },
               },
@@ -538,6 +892,45 @@ router.post('/createTrade', async (req, res) => {
 });
 
 // Get 10 recent trades
+router.get('/recentTrades', async (req, res) => {
+  console.log('Getting Recent Trades....');
+
+  const { userID } = req.session;
+
+  getDBInstance()
+    .then(db => {
+      const tradeCollection = db.collection('trades');
+
+      tradeCollection
+        .find({ userID: ObjectID(userID) }, { limit: 10 })
+        .toArray((err, result) => {
+          if (err) {
+            dbOperationError(res, err, err.stack);
+            return;
+          }
+
+          // console.log('Result: ', result);
+
+          if (result) {
+            // Return trades to client
+            res.status(200).json({
+              app: { recentTrades: result.length ? result : 'NA' },
+            });
+          } else {
+            // Send error when result is undefined
+            executionError(
+              res,
+              500,
+              notfounderror,
+              'There was an error in recent trades search. Contact Support'
+            );
+          }
+        });
+    })
+    .catch(err => {
+      serverErrorFound(res, err, err.stack);
+    });
+});
 
 //========== Preferences ========//
 router.use('/preferences', prefRoutes);

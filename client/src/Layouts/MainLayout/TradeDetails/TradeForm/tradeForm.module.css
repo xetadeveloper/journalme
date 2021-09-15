@@ -11,6 +11,8 @@
   grid-template-columns: 100px 300px;
   align-items: center;
   column-gap: 20px;
+  border-radius: 7px;
+  max-width: 400px;
   /* border: 1px solid black; */
 }
 
@@ -22,7 +24,7 @@
   padding: 8px;
   border: 1px solid grey;
   border-radius: 7px;
-  outline: none;
+  outline-color: #166cec;
   color: #737272;
   font-size: inherit;
   font-family: inherit;
@@ -51,12 +53,18 @@
   align-items: center;
   column-gap: 1px;
   padding-left: 8px;
+  max-width: 300px;
+}
+
+.currencyField:focus-within {
+  border: 2px solid #166cec;
 }
 
 .currencyField .formInput {
   border: none;
   flex-grow: 2;
   padding-left: 0;
+  outline: none;
 }
 
 .currencyFieldDisabled {
@@ -93,8 +101,20 @@
 }
 
 @media screen and (max-width: 1024px) {
+  .formItem {
+    grid-template-columns: 100px 1fr;
+    /* border: 1px solid black; */
+  }
+}
+
+@media screen and (max-width: 768px) {
   .formInputHolder {
     grid-template-columns: 1fr;
+  }
+
+  .formItem {
+    grid-template-columns: 100px 1fr;
+    /* border: 1px solid black; */
   }
 
   .comments {

@@ -1,0 +1,98 @@
+.container {
+  /* border: 1px solid black; */
+}
+
+.strategyHolder {
+  /* border: 1px solid black; */
+  column-gap: 30px;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+.icon:hover {
+  color: #116cce;
+  cursor: pointer;
+}
+
+.blueIcon {
+  color: #116cce;
+}
+
+.strategyList {
+  border: 1px solid #bdbcbc;
+  min-height: 200px;
+  max-height: 300px;
+  min-width: 250px;
+  border-radius: 7px;
+  overflow-y: auto;
+}
+
+.listItem {
+  border: 1px solid grey;
+  border-left: none;
+  border-right: none;
+  padding: 10px 20px;
+}
+
+.listItemTrash:hover {
+  color: #116cce;
+  cursor: pointer;
+}
+
+.listItemAdd {
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.listItemAdd:hover {
+  background-color: #116cce;
+  color: white;
+}
+
+.optionsHolder {
+  /* border: 1px solid black; */
+  column-gap: 60px;
+  align-items: flex-end;
+}
+
+.optionItem {
+  row-gap: 20px;
+}
+
+.optionItem > h4 {
+  font-weight: 800;
+  text-align: center;
+}
+
+.optionItem > select {
+  padding: 5px;
+  cursor: pointer;
+  outline-color: #116cce;
+  color: inherit;
+}
+
+select:disabled {
+  all: unset;
+  text-align: center;
+  padding: 7px 10px;
+}
+
+.optionItem > select,
+select:disabled {
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid rgb(141, 139, 139);
+  border-radius: 7px;
+}
+
+.btnGroup {
+  /* border: 1px solid black; */
+  padding: 0 30px;
+}
+
+.strategyHolder,
+.optionsHolder,
+.btnGroup {
+  margin-top: 50px;
+}

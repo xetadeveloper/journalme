@@ -9,7 +9,8 @@ import style from './navListItem.module.css';
 import { FiChevronRight } from 'react-icons/fi';
 
 export default function NavListItem(props) {
-  const { linkName, linkPath, accordion, accordionList, isWideScreen } = props;
+  const { linkName, linkPath, accordion, accordionList } = props;
+  const { isWideScreen, setShowNav } = props;
 
   const [showAccordion, setShowAccordion] = useState(false);
 
@@ -64,7 +65,10 @@ export default function NavListItem(props) {
           to={linkPath}
           className={`${style.navlink} ${isWideScreen && style.navlinkWide} ${
             style.bluebg
-          }`}>
+          }`}
+          onClick={() => {
+            setShowNav(false);
+          }}>
           {linkName}
         </NavLink>
       )}

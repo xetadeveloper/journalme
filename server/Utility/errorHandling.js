@@ -1,7 +1,7 @@
 import { errorTypes } from '../config.js';
 
 export function serverErrorFound(res, err, errMessage) {
-  console.log('Error occured in server operation:');
+  console.log('Error occured in server operation....');
   res.status(500).json({
     app: {
       error: {
@@ -15,12 +15,40 @@ export function serverErrorFound(res, err, errMessage) {
 }
 
 export function dbOperationError(res, err, errMessage) {
-  console.log('Error occured in executing DB operation:');
+  console.log('Error occured in executing DB operation...');
   res.status(500).json({
     app: {
       error: {
         type: errorTypes.databaseerror,
         message: errMessage,
+        httpServerError: true,
+      },
+    },
+    flags: { isError: true },
+  });
+}
+
+export function executionError(res, status, errType, errMessage) {
+  console.log('Error occured in an operation...');
+  res.status(status).json({
+    app: {
+      error: {
+        type: errType,
+        message: errMessage,
+        httpServerError: true,
+      },
+    },
+    flags: { isError: true },
+  });
+}
+
+export function badInputError(res, errorFields, errorType, status) {
+  console.log('Client supplied bad input...');
+  res.status(status || 400).json({
+    app: {
+      error: {
+        type: errorType || errorTypes.inputerror,
+        errorFields,
         httpServerError: true,
       },
     },

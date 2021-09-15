@@ -17,6 +17,9 @@ export const dummyUserUpdate = {
   lastname: 'Powell',
   email: 'linda@gmail.com',
 };
+// const formData = new For();
+// create a form data for the dummy
+// dummyUserUpdate =
 
 export const dummyJournal = {
   journalID: 'dae5a4bc-c641-4a6c-a0f1-848dfaeb9a07',
@@ -42,7 +45,7 @@ export const dummyJournalUpdate = {
 };
 
 export const dummyJournalDelete = {
-  journalID: 'c1430a27-049f-46b1-9fcf-7dc001c9c70b'
+  journalID: 'c1430a27-049f-46b1-9fcf-7dc001c9c70b',
 };
 
 export const dummyTradeQuery = {

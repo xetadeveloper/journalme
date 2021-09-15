@@ -2,6 +2,7 @@
   border-radius: 15px;
   box-shadow: 0 3px 16px 0px rgb(164, 164, 164);
   max-width: 1000px;
+  padding-bottom: 20px;
 }
 
 .smallJournal {
@@ -22,7 +23,7 @@
   /* border: 1px solid black; */
 }
 
-.smallJournal .nameDetail{
+.smallJournal .nameDetail {
   font-size: 1.1rem;
 }
 
@@ -77,6 +78,7 @@
 .openJournalBtn {
   /* border: 1px solid black; */
   width: 100%;
+  font-size: 0.8rem;
 }
 
 .journalBalance {
@@ -87,10 +89,4 @@
 .chart {
   /* border: 1px solid black; */
   flex-grow: 2;
-}
-
-.chartImg {
-  width: 100%;
-  height: 100%;
-  object-fit: fit;
 }

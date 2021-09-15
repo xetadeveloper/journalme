@@ -13,7 +13,7 @@ export function removeNull() {
  */
 export function appendPropertyName(obj, prePropName) {
   for (let property in obj) {
-    if (obj[property]) {
+    if (obj[property] === false || obj[property]) {
       obj[`${prePropName}.${property}`] = obj[property];
 
       delete obj[property];

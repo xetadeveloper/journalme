@@ -28,11 +28,14 @@ function LoginContainer(props) {
     lastname: '',
     email: '',
   };
+  const history = useHistory();
 
+  // States
   const [formData, setFormData] = useState(initialFormData);
   const [errorFields, setErrorFields] = useState(initialFormData);
   const [showSignUpForm, setShowSignUpForm] = useState(false);
 
+  // Handles reopeoning last session
   useEffect(() => {
     if (!isLoggedIn) {
       console.log('Reopeoning last session in login');
@@ -40,8 +43,7 @@ function LoginContainer(props) {
     }
   }, [isLoggedIn, reopenLastSession]);
 
-  // // Handles flag actions
-  const history = useHistory();
+  // Handles flag actions
   useEffect(() => {
     if (isSessionRestored) {
       console.log('Session Restored In Login  ..');
@@ -49,6 +51,32 @@ function LoginContainer(props) {
       history.push(`/journal/${userInfo.username}`);
     }
   }, [isSessionRestored, history, userInfo.username, resetSessionRestored]);
+
+  // handles input errors
+  useEffect(() => {
+    if (isError) {
+      console.log('Error: ', error);
+      if (error.type === errorTypes.notfounderror) {
+        // Login error
+        const localErrorField = { ...errorFields };
+        for (let field in errorFields) {
+          console.log('Field: ', field);
+          error.forEach(errorField => {
+            console.log('Error Field: ', errorField.field);
+            if (field === errorField.field) {
+              localErrorField[field] = errorField;
+            }
+          });
+        }
+
+        setErrorFields(localErrorField);
+      } else if (error.type === errorTypes.duplicateusererror) {
+        // Show modal for signup error
+      }
+
+      resetErrorFlag();
+    }
+  }, [isError]);
 
   function handleInputChange(evt) {
     setFormData(prev => {
@@ -74,31 +102,6 @@ function LoginContainer(props) {
       loginUser(fetchBody);
     }
   }
-
-  useEffect(() => {
-    if (isError) {
-      console.log('Error: ', error);
-      if (error.type === errorTypes.notfounderror) {
-        // Login error
-        const localErrorField = { ...errorFields };
-        for (let field in errorFields) {
-          console.log('Field: ', field);
-          error.forEach(errorField => {
-            console.log('Error Field: ', errorField.field);
-            if (field === errorField.field) {
-              localErrorField[field] = errorField;
-            }
-          });
-        }
-
-        setErrorFields(localErrorField);
-      } else if (error.type === errorTypes.duplicateusererror) {
-        // Show modal for signup error
-      }
-
-      resetErrorFlag();
-    }
-  }, [isError]);
 
   return (
     <div className={`flex ${style.loginContainer}`}>

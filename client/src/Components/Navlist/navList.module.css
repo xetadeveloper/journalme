@@ -11,6 +11,23 @@
   height: 100vh;
 }
 
+.menuHolder {
+  margin-top: 20px;
+  /* border: 1px solid black; */
+}
+
+.userBtn {
+  height: 30px;
+  width: 30px;
+  display: block;
+  /* border: 1px solid black; */
+  margin-left: 30px;
+}
+
+.userIcon {
+  font-size: 0.9rem;
+}
+
 .cancel {
   text-align: end;
   font-size: 1.5rem;
@@ -25,7 +42,7 @@
 
 .navigation {
   flex-grow: 2;
-  
+  /* border: 1px solid black; */
 }
 
 .navlistWide {
@@ -35,5 +52,4 @@
   align-items: center;
   column-gap: 0;
   padding: 0;
-  
 }

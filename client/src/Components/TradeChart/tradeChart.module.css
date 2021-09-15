@@ -1,0 +1,28 @@
+.chartContainer {
+  /* border: 1px solid black; */
+  row-gap: 30px;
+  margin-bottom: 60px;
+}
+
+.chartHolder {
+  /* border: 1px solid black; */
+  /* height: 500px; */
+  width: 100%;
+  /* position: relative; */
+}
+
+.controlHolder {
+  /* border: 1px solid black; */
+  margin-top: 20px;
+  column-gap: 20px;
+}
+
+.controlButton {
+  width: 40px;
+  font-size: 1rem;
+}
+
+.controlButtonReset {
+  width: 70px;
+  font-size: 0.8rem;
+}

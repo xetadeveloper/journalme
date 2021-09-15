@@ -28,6 +28,19 @@ const usersSchema = {
           bsonType: 'string',
           description: 'Must be present and a string',
         },
+        userPic: {
+          bsonType: 'object',
+          properties: {
+            picURL: {
+              type: 'string',
+              description: 'Should be an enum of currency symbols',
+            },
+            publicID: {
+              type: 'string',
+              description: 'Must be a string',
+            },
+          },
+        },
         preferences: {
           bsonType: 'object',
           properties: {

@@ -52,4 +52,25 @@ const dummyUpdate = {
 
 const pref = new Preferences(dummyPreferences);
 
-console.log(ObjectId(undefined));
+// console.log(ObjectId(undefined));
+
+const arr1 = [5, 6, 7, 8];
+
+// console.log(arr1);
+// console.log(arr1.filter((val, index) => index != 2));
+// console.log(arr1);
+
+console.log(Number(-5) > 0);
+
+const dummyProfits = [
+  '500',
+  '-200',
+  '-400',
+  '700',
+  '900',
+  '-100',
+  '-800',
+  '50',
+];
+
+// console.log([...dummyProfits].sort((a, b) => Number(a) - Number(b))[0]);

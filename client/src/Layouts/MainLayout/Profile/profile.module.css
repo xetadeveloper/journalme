@@ -1,0 +1,150 @@
+.container {
+  /* border: 1px solid black; */
+  color: inherit;
+}
+
+.smallContainer {
+  font-size: 1rem;
+}
+
+.smallHeader {
+  font-size: 1.2rem;
+}
+
+.optionBtnGroup {
+  column-gap: 20px;
+}
+
+.optionBtn,
+.passwordEdit {
+  font-size: 1.3rem;
+  /* border: 1px solid black; */
+}
+
+.optionBtn:hover,
+.passwordEdit:hover {
+  color: #166cec;
+  cursor: pointer;
+}
+
+.detailContainer {
+  margin-top: 40px;
+  row-gap: 30px;
+}
+
+.imageHolder {
+  border: 1px solid rgb(180, 180, 180);
+  height: 300px;
+  width: 300px;
+  position: relative;
+}
+
+.imageHolder > img {
+  padding: 5px;
+}
+
+.fileChooser {
+  display: none;
+}
+
+.updateImage {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  font-size: 0rem;
+  color: rgb(61, 61, 61);
+}
+
+.updateImage:hover {
+  font-size: 4rem;
+  background-color: rgba(230, 228, 228, 0.822);
+  color: #166cec;
+}
+
+.profileImage {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.detailsHolder {
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+}
+
+.detailsHolderSmall {
+  grid-template-columns: 1fr;
+}
+
+.detail {
+  /* border: 1px solid black; */
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 100px 4fr;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.detailsHolderSmall .detail {
+  grid-template-columns: 70px 1fr 1fr;
+  font-size: 12px;
+}
+
+.detailsHolderSmall .password {
+  /* grid-template-columns: 1fr 1fr 1fr; */
+}
+
+.formLabel {
+  /* border: 1px solid black; */
+  text-align: end;
+  line-height: 20px;
+}
+
+.formInput {
+  border: 1px solid rgb(153, 151, 151);
+  height: 40px;
+  border-radius: 7px;
+  /* outline: 1px solid #166cec; */
+  outline: none;
+  font-size: inherit;
+  padding: 10px;
+  font-family: inherit;
+}
+
+.btnGroup {
+  /* border: 1px solid black; */
+  width: 80%;
+}
+
+.btn {
+  font-size: 0.9rem;
+}
+
+.hiddenItem {
+  display: none;
+}
+
+.blueColor {
+  color: #166cec;
+}
+
+.noBorder {
+  border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .imageHolder {
+    width: 180px;
+    height: 180px;
+  }
+
+  .detail {
+    /* border: 1px solid black; */
+    grid-template-columns: 1fr 3fr !important;
+  }
+}

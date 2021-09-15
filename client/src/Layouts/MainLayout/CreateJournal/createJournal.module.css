@@ -1,0 +1,122 @@
+.container {
+  /* border: 1px solid black; */
+}
+
+.pageHeader {
+  /* border: 1px solid black; */
+}
+
+.btnHolder {
+  column-gap: 20px;
+}
+
+.btnHolder * {
+  cursor: pointer;
+}
+
+.btnHolder *:hover {
+  color: #166cec;
+}
+
+.btnDisabled:hover {
+  color: inherit;
+}
+
+.editBtn {
+  color: #166cec;
+}
+
+hr {
+  margin-bottom: 40px;
+}
+
+.formHolder {
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 30px;
+  margin-bottom: 40px;
+}
+
+.inputHolder {
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  text-align: end;
+  column-gap: 20px;
+  align-items: center;
+}
+
+.market {
+  text-transform: uppercase;
+}
+
+.formLabel {
+  /* border: 1px solid black; */
+  line-height: 20px;
+  font-weight: 800;
+}
+
+.textLabel {
+  /* border: 1px solid black; */
+  line-height: 20px;
+}
+
+.formInput {
+  border: 1px solid grey;
+  border-radius: 7px;
+  padding: 10px;
+  outline-color: #116cce;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  color: inherit;
+}
+
+.formInput:disabled {
+  background-color: transparent;
+}
+
+.doubleItemInput {
+  border-radius: 7px;
+  border: 1px solid grey;
+  display: flex;
+  align-items: center;
+  column-gap: 1px;
+  padding: 10px;
+}
+
+.doubleItemInput:focus-within {
+  border: 2px solid #166cec;
+}
+
+.disabledInput {
+  border: none;
+}
+
+.borderBlue {
+  border: 1px solid #116cce;
+}
+
+.doubleItemInput .formInput {
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.btnGroup {
+  /* border: 1px solid black; */
+  padding: 0 50px;
+}
+
+@media screen and (max-width: 425px) {
+  .formHolder {
+    /* border: 1px solid black; */
+    grid-template-columns: 1fr;
+  }
+  
+  .btnGroup {
+    /* border: 1px solid black; */
+    padding: 0px;
+  }
+}

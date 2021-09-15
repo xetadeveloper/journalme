@@ -6,6 +6,8 @@ import {
   UPDATE_FLAG_STATE,
   RESET_LOGIN_REDIRECT,
   RESET_DATA_DELETED,
+  RESET_DATA_CREATED,
+  RESET_PROFILE_UPLOAD,
 } from '../ActionTypes/flagActionTypes';
 
 export function changeFetchStatus(payload) {
@@ -57,6 +59,22 @@ export function resetDataDeletedFlag(payload) {
   console.log('Called data deleted flag action');
   return {
     type: RESET_DATA_DELETED,
+    payload,
+  };
+}
+
+export function resetDataCreatedFlag(payload) {
+  console.log('Called reset data created flag action');
+  return {
+    type: RESET_DATA_CREATED,
+    payload,
+  };
+}
+
+export function resetProfilePicUpdated(payload) {
+  console.log('Called reset profile upload flag action');
+  return {
+    type: RESET_PROFILE_UPLOAD,
     payload,
   };
 }

@@ -5,15 +5,17 @@ import { v4 as genUUID } from 'uuid';
 import {
   dbOperationError,
   emptyRequestBodyError,
+  executionError,
   serverErrorFound,
 } from '../../Utility/errorHandling.js';
-import { Journal, Preferences, Trade } from '../../Database/Models/models.js';
+import { Preferences } from '../../Database/Models/models.js';
 import { appendPropertyName } from '../../Utility/utility.js';
 import { appMode, errorTypes } from '../../config.js';
 import {
   dummyDeleteStrategy,
   dummyPreferences,
 } from '../../Database/dummyData.js';
+const { updateerror, deleteerror } = errorTypes;
 
 const router = express.Router({ mergeParams: true });
 
@@ -37,47 +39,38 @@ router.post('/updatePreferences', async (req, res) => {
 
   const { user } = req.params;
 
-  const pref = new Preferences(data).removeEmptyFields();
+  const pref = new Preferences(data);
 
-  const propPref = appendPropertyName(
-    { ...pref.getSingleFields() },
-    'preferences'
-  );
+  // console.log('Preferences Object: ', pref);
+
+  const propPref = appendPropertyName(data, 'preferences');
+
+  // console.log('Preferences to be appended: ', propPref);
 
   getDBInstance()
     .then(db => {
       const usersCollection = db.collection('users');
 
-      const queryOperation =
-        pref.strategy && pref.strategy.length
-          ? {
-              $addToSet: { 'preferences.strategies': { $each: pref.strategy } },
-              $set: propPref,
-            }
-          : { $set: propPref };
-
       usersCollection
-        .findOneAndUpdate({ username: user }, queryOperation, queryOptions)
+        .findOneAndUpdate({ username: user }, { $set: propPref }, queryOptions)
         .then(result => {
-          if (result.updatedExisting) {
+          console.log(result);
+          if (result.lastErrorObject.updatedExisting) {
             console.log('Update successful...');
             res.status(200).json({
               app: {
-                userInfo: result,
+                userInfo: result.value,
               },
               flags: { isUpdated: true },
             });
           } else {
             console.log('Update failed...');
-            res.status(500).json({
-              app: {
-                error: {
-                  type: errorTypes.updateerror,
-                  message: 'Stragey update failed. Contact Support',
-                },
-              },
-              flags: { isError: true },
-            });
+            executionError(
+              res,
+              500,
+              updateerror,
+              'Stragey update failed. Contact Support'
+            );
           }
         })
         .catch(err => {
@@ -126,15 +119,12 @@ router.post('/deleteStrategy', async (req, res) => {
             });
           } else {
             console.log('Update Failed...');
-            res.status(500).json({
-              app: {
-                error: {
-                  type: errorTypes.deleteerror,
-                  message: 'Strategy deletion failed. Contact Support',
-                },
-              },
-              flags: { isError: true },
-            });
+            executionError(
+              res,
+              500,
+              deleteerror,
+              'Strategy deletion failed. Contact Support'
+            );
           }
         })
         .catch(err => {

@@ -10,6 +10,14 @@
   cursor: pointer;
 }
 
+.tradeDelete {
+  grid-template-columns: repeat(5, 1fr) 0.5fr;
+}
+
+.deleteIcon:hover {
+  color: #ec4343;
+}
+
 .trade:hover {
   background-color: #93bbf7;
   color: white;
@@ -21,4 +29,15 @@
 
 .loss {
   color: rgb(238, 23, 23);
+}
+
+@media screen and (max-width: 768px) {
+  .trade {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px 0px;
+  }
+
+  .tradeDelete {
+    grid-template-columns: repeat(3, 1fr) 0.5fr;
+  }
 }

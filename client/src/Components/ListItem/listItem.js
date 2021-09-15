@@ -6,10 +6,10 @@ import { NavLink } from 'react-router-dom';
 import style from './listItem.module.css';
 
 export default function ListItem(props) {
-  const { url, itemName } = props;
+  const { url, itemName, clickHandler } = props;
 
   return (
-    <NavLink to={url} className={`${style.item}`}>
+    <NavLink to={url} className={`${style.item}`} onClick={clickHandler}>
       {itemName}
     </NavLink>
   );
