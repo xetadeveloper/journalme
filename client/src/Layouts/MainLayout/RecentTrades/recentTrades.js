@@ -53,7 +53,7 @@ function RecentTrades(props) {
   }
 
   return (
-    <section className={`flex flex-col ${style.container}`}>
+    <section className={`flex flex-col container ${style.container}`}>
       <header className={`${style.header}`}>
         <h2>Recent Trades</h2>
       </header>

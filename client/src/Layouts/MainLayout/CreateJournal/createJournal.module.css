@@ -4,6 +4,7 @@
 
 .pageHeader {
   /* border: 1px solid black; */
+  /* margin-bottom: 40px; */
 }
 
 .btnHolder {
@@ -27,7 +28,17 @@
 }
 
 hr {
+  border-color: blue;
+  width: 200px;
+  height: 100px;
   margin-bottom: 40px;
+}
+
+.divider {
+  margin: 10px 0 40px;
+  height: 1px;
+  width: 100%;
+  background-color: grey;
 }
 
 .formHolder {
@@ -108,15 +119,22 @@ hr {
   /* border: 1px solid black; */
   padding: 0 50px;
 }
+.btn {
+  font-size: 0.9rem;
+}
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
   .formHolder {
     /* border: 1px solid black; */
     grid-template-columns: 1fr;
   }
-  
+
   .btnGroup {
     /* border: 1px solid black; */
     padding: 0px;
+  }
+
+  .btn {
+    font-size: 0.8rem;
   }
 }

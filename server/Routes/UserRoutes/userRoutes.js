@@ -114,7 +114,7 @@ router.post('/createJournal', async (req, res) => {
   getDBInstance()
     .then(db => {
       const usersCollection = db.collection('users');
-      const journal = new Journal(data).convertMongoTypes();
+      const journal = new Journal(data).convertMongoTypes({ createMode: true });
       journal.journalID = genUUID();
 
       console.log('Journal to be inserted: ', journal);
@@ -161,7 +161,6 @@ router.post('/createJournal', async (req, res) => {
 // Update Journal
 router.post('/updateJournal', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyJournalUpdate;
-
   console.log('Updating Journal: ', data);
 
   if (!Object.entries(data).length) {
@@ -171,13 +170,23 @@ router.post('/updateJournal', async (req, res) => {
 
   const { user } = req.params;
 
-  const journal = new Journal(data).removeEmptyFields().convertMongoTypes();
+  if (data.oldStartCapital) {
+    data.balance =
+      Number(data.oldBalance) -
+      Number(data.oldStartCapital) +
+      Number(data.startCapital);
+  }
+
+  const journal = new Journal(data)
+    .removeEmptyFields()
+    .convertMongoTypes({ createMode: false });
 
   const propJournal = appendPropertyName({ ...journal }, 'journals.$');
 
-  // console.log('Prop Journal: ', propJournal);
+  console.log('Journal Data: ', journal);
+  console.log('Prop Journal: ', propJournal);
   // console.log('User: ', user);
-  // console.log('JournalID: ', journal.journalID);
+  console.log('JournalID: ', journal.journalID);
 
   getDBInstance()
     .then(db => {
@@ -501,7 +510,7 @@ router.post('/updateTrade', async (req, res) => {
 
                     const tempJournal = new Journal(journalUpdate)
                       .removeEmptyFields()
-                      .convertMongoTypes();
+                      .convertMongoTypes({ createMode: false });
 
                     const journalUpdateDetails = appendPropertyName(
                       tempJournal,
@@ -660,7 +669,7 @@ router.post('/deleteTrade', async (req, res) => {
 
                   const tempJournal = new Journal(journalUpdate)
                     .removeEmptyFields()
-                    .convertMongoTypes();
+                    .convertMongoTypes({ createMode: false });
 
                   const journalUpdateDetails = appendPropertyName(
                     tempJournal,
@@ -770,7 +779,7 @@ router.post('/createTrade', async (req, res) => {
               .findOne({ username: username }, { projection: { journals: 1 } })
               .then(result => {
                 if (result) {
-                  console.log('Journals: ', result.journals);
+                  // console.log('Journals: ', result.journals);
                   const tradeJournal = result.journals.find(
                     journal => journal.journalID === trade.journalID
                   );
@@ -790,6 +799,7 @@ router.post('/createTrade', async (req, res) => {
 
                   console.log('Inserted Trade: ', trade);
                   const plValue = Number(trade.pl.value);
+                  console.log('PLValue: ', plValue);
 
                   if (plValue > 0) {
                     // Profit
@@ -809,13 +819,15 @@ router.post('/createTrade', async (req, res) => {
                       (journalUpdate.winningTrades +
                         journalUpdate.losingTrades)) *
                     100;
+
                   journalUpdate.balance = journalUpdate.balance + plValue;
+
                   journalUpdate.totalProfit =
                     journalUpdate.totalProfit + plValue;
 
                   const tempJournal = new Journal(journalUpdate)
                     .removeEmptyFields()
-                    .convertMongoTypes();
+                    .convertMongoTypes({ createMode: false });
 
                   const journalUpdateDetails = appendPropertyName(
                     tempJournal,

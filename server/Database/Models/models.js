@@ -86,7 +86,7 @@ export class Journal {
     }
   }
 
-  convertMongoTypes() {
+  convertMongoTypes({ createMode }) {
     const mongoTypes = {
       journalID: this.journalID,
       journalName: this.journalName,
@@ -108,7 +108,9 @@ export class Journal {
           Object.keys(mongoTypes[prop]).indexOf('value') > -1 &&
           !mongoTypes[prop].value)
       ) {
-        // delete mongoTypes[prop];
+        if (!createMode) {
+          delete mongoTypes[prop];
+        }
       }
     }
 

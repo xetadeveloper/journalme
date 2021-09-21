@@ -26,8 +26,8 @@ import {
 
 function TradeDetails(props) {
   // Props
-  const { journalTrades, strategies, username, orientation } = props;
-
+  const { journalTrades, strategies, userInfo } = props;
+  const { username, journals } = userInfo || {};
   // Redux props
   const { createTrade, getJournalTrades } = props;
   const { updateTrade, isUpdated, resetDataUpdatedFlag } = props;
@@ -45,9 +45,18 @@ function TradeDetails(props) {
 
   // console.log('JournalID: ', journalID);
   // console.log('Create Mode: ', createMode);
+
+  console.log('Journals: ', journals);
+
+  const journal =
+    journals && journals.find(journal => journal.journalID === journalID);
+
+  console.log('Journal: ', journal);
   const trade =
-    journalTrades && journalTrades.trades.find(trade => trade._id == tradeID);
-  // console.log('Journal Trades: ', journalTrades);
+    journalTrades &&
+    !journalTrades.tradesNotFound &&
+    journalTrades.trades.find(trade => trade._id == tradeID);
+  console.log('Journal Trades: ', journalTrades);
   // console.log('Trade Found: ', trade);
 
   const { strategy, tradesize, tradeStatus } = trade || {};
@@ -262,7 +271,7 @@ function TradeDetails(props) {
   }
 
   return (
-    <div className={`flex flex-col grey-text ${style.container}`}>
+    <div className={`flex flex-col grey-text container ${style.container}`}>
       {/* Modal */}
       <Modal modalState={modalState} setModalState={setModalState} />
       <PagePrompt show={editMode} message='Cancel Trade Editing?' />
@@ -293,7 +302,7 @@ function TradeDetails(props) {
           </div>
         )}
       </div>
-      <hr className={`${style.divider}`}></hr>
+      <div className={`${style.divider}`}></div>
       <form className={`${style.formContainer}`} id='tradeForm'>
         <TradeForm
           editMode={editMode}
@@ -302,6 +311,8 @@ function TradeDetails(props) {
           tradeStatusList={['Won', 'Lost']}
           setformData={setFormData}
           createMode={createMode}
+          journal={journal}
+          showError={showError}
         />
         {editMode && (
           <div
@@ -314,7 +325,7 @@ function TradeDetails(props) {
               />
             </div>
             <div className={`${style.formBtn}`}>
-              <SmallButton btnText='Cancel' />
+              <SmallButton btnText='Cancel' clickHandler={confirmEditCancel}/>
             </div>
           </div>
         )}

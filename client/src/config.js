@@ -32,3 +32,10 @@ export const chartDefaults = {
     family: 'Arvo',
   },
 };
+
+export const currencySym = {
+  USD: '\u00024',
+  GBP: '\u00A3',
+  EUR: '\u020AC',
+  NGN: 'NGN',
+};

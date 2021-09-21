@@ -4,6 +4,7 @@ import { monthsArray } from '../../../config';
 import { connect } from 'react-redux';
 import {
   NavLink as div,
+  NavLink,
   useHistory,
   useLocation,
   useRouteMatch,
@@ -182,7 +183,7 @@ function JournalTrades(props) {
   }
 
   return (
-    <section className={`flex flex-col ${style.container}`}>
+    <section className={`flex flex-col container ${style.container}`}>
       <form hidden id='filterForm'></form>
       <Modal modalState={modalState} setModalState={setModalState} />
       <PagePrompt
@@ -221,7 +222,7 @@ function JournalTrades(props) {
           <h4>
             Total Profit:{' '}
             <span>
-              {totalProfit > 0
+              {totalProfit >= 0
                 ? `$${totalProfit}`
                 : `-$${Math.abs(totalProfit)}`}
             </span>
@@ -238,13 +239,13 @@ function JournalTrades(props) {
           className={`flex flex-col ${style.dropdown} 
           ${menuState ? style.showMenu : style.hideMenu}`}>
           <li>
-            <div
+            <NavLink
               to={`${url.substr(
                 0,
                 url.lastIndexOf('/')
               )}/createJournal?editmode=true&journalID=${journalID}`}>
               View Journal Details
-            </div>
+            </NavLink>
           </li>
           <li
             onClick={() => {

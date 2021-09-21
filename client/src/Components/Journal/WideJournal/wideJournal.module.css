@@ -3,6 +3,7 @@
   box-shadow: 0 3px 16px 0px rgb(164, 164, 164);
   max-width: 1000px;
   padding-bottom: 20px;
+  overflow-x: auto;
 }
 
 .smallJournal {
@@ -23,6 +24,10 @@
   /* border: 1px solid black; */
 }
 
+.smallJournal .detailHolder {
+  flex-direction: column;
+}
+
 .smallJournal .nameDetail {
   font-size: 1.1rem;
 }
@@ -41,6 +46,10 @@
   flex-grow: 1;
 }
 
+.smallJournal .journalInfo {
+  margin-top: 20px;
+}
+
 .journalDetails {
   /* border: 1px solid black; */
   gap: 20px 0;
@@ -52,7 +61,13 @@
 
 .progressDetails {
   row-gap: 20px;
+  /* border: 1px solid black; */
   padding-bottom: 20px;
+}
+
+.smallJournal .progressDetails {
+  /* border: 1px solid red; */
+  flex-direction: row;
 }
 
 .detail {
@@ -81,12 +96,28 @@
   font-size: 0.8rem;
 }
 
+.smallJournal .openJournalBtn {
+  width: 90%;
+}
+
 .journalBalance {
   /* border: 1px solid black; */
+  display: flex;
+  column-gap: 5px;
 }
 
 /* Chart */
 .chart {
   /* border: 1px solid black; */
   flex-grow: 2;
+}
+
+.profit {
+  font-weight: 800;
+  color: green;
+}
+
+.loss {
+  font-weight: 800;
+  color: red;
 }

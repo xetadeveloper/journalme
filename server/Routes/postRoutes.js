@@ -15,7 +15,9 @@ import userRoutes from './UserRoutes/userRoutes.js';
 
 // Middleware
 import { isLoggedIn } from '../Middlewares/middleware.js';
-import { errorTypes } from '../config.js';
+import { appMode, errorTypes } from '../config.js';
+import { dummyMail } from '../Database/dummyData.js';
+import { sendEmail } from '../Utility/MailSender/mailSend.js';
 
 const router = Router();
 
@@ -289,6 +291,37 @@ router.post('/logout', async (req, res) => {
     })
     .catch(err => {
       serverErrorFound(res, err, 'Error getting DB instance in logout');
+    });
+});
+
+// For sending contact us mails
+router.post('/contactusmail', async (req, res) => {
+  const data = appMode === 'prod' ? req.body : dummyMail;
+
+  // console.log('Sending Mail: ', data);
+
+  if (!Object.entries(data).length) {
+    emptyRequestBodyError(res);
+    return;
+  }
+
+  sendEmail(data)
+    .then(info => {
+      console.log('We successfully sent the mail: ', info);
+      res.status(200).json({
+        app: {
+          emailSent: true,
+        },
+      });
+    })
+    .catch(err => {
+      console.log('Error in email send route: ', err);
+      executionError(
+        res,
+        500,
+        errorTypes.servererror,
+        `Mail Was Not Sent: ${err}`
+      );
     });
 });
 

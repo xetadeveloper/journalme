@@ -34,8 +34,9 @@
 .divider {
   width: 100%;
   background-color: grey;
-  /* border: 1px solid grey; */
-  margin-bottom: 50px;
+  height: 1px;
+  margin: 10px 0 40px;
+  /* margin-bottom: 50px; */
 }
 
 .formBtnHolder {

@@ -1,0 +1,143 @@
+.container {
+  max-width: 1400px;
+  max-height: 1000px;
+  font-size: 1rem;
+  overflow: hidden;
+  /* border: 1px solid black; */
+}
+
+.headerContainer {
+  /* border: 1px solid black; */
+  background-image: url(../../Images/pexels-nataliya-vaitkevich-6120205.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+}
+
+.headerBody {
+  /* border: 1px solid black; */
+  row-gap: 30px;
+  height: 100%;
+  color: #464545;
+  font-weight: 800;
+  background-color: #ffffff52;
+}
+
+.headerBody > h1 {
+  text-align: center;
+  font-size: 3em;
+}
+
+.bodyHolder {
+  padding: 40px 20px;
+  /* max-height: 400px; */
+  flex-wrap: wrap;
+  column-gap: 40px;
+  row-gap: 40px;
+  margin: auto;
+  overflow: hidden;
+  /* border: 1px solid black; */
+}
+
+.text {
+  /* border: 1px solid black; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  align-items: center;
+  text-align: center;
+}
+
+.textHeader {
+  /* border: 1px solid black; */
+  text-align: center;
+  font-size: 1.5em;
+  position: relative;
+  left: -1000px;
+}
+
+.textBody {
+  /* border: 1px solid black; */
+  position: relative;
+  right: -1000px;
+  font-size: 0.9em;
+  max-width: 400px;
+  line-height: 23px;
+  padding: 20px;
+  background-color: #166cec;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0px 3px 20px 5px #8d8c8c;
+}
+
+.animBody .textHeader {
+  left: 0;
+  transition: left 1s ease-in-out;
+}
+
+.animBody .textBody {
+  right: 0;
+  transition: right 1s ease-in-out;
+}
+
+.textList {
+  list-style-type: disc;
+  list-style-position: inside;
+  row-gap: 20px;
+}
+
+/* Animations */
+.slideInRight {
+  right: 0;
+  transition: right 1s ease-in-out;
+}
+
+.slideInLeft {
+  left: 0;
+  transition: left 1s ease-in-out;
+}
+
+.unblur {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.blur {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    font-size: 0.8rem;
+  }
+
+  .bodyHolder {
+    max-height: 100%;
+  }
+
+  .text {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+    align-items: center;
+  }
+
+  .textHeader {
+    line-height: 25px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .textHeader {
+    margin-bottom: 30px;
+  }
+
+  .textBody {
+    font-size: 1.2em;
+  }
+
+  .text {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}

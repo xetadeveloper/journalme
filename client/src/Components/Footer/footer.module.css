@@ -1,0 +1,116 @@
+.container {
+  max-width: 1400px;
+  max-height: 1000px;
+  font-size: 1rem;
+  /* border: 1px solid black; */
+}
+
+.cta {
+  background-color: #166cec;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 5px white;
+  width: 200px;
+  text-align: center;
+  display: inline-block;
+}
+
+.cta:hover {
+  background-color: #242323;
+  color: white;
+}
+
+.ctaAlt {
+  background-color: white;
+  color: rgb(87, 87, 87);
+  box-shadow: 0 0 5px 1px #166cec;
+  border: 1px solid #166cec;
+  border-radius: 20px;
+  width: 300px;
+}
+
+.footerContainer {
+  min-height: 500px;
+  background-color: rgb(61, 61, 61);
+  color: white;
+  font-family: Arvo;
+  line-height: 30px;
+}
+
+.footerBody {
+  /* border: 1px solid white; */
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  padding: 40px 20px;
+  row-gap: 40px;
+}
+.footerList {
+  /* border: 1px solid white; */
+  flex-wrap: wrap;
+}
+
+.footerItem {
+  /* border: 1px solid white; */
+  flex: 1;
+  column-gap: 20px;
+  flex-flow: column wrap;
+  row-gap: 30px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  padding: 20px;
+}
+
+.footerItem > .ctaAlt {
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.footerItem > .ctaAlt:hover {
+  background-color: #166cec;
+  color: white;
+}
+
+.itemHeader {
+  text-align: center;
+  font-weight: 100;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  /* border: 1px solid white; */
+  text-underline-offset: 5px;
+}
+
+.socials {
+  column-gap: 60px;
+}
+
+.socialItem {
+  font-size: 1.2em;
+}
+
+.copyLogo > h4 {
+  font-size: 0.8em;
+  text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+  .container {
+    max-height: 100%;
+  }
+
+  .cta {
+    font-size: 1.4em;
+  }
+
+  .ctaAlt {
+    width: 200px;
+    font-size: 1.4em;
+  }
+
+  .footerItem > .ctaAlt {
+    font-size: 1.3em;
+  }
+}

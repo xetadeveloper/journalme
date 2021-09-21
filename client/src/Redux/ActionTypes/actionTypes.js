@@ -28,3 +28,4 @@ export const GET_JOURNAL_TRADES = 'GET_JOURNAL_TRADES';
 export const UPDATE_TRADE = 'UPDATE_TRADE';
 export const DELETE_TRADE = 'DELETE_TRADE';
 export const SHOW_ERROR = 'SHOW_ERROR';
+export const CONTACT_US_MAIL = 'CONTACT_US_MAIL';

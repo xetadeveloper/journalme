@@ -5,7 +5,7 @@ import { FaSpinner } from 'react-icons/fa';
 import style from '../modalStyle.module.css';
 
 export default function Loading(props) {
-  const { modalState, closeModal } = props;
+  const { modalState } = props;
 
   return (
     <div

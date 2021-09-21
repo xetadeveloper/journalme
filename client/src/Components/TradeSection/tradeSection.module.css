@@ -74,6 +74,10 @@
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .tradeDelete {
+    grid-template-columns: repeat(3, 1fr) 0.5fr;
+  }
+
   .tradeMonth {
     padding: 10px 5px 10px 10px;
   }

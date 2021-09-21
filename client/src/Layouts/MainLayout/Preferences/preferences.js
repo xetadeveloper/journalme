@@ -108,7 +108,7 @@ function Preferences(props) {
   }
 
   return (
-    <div className={`flex flex-col ${style.container}`}>
+    <div className={`flex flex-col container ${style.container}`}>
       <Modal modalState={modalState} setModalState={setModalState} />
 
       <div className={`${style.header}`}>

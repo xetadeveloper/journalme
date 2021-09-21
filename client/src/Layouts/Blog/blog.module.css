@@ -1,0 +1,160 @@
+.container {
+  max-width: 1400px;
+  /* max-height: 1000px; */
+  font-size: 1rem;
+  overflow: hidden;
+  margin: auto;
+  /* border: 1px solid black; */
+}
+
+.blogPage {
+  height: 100vh;
+  background-image: url(../../Images/kelly-sikkema-7hspi6m0yO4-unsplash.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* border: 1px solid black; */
+}
+
+.imgBlur{
+    height: 100%;
+    width: 100%;
+    background-color: #2525254f;
+}
+
+.blogHolder {
+  height: 100%;
+  column-gap: 70px;
+  color: white;
+  padding: 0 20px;
+}
+
+.textHolder {
+  /* border: 1px solid black; */
+  text-align: center;
+  row-gap: 30px;
+}
+.textHolder > h1 {
+  line-height: 40px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.downIcon {
+  display: none;
+}
+
+/* Form */
+.formContainer {
+  /* border: 1px solid black; */
+}
+
+.formHolder {
+  row-gap: 30px;
+  background-color: white;
+  /* border: 1px solid black; */
+  padding: 40px 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 5px rgb(68, 68, 68);
+}
+
+.formItem {
+  /* border: 1px solid black; */
+  color: black;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.formLabel {
+  /* border: 1px solid black; */
+  align-self: center;
+}
+
+.formInput {
+  /* border: 1px solid black; */
+  min-height: 40px;
+  min-width: 300px;
+  max-width: 200px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid grey;
+  font-family: Arvo;
+  font-size: 1em;
+  outline-color: #166cec;
+}
+
+.submitBtn {
+  border: 2px solid #166cec;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  font-family: Arvo;
+  font-size: 1em;
+  background-color: white;
+}
+
+.submitBtn:hover {
+  background-color: #166cec;
+  color: white;
+  box-shadow: 0 0 5px 2px rgb(68, 68, 68);
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .container {
+    font-size: 0.8rem;
+  }
+
+  .formInput {
+    min-width: 200px;
+  }
+
+  .submitBtn {
+    background-color: #166cec;
+    color: white;
+    box-shadow: 0 0 5px 2px rgb(68, 68, 68);
+  }
+
+  .formItem {
+    /* border: 1px solid black; */
+    grid-template-columns: 50px 1fr;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .blogHolder {
+    flex-direction: column;
+    row-gap: 40px;
+    padding: 0 10px;
+  }
+
+  .formContainer,
+  .formHolder {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .rightIcon {
+    display: none;
+  }
+
+  .downIcon {
+    display: initial;
+  }
+
+  hr {
+    display: block;
+  }
+
+  .downIcon {
+    display: initial;
+  }
+
+  .rightIcon {
+    display: none;
+  }
+}

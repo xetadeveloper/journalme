@@ -51,7 +51,10 @@ export default function MobileJournal(props) {
         {/* Journal Account Details */}
         <div className={` ${style.journalAcct}`}>
           <h4 className={style.journalBalance}>
-            Balance: <span>${balance} </span>
+            Balance:
+            <span className={`${balance >= 0 ? style.profit : style.loss}`}>
+              {balance >= 0 ? `$${balance}` : `-$${Math.abs(balance)}`}
+            </span>
           </h4>
           <div className={style.openJournalBtn}>
             <SmallButton

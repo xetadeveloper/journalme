@@ -17,6 +17,7 @@ import ContactUs from './Layouts/ContactUs/contactUs';
 import LoginContainer from './Layouts/LoginContainer/loginContainer';
 import NotFound from './Layouts/NotFound/notFound';
 import ComponentTest from './Layouts/ComponentTest/componentTest';
+import Blog from './Layouts/Blog/blog';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           )}
         />
         <Route path='/about' component={AboutUs} />
+        <Route path='/blog' component={Blog} />
         <Route path='/' exact component={LandingPage} />
         <Route component={NotFound} />
       </Switch>

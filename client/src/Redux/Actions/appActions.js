@@ -18,6 +18,7 @@ import {
   DELETE_JOURNAL,
   FETCH_PROFILE_PIC,
   UPLOAD_PROFILE_PIC,
+  CONTACT_US_MAIL,
 } from '../ActionTypes/actionTypes';
 
 export function loginUser(payload) {
@@ -211,30 +212,15 @@ export function updateJournal(payload) {
   };
 }
 
-export function uploadProfilePic(payload) {
-  console.log('upload profile pic payload: ', payload);
-  const apiKey = process.env.REACT_APP_IMGBB_API_KEY;
-  console.log('API Key: ', apiKey);
+export function sendContactUsEmail(payload) {
+  console.log('contact us email payload: ', payload);
 
   if (payload) {
-    payload.url = `https://api.imgbb.com/1/upload?key=735301767b85be18f78f23003b0c43b3`;
+    payload.url = `/api/contactusmail`;
   }
 
   return {
-    type: UPLOAD_PROFILE_PIC,
-    payload,
-  };
-}
-
-export function fetchProfilePic(payload) {
-  console.log('fetch profile pic payload: ', payload);
-
-  if (payload) {
-    payload.url = ``;
-  }
-
-  return {
-    type: FETCH_PROFILE_PIC,
+    type: CONTACT_US_MAIL,
     payload,
   };
 }

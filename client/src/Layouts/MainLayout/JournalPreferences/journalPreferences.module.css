@@ -91,6 +91,10 @@ select:disabled {
   padding: 0 30px;
 }
 
+.btnGroup > div {
+  font-size: 0.8rem;
+}
+
 .strategyHolder,
 .optionsHolder,
 .btnGroup {

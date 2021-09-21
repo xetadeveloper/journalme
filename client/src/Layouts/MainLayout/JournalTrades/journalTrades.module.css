@@ -1,8 +1,5 @@
 .container {
   /* border: 1px solid black; */
-  /* padding: 0 30px; */
-  /* position: relative; */
-  /* z-index: -9; */
 }
 
 .container::-webkit-scrollbar {
@@ -13,10 +10,9 @@
 .searchFab {
   height: 50px;
   width: 50px;
-  position: absolute;
-  /* font-size: 1.6rem; */
+  position: fixed;
   bottom: 0;
-  right: 0;
+  right: 10px;
 }
 
 .header {
@@ -196,6 +192,8 @@
 
 .options {
   /* border: 1px solid black; */
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 @media screen and (max-width: 768px) {

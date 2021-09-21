@@ -2,42 +2,44 @@ Server
 ------------
  Super Complex (2hrs+): 
     - Maybe implement time to live logic for backend session with a lastAccessed variable in the session object and a setTimeout
+    - Add auth using google, facebook nad the rest
+    - When they sign up do email verification
 
     Complex (1hr):
     - Find out why the app is crashing and not sending info to client after crash
+    - Add nodemailer for sending mail to  gmail
 
     Medium (30mins): 
     - Handle static files with middleware before deploying
-    - Make sure the user does not upload images larger than 300 x 300
+    - Make sure the user does not upload profile images larger than 300 x 300
     - Make sure there is transformation before saving user image in profileRoutes
+    - Have to make sure when starting capital is updated it shows in the journal balance
+    - Make sure user cannot change startingcapital to 0
 
     Easy(15mins): 
-    - Add save session field to preferences in the ER model
-    - Add profilePicURL to the validation model in DB and server
 
 
 Client:  
 ----------  
     Super Complex (2hrs+): 
-    - Implement landing page 
 
     Complex (1hr):
-    - implement useMemo for the depenedencies in login useEffect
-    - Find a way to make the chart rotate and stay on screen in mobile mode
+    - implement useMemo for the dependencies in login useEffect
     - Deal with printing responsive charts on resize of screen
     - Clean console logs
     - Make sure the browser gets the up to date pictures instead of old cached ones
+    - Seems like each journal will have it's own currency type
 
     Medium (30mins): 
     - Fix the showTradeList and CollapseTrades states in trade section
-    - Fix the currency thing so that the correct currency shows based on user preferences
-    - Make sure tradesize must not be more than balance of the journal in update or creation of trade
+    - Fix the currency thing so that the correct currency shows based on user preferences,
+      currency list is already in config.js
+    - Make the page go to the top when changing pages
 
     Easy(15mins): 
     - Add icons to the modals
-    - Create your own select component
+    - Create own select component
     - Fix the currency label by checking which of the currencies the user preferred
-    - Fix the fonts on som of the buttons
 
 
 

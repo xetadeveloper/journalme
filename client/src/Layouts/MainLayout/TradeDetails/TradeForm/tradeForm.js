@@ -4,7 +4,7 @@ import style from './tradeForm.module.css';
 
 export default function TradeForm(props) {
   const { editMode, formData, setformData, strategyList } = props;
-  const { tradeStatusList, createMode } = props;
+  const { tradeStatusList, createMode, journal, showError } = props;
 
   const { strategy, tradesize, tradeStatus, entryTime } = formData;
   const { exitDate, leverage, commission, comment } = formData;
@@ -45,7 +45,29 @@ export default function TradeForm(props) {
             type='number'
             value={tradesize.value}
             name='tradesize'
-            onChange={handleInputChange}
+            onChange={evt => {
+              const error = {
+                type: 'inputerror',
+                message: 'Trade size cannont be more/less than journal balance',
+                errorFields: [
+                  {
+                    field: 'tradesize',
+                  },
+                ],
+              };
+
+              if (evt.target.value > journal.balance) {
+                evt.target.value = journal.balance;
+                handleInputChange(evt);
+                showError(error);
+              } else if (evt.target.value < 0) {
+                evt.target.value = 0;
+                handleInputChange(evt);
+                showError(error);
+              } else {
+                handleInputChange(evt);
+              }
+            }}
             required={createMode}
           />
         </div>

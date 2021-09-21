@@ -11,9 +11,10 @@ import ToggleSwitch from '../../../Components/ToggleSwitch/toggleSwitch';
 import Journal from '../../../Components/Journal/journal';
 import Modal from '../../../Components/Modals/modal';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
+import { FiRefreshCcw } from 'react-icons/fi';
 
 export default function Home(props) {
-  const { orientation, journals, userTrades } = props;
+  const { orientation, journals, userTrades, handleGetUserInfo } = props;
   const { isMobile, isWideScreen } = orientation;
   // console.log('JournalInfo: ', journals);
 
@@ -88,18 +89,27 @@ export default function Home(props) {
     setFilteredJournals(filtered);
   }
 
+  // handles the refresh
+  function handleRefresh(evt) {
+    handleGetUserInfo();
+  }
+
   return (
     <section
       className={` flex flex-col justify-content-center ${style.container}`}>
       <Modal modalState={modalState} setModalState={setModalState} />
-      {
-        /* Search and Theme Switch */
-        !isMobile && !isWideScreen && (
-          <section
-            className={`flex align-items-center justify-content-between ${style.topBar}`}>
-            <div
-              className={`flex align-items-center justify-content-between ${style.toggleHolder}`}>
-              Hide Chart
+
+      {/* Search and Journal Style Switch */}
+      <section
+        className={`flex align-items-center justify-content-between ${style.topBar}`}>
+        {!isMobile && !isWideScreen && (
+          <div
+            className={`flex align-items-center justify-content-between ${style.firstNavItem}`}>
+            <div onClick={handleRefresh}>
+              <FiRefreshCcw className={`${style.refresh}`} />
+            </div>
+            <div className={`${style.toggleHolder}`}>
+              <h5>Hide Chart</h5>
               <div className={` ${style.toggleSwitch}`}>
                 <ToggleSwitch
                   toggleOn={showSmallJournal}
@@ -107,21 +117,25 @@ export default function Home(props) {
                 />
               </div>
             </div>
-            <NavLink
-              to={`${url}/createJournal`}
-              className={style.createJournalBtn}>
-              <SmallButton btnText='Create Journal' />
-            </NavLink>
-            <div className={style.searchField}>
-              <SearchBar
-                searchHandler={searchHandler}
-                searchText='Search Journals'
-              />
-            </div>
-          </section>
-        )
-      }
+          </div>
+        )}
 
+        {!isMobile && !isWideScreen && (
+          <NavLink
+            to={`${url}/createJournal`}
+            className={style.createJournalBtn}>
+            <SmallButton btnText='Create Journal' />
+          </NavLink>
+        )}
+
+        <div className={style.searchField}>
+          <SearchBar
+            searchHandler={searchHandler}
+            searchText='Search Journals'
+          />
+        </div>
+      </section>
+      
       {/* Body of the home */}
       {journals && journals.length ? (
         <section

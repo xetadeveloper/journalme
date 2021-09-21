@@ -35,6 +35,12 @@ export const dummyJournal = {
   winRate: 60,
 };
 
+export const dummyMail = {
+  email: 'jared@gmail.com',
+  message:
+    "Hi, I'm Jared, I'll like to know more about your services. \nEmail me sometime yeah",
+};
+
 export const dummyJournalUpdate = {
   journalID: 'f1dba1ed-9503-4262-b23a-4727d44ad740',
   journalName: 'Stroller Journals Test',

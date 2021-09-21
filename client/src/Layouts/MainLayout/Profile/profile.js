@@ -1,6 +1,5 @@
 // Modules
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 // Styles
 import style from './profile.module.css';
@@ -15,9 +14,7 @@ import PagePrompt from '../../../Components/PagePrompt/pagePrompt';
 import { connect } from 'react-redux';
 import {
   deleteUser,
-  fetchProfilePic,
   updateProfile,
-  uploadProfilePic,
 } from '../../../Redux/Actions/appActions';
 import {
   resetDataDeletedFlag,
@@ -33,7 +30,6 @@ function Profile(props) {
   // Redux Props
   const { updateProfile, deleteUser, isDeleted, isUpdated } = props;
   const { resetDataUpdatedFlag, resetDataDeletedFlag } = props;
-  const { fetchProfilePic } = props;
 
   const { username, email, firstname, lastname, userPic } = userInfo || {};
   const { picURL } = userPic || {};
@@ -206,7 +202,7 @@ function Profile(props) {
 
   return (
     <section
-      className={`${style.container} 
+      className={`container ${style.container} 
       ${(isMobile || isTablet) && style.smallContainer}`}>
       <Modal
         isLoggedIn={isLoggedIn}
@@ -388,14 +384,6 @@ function mapDispatchToProps(dispatch) {
           headers: {
             'Content-Type': 'application/json',
           },
-        })
-      ),
-
-    fetchProfilePic: () =>
-      dispatch(
-        fetchProfilePic({
-          profileMiddleware: true,
-          method: 'GET',
         })
       ),
 

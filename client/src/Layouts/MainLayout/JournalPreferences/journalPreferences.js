@@ -12,7 +12,7 @@ import { resetDataUpdatedFlag } from '../../../Redux/Actions/flagActions';
 import style from './journalPreferences.module.css';
 
 function JournalPreferences(props) {
-  const { userInfo , orientation} = props;
+  const { userInfo, orientation } = props;
 
   // Redux Props
   const { resetDataUpdatedFlag, updatePreferences, isUpdated } = props;
@@ -172,7 +172,7 @@ function JournalPreferences(props) {
   }
 
   return (
-    <section className={`${style.container}`}>
+    <section className={`container ${style.container}`}>
       <Modal modalState={modalState} setModalState={setModalState} />
       <PagePrompt
         show={editMode}
@@ -194,7 +194,8 @@ function JournalPreferences(props) {
       </header>
       <hr></hr>
       <div
-        className={`flex justify-content-center align-items-center ${style.strategyHolder}`}>
+        className={`flex flex-col justify-content-center align-items-center ${style.strategyHolder} ${style.optionItem}`}>
+        <h4>Trading Strategies</h4>
         <ul className={`flex flex-col ${style.strategyList}`}>
           {strategies && renderListItems(strategies)}
           {editMode && (

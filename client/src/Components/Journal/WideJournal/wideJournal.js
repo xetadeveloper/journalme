@@ -20,7 +20,7 @@ export default function WideJournal(props) {
           ${showSmallJournal && style.smallJournal}`}>
       {/* Journal Info */}
       <h3 className={`${style.nameDetail}`}>{journalName}</h3>
-      <div className={`flex`}>
+      <div className={`flex ${style.detailHolder}`}>
         <div
           className={`flex flex-col align-items-center ${style.journalInfo}`}>
           <div className={`flex flex-col ${style.journalDetails}`}>
@@ -61,7 +61,12 @@ export default function WideJournal(props) {
         {/* Journal Account Details */}
         <div
           className={`flex flex-col align-items-center ${style.journalAcct}`}>
-          <h4 className={style.journalBalance}>Balance: ${balance}</h4>
+          <h4 className={style.journalBalance}>
+            Balance:
+            <span className={`${balance >= 0 ? style.profit : style.loss}`}>
+              {balance >= 0 ? `$${balance}` : `-$${Math.abs(balance)}`}
+            </span>
+          </h4>
           <div className={style.openJournalBtn}>
             <SmallButton
               btnType='button'

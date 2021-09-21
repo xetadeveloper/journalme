@@ -1,15 +1,334 @@
 .container {
+  max-width: 1400px;
+  max-height: 1000px;
+  font-size: 1rem;
+  overflow: hidden;
   /* border: 1px solid black; */
 }
 
-.navbar {
+.content {
   /* border: 1px solid black; */
-  padding: 10px 20px;
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127258/journalMe/siteImages/landingHeader.jpg);
+  background-image: url('../../Images/sergey-zolkin-E0Spm6XXn2Y-unsplash.jpg');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  max-height: 1000px;
 }
 
-.navlist {
+.hero {
+  flex-grow: 2;
+  position: relative;
+  margin: auto;
+}
+
+.contentHeader {
   /* border: 1px solid black; */
+  color: white;
+  text-shadow: 2px 2px #166cec;
+  padding: 10px;
+  row-gap: 30px;
+}
+
+.textHeader {
+  /* border: 1px solid black; */
+  font-size: 5em;
+  line-height: 50px;
+}
+
+.contentHeader > h3 {
+  color: white;
+  /* text-shadow: none; */
+}
+
+.journalBtn {
+  position: absolute;
+  bottom: 80px;
+}
+
+.cta {
+  background-color: #166cec;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 5px white;
+  width: 200px;
+  text-align: center;
+  display: inline-block;
+}
+
+.cta:hover {
+  background-color: #242323;
+  color: white;
+}
+
+.ctaAlt {
+  background-color: white;
+  color: rgb(87, 87, 87);
+  box-shadow: 0 0 5px 1px #166cec;
+  border: 1px solid #166cec;
+  border-radius: 20px;
+  width: 300px;
+}
+
+.mainContent {
+  /* border: 1px solid black; */
+}
+
+.cardHolder {
+  /* border: 1px solid black; */
+  justify-content: space-around;
+  padding: 60px 20px;
+  flex-wrap: wrap;
+  row-gap: 30px;
+  margin: auto;
+}
+
+.cardInfo {
+  /* border: 1px solid black; */
+  height: 300px;
+  width: 300px;
+  text-align: center;
+  padding: 30px 10px;
+  border-radius: 7px;
+  box-shadow: 0 0 10px 3px rgb(109, 108, 108);
+  line-height: 25px;
+  opacity: 0;
+}
+
+.cardInfoLeft {
+  opacity: 1;
+  position: relative;
+  left: -1000px;
+}
+
+.cardInfoRight {
+  opacity: 1;
+  position: relative;
+  right: -1000px;
+}
+
+.cardInfo:hover {
+  /* background-color: #166cec; */
+  /* color: #166cec; */
+  cursor: pointer;
+}
+
+.noCardAnim {
+  position: static;
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.cardHeader {
+  /* border: 1px solid black; */
+}
+
+.cardBody {
+  /* border: 1px solid black; */
+}
+
+.cardIcon {
+  /* border: 1px solid black; */
+  font-size: 5em;
+}
+
+.cardFooter {
+  /* border: 1px solid black; */
+  font-size: 0.8em;
+}
+
+.tradingStyle {
+  /* background-color: black; */
+  color: white;
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
+  background-image: url(../../Images/pexels-brian-ngali-4913817.jpg);
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  max-height: 1000px;
+}
+
+.styleHolder {
+  width: 100%;
+  height: 100%;
+  margin: auto;
   column-gap: 20px;
 }
 
+.styleHeader {
+  /* border: 1px solid white; */
+  font-size: 6em;
+  width: 300px;
+  position: relative;
+  left: -1000px;
+}
 
+.tradingInfo {
+  column-gap: 60px;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.226);
+  width: 100%;
+  height: 100%;
+  font-weight: 800;
+  /* border: 1px solid white; */
+}
+
+.tradingDetails {
+  /* border: 1px solid white; */
+  text-align: center;
+  row-gap: 20px;
+  position: relative;
+}
+
+.tradingDetails > h1 {
+  /* border: 1px solid white; */
+}
+
+.pointsList {
+  /* border: 1px solid white; */
+  max-width: 400px;
+  text-align: start;
+  row-gap: 20px;
+  background-color: #0000004f;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px 3px #d6d6d6;
+  position: relative;
+  right: -1000px;
+}
+
+.points {
+  /* font-weight: 800; */
+  max-width: 500px;
+  line-height: 30px;
+  align-self: flex-start;
+  font-size: 0.9em;
+  /* border: 1px solid white; */
+}
+
+.blogHolder {
+  height: 400px;
+  border: 1px solid black;
+}
+
+.blog {
+  height: 100%;
+  border: 1px solid black;
+  margin: auto;
+  flex-flow: row wrap;
+}
+
+.blogInfo {
+  color: white;
+  padding: 10px;
+}
+
+.blogBtnHolder {
+  padding: 10px;
+  border: 1px solid black;
+  flex: 2;
+}
+
+.signupHolder {
+  height: 400px;
+  /* border: 1px solid black; */
+}
+
+.signup {
+  height: 100%;
+  /* border: 1px solid black; */
+  margin: auto;
+  flex-flow: row wrap;
+}
+
+.signUpInfo {
+  /* border: 1px solid black; */
+  row-gap: 50px;
+}
+
+/* Animations */
+.slideInRight {
+  right: 0;
+  transition: right 1s ease-in-out;
+}
+
+.slideInLeft {
+  left: 0;
+  transition: left 1s ease-in-out;
+}
+
+.unblur {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+.blur {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .container {
+    font-size: 0.7rem;
+  }
+
+  .points {
+    /* font-weight: 800; */
+    font-size: 1.2em;
+    /* border: 1px solid white; */
+  }
+
+  .cardInfo {
+    /* border: 1px solid black; */
+    height: 200px;
+    width: 200px;
+    padding: 20px 8px;
+  }
+
+  .cardFooter {
+    font-size: 1.1em;
+    padding: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .container {
+    max-height: 100%;
+  }
+
+  .tradingInfo {
+    padding: 50px 10px;
+  }
+
+  .textHeader {
+    font-size: 4em;
+  }
+
+  .styleHolder {
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 50px;
+  }
+
+  .styleHeader {
+    /* border: 1px solid black; */
+    font-size: 4.5em;
+    text-align: center;
+  }
+
+  .tradingDetails > h1 {
+    font-size: 2em;
+  }
+
+  .cta {
+    font-size: 1.4em;
+  }
+
+  .ctaAlt {
+    width: 200px;
+    font-size: 1.4em;
+  }
+}

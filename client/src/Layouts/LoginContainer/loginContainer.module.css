@@ -1,10 +1,18 @@
 .loginContainer {
   /* border: 1px solid black; */
-  height: 100vh;
   color: white;
   background-image: url('../../Images/pexels-lorenzo-241544.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
+}
+
+.container{
+  /* border: 1px solid white; */
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  max-width: 1400px;
 }
 
 .logoHolder {
@@ -24,6 +32,46 @@
   cursor: default;
 }
 
+.loginButtonHolder {
+  display: none;
+  /* border: 1px solid white; */
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginButton {
+  height: 40px;
+  width: 40px;
+  animation: growShrink 1.5s ease-in infinite;
+}
+
+@keyframes growShrink {
+  0% {
+    height: 40px;
+    width: 40px;
+  }
+
+  50% {
+    height: 50px;
+    width: 50px;
+  }
+
+  100% {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+.loginIcon {
+  font-size: 1.3rem;
+}
+
+.closeForm {
+  display: none;
+}
+
 .formContainer {
   /* border: 1px solid black; */
   flex-grow: 2;
@@ -34,7 +82,6 @@
 .form {
   /* border: 1px solid black; */
   background-color: white;
-  /* width: 400px; */
   row-gap: 30px;
   padding: 30px 30px;
   border-radius: 8px;
@@ -47,11 +94,13 @@
   column-gap: 10px;
   text-align: end;
   align-items: center;
+  font-size: inherit;
   /* border: 1px solid black; */
 }
 
 .formLabel {
   /* border: 1px solid black; */
+  font-size: inherit;
 }
 
 .formInput {
@@ -96,4 +145,52 @@
 
 .journalLink {
   font-size: 0.8rem;
+}
+
+@media screen and (max-width: 768px) {
+  .logoText {
+    font-size: 4rem;
+    color: #fdfcfc;
+  }
+
+  .formContainer {
+    /* border: 1px solid black; */
+    flex-grow: 1;
+  }
+
+  .form {
+    max-width: 300px;
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .formContainer {
+    max-width: 0;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    /* background-color: #ffffff3a; */
+    transition: max-width 0.3s ease-in-out;
+  }
+
+  .showForm {
+    max-width: 100%;
+    transition: max-width 0.3s ease-in-out;
+  }
+
+  .closeForm {
+    display: initial;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 1.4rem;
+  }
+
+  .loginButtonHolder {
+    display: flex;
+  }
 }

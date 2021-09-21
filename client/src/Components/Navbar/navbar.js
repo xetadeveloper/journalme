@@ -16,23 +16,23 @@ export default function Navbar(props) {
   const { navItemsList, handleCreateTrade, orientation } = props;
   const { isWideScreen, isMobile } = orientation;
 
-  const history = useHistory();
-
   return (
     <nav
       className={`flex justify-content-center align-items-center ${style.container}`}>
       <div
         className={`flex justify-content-between align-items-center ${style.navContent}`}>
-        <Link to='#'>
+        <Link to='/'>
           <h2 className={`logo`}>JournalMe </h2>
         </Link>
 
         {/* Create Trade */}
-        <div className={` ${style.userBtn}`} onClick={handleCreateTrade}>
-          <RoundButton>
-            <FiPlus className={style.userIcon} />
-          </RoundButton>
-        </div>
+        {isMobile && (
+          <div className={`${style.userBtn}`} onClick={handleCreateTrade}>
+            <RoundButton>
+              <FiPlus className={style.userIcon} />
+            </RoundButton>
+          </div>
+        )}
 
         {/* Navigation */}
         <div

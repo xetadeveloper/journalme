@@ -296,10 +296,18 @@ p {
 .logo {
   font-family: Pacifico, Arvo, Georgia;
   font-size: 1.5625rem;
+  cursor: pointer;
 }
 
 .logo:hover {
-  color: initial;
+  color: rgb(34, 34, 34);
+}
+
+.container {
+  max-width: 1400px;
+  max-height: 1000px;
+  font-size: 1rem;
+  margin: auto;
 }
 
 /* Media Queries */

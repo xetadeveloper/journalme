@@ -39,7 +39,7 @@ function MainLayout(props) {
 
   const orientation = { isMobile, isTablet, isWideScreen };
 
-  // Props
+  // Redux Props
   const { isLoggedIn, userInfo, getUserInfo, showError } = props;
   const { journalTrades, isError, error, resetErrorFlag } = props;
   const { resetSessionRestored, reopenLastSession, isSessionRestored } = props;
@@ -50,7 +50,7 @@ function MainLayout(props) {
   const [slidingModals, setSlidingModals] = useState([]);
   const [modalState, setModalState] = useState({ show: false });
 
-  const { username, journals, firstname, preferences, _id } = userInfo || {};
+  const { username, journals, firstname, preferences } = userInfo || {};
   const { strategies } = preferences || {};
   const { path } = useRouteMatch();
   const history = useHistory();
@@ -187,6 +187,12 @@ function MainLayout(props) {
     });
   }
 
+  function handleGetUserInfo() {
+    if (username) {
+      getUserInfo(username);
+    }
+  }
+
   return (
     <div
       className={`flex 
@@ -236,7 +242,7 @@ function MainLayout(props) {
                 orientation={orientation}
                 journalTrades={journalTrades}
                 strategies={strategies}
-                username={username}
+                userInfo={userInfo}
               />
             )}
           />
@@ -341,7 +347,7 @@ function MainLayout(props) {
                 orientation={orientation}
                 journalTrades={journalTrades}
                 strategies={strategies}
-                username={username}
+                userInfo={userInfo}
               />
             )}
           />
@@ -355,6 +361,7 @@ function MainLayout(props) {
                 orientation={orientation}
                 journals={journals}
                 userTrades={userTrades}
+                handleGetUserInfo={handleGetUserInfo}
               />
             )}
           />
@@ -368,7 +375,7 @@ function mapStateToProps(state) {
   // console.log('State: ', state);
   const { isLoggedIn, userInfo, journalTrades, error } = state.app;
   const { recentTrades, userTrades } = state.app;
-  const { isError, isSessionRestored, loginRedirect, isUpdated } = state.flags;
+  const { isError, isSessionRestored, loginRedirect } = state.flags;
 
   return {
     isLoggedIn,

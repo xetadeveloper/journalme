@@ -1,14 +1,15 @@
 // Modules
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getJournalTrades } from '../../../Redux/Actions/appActions';
 
 // Styles
 import style from './tradeAnalysis.module.css';
 
 // Components
 import TradeChart from '../../../Components/TradeChart/tradeChart';
-import { getJournalTrades } from '../../../Redux/Actions/appActions';
-import { connect } from 'react-redux';
+import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
 
 function TradeAnalysis(props) {
   const { userInfo, orientation, journalTrades } = props;
@@ -18,6 +19,7 @@ function TradeAnalysis(props) {
 
   const { trades, tradesNotFound } = journalTrades || {};
   const { username, journals } = userInfo;
+  const { isMobile } = orientation;
 
   //   console.log('Journal Trades: ', journalTrades);
 
@@ -29,6 +31,9 @@ function TradeAnalysis(props) {
     journal || {};
 
   const [chartData, setChartData] = useState({});
+  const [showFullScreen, setShowFullScreen] = useState(false);
+
+  const chartRef = useRef();
 
   // This retrieves trades from the database
   useEffect(() => {
@@ -74,25 +79,59 @@ function TradeAnalysis(props) {
     setChartData(data);
   }, [journalTrades]);
 
+  // This handles the analysis viewing
+  function handleViewAnalysis(evt) {
+    if (!document.fullscreenElement) {
+      chartRef.current
+        .requestFullscreen()
+        .then(() => {
+          setShowFullScreen(true);
+        })
+        .catch(err => alert('Attempt to go fullscreen aborted: ', err));
+    } else {
+      setShowFullScreen(false);
+      document.exitFullscreen();
+    }
+  }
+
   return (
-    <div className={`${style.container}`}>
+    <div className={`container ${style.container}`}>
+      {/* Chart */}
       <section
+        ref={chartRef}
         className={`flex flex-col justify-content-center align-items-center ${style.chartContainer}`}>
-        <TradeChart
-          chartData={chartData}
-          chartOptions={{
-            wheelEnabled: true,
-            panEnabled: true,
-            pinchEnabled: true,
-            showControls: true,
-            chartTitle: {
-              chartName: `${journalName} Analysis`,
-              font: { size: 23, family: 'Arvo' },
-            },
-          }}
-        />
+        {isMobile && (
+          <div>
+            <SmallButton
+              btnText={`${showFullScreen ? 'Exit' : 'View'} Trades Analysis`}
+              clickHandler={handleViewAnalysis}
+            />
+          </div>
+        )}
+
+        {isMobile && showFullScreen && (
+          <h4>Please Rotate Your Device To View Analysis</h4>
+        )}
+
+        {!isMobile && (
+          <TradeChart
+            chartData={chartData}
+            chartOptions={{
+              wheelEnabled: true,
+              panEnabled: true,
+              pinchEnabled: true,
+              showControls: true,
+              chartTitle: {
+                chartName: `${journalName} Analysis`,
+                font: { size: 23, family: 'Arvo' },
+              },
+            }}
+          />
+        )}
       </section>
-      <hr></hr>
+      {(!isMobile || showFullScreen) && <hr></hr>}
+
+      {/* Journal Details */}
       <div
         className={`flex flex-col justify-content-center align-items-center ${style.analysis}`}>
         <h2>Journal Trades Analysis</h2>

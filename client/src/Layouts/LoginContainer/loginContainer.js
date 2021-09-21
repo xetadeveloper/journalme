@@ -7,12 +7,16 @@ import style from './loginContainer.module.css';
 import { connect } from 'react-redux';
 import { loginUser, signupUser } from '../../Redux/Actions/appActions';
 import { resetErrorFlag } from '../../Redux/Actions/flagActions';
-import Login from './Login/login';
-import Logout from './Logout/logout';
 import { errorTypes } from '../../config';
 import { reopenLastSession } from '../../Redux/Actions/httpActions';
 import { resetSessionRestored } from '../../Redux/Actions/flagActions';
 import { useHistory } from 'react-router-dom';
+
+// Components
+import Login from './Login/login';
+import Logout from './Logout/logout';
+import RoundButton from '../../Components/Buttons/RoundButton/roundButton';
+import { FiLogIn, FiLogOut, FiX } from 'react-icons/fi';
 
 function LoginContainer(props) {
   const { isError, error, loginUser, signupUser, reopenLastSession } = props;
@@ -34,6 +38,7 @@ function LoginContainer(props) {
   const [formData, setFormData] = useState(initialFormData);
   const [errorFields, setErrorFields] = useState(initialFormData);
   const [showSignUpForm, setShowSignUpForm] = useState(false);
+  const [showMobileForm, setShowMobileForm] = useState(false);
 
   // Handles reopeoning last session
   useEffect(() => {
@@ -105,30 +110,53 @@ function LoginContainer(props) {
 
   return (
     <div className={`flex ${style.loginContainer}`}>
-      {/* <h2>Login</h2> */}
-      <div
-        className={`flex flex-col justify-content-center align-items-center ${style.logoHolder}`}>
-        <h1 className={`logo ${style.logoText}`}>JournalMe</h1>
-        <h3>Journal For The Professional Trader</h3>
-      </div>
-      <div
-        className={`flex flex-col justify-content-center align-items-center ${style.formContainer}`}>
-        {
-          /* Add autocomplete to form */
-          logout ? (
-            <Logout user={username} />
-          ) : (
-            <Login
-              handleSubmit={handleSubmit}
-              handleInputChange={handleInputChange}
-              errorFields={errorFields}
-              showSignUpForm={showSignUpForm}
-              setShowSignUpForm={setShowSignUpForm}
-              isLoggedIn={isLoggedIn}
-              username={username}
-            />
-          )
-        }
+      <div className={`flex ${style.container}`}>
+        <div
+          className={`flex flex-col justify-content-center align-items-center ${style.logoHolder}`}>
+          <h1 className={`logo ${style.logoText}`}>JournalMe</h1>
+          <h3>Journal For The Professional Trader</h3>
+          <div className={`${style.loginButtonHolder}`}>
+            <div
+              className={`${style.loginButton}`}
+              onClick={() => {
+                setShowMobileForm(prev => !prev);
+              }}>
+              <RoundButton>
+                {logout ? (
+                  <FiLogOut className={`${style.loginIcon}`} />
+                ) : (
+                  <FiLogIn className={`${style.loginIcon}`} />
+                )}
+              </RoundButton>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`flex flex-col justify-content-center align-items-center 
+        ${style.formContainer} ${showMobileForm && style.showForm}`}>
+          <FiX
+            className={`icon ${style.closeForm}`}
+            onClick={() => {
+              setShowMobileForm(false);
+            }}
+          />
+          {
+            /* Add autocomplete to form */
+            logout ? (
+              <Logout user={username} />
+            ) : (
+              <Login
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                errorFields={errorFields}
+                showSignUpForm={showSignUpForm}
+                setShowSignUpForm={setShowSignUpForm}
+                isLoggedIn={isLoggedIn}
+                username={username}
+              />
+            )
+          }
+        </div>
       </div>
     </div>
   );

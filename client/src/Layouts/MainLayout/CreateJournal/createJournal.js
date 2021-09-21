@@ -8,7 +8,6 @@ import Modal from '../../../Components/Modals/modal';
 import PagePrompt from '../../../Components/PagePrompt/pagePrompt';
 
 // Hooks
-import { useCreateDateRanges } from '../../../Custom Hooks/customHooks';
 import {
   createJournal,
   deleteJournal,
@@ -23,7 +22,7 @@ import {
 import style from './createJournal.module.css';
 
 function CreateJournal(props) {
-  const { userInfo, orientation } = props;
+  const { userInfo } = props;
   const { username, journals } = userInfo;
 
   // Redux Props
@@ -38,11 +37,19 @@ function CreateJournal(props) {
   const editMode = new URLSearchParams(search).get('editmode');
   const journalID = new URLSearchParams(search).get('journalID');
 
+  // Get journal data
+  const journal =
+    journals && journals.find(journal => journal.journalID === journalID);
+
+  const { journalName, journalDesc, market, startCapital } = journal || {};
+
+  // console.log('Journal: ', journal);
+
   let initialForm = {
-    journalName: '',
-    journalDesc: '',
-    market: '',
-    startCapital: '',
+    journalName: journalName || '',
+    journalDesc: journalDesc || '',
+    market: market || '',
+    startCapital: startCapital || '',
   };
 
   // States
@@ -94,17 +101,11 @@ function CreateJournal(props) {
   // Handles retrieval of journal info
   useEffect(() => {
     if (editMode) {
-      // Get journal data
-      const journal =
-        journals && journals.find(journal => journal.journalID === journalID);
-
-      const { journalName, journalDesc, market, startCapital } = journal || {};
-
       setFormData({
-        journalName,
-        journalDesc,
-        market,
-        startCapital,
+        journalName: journalName || '',
+        journalDesc: journalDesc || '',
+        market: market || '',
+        startCapital: startCapital || '',
       });
     }
   }, [editMode, journals]);
@@ -126,8 +127,8 @@ function CreateJournal(props) {
     evt.preventDefault();
     formData.market = formData.market.toUpperCase();
 
-    console.log('Form to send: ', formData);
-
+    // console.log('Form to send: ', formData);
+    setEditJournal(false);
     createJournal(username, formData);
   }
 
@@ -168,7 +169,10 @@ function CreateJournal(props) {
     const journal =
       journals && journals.find(journal => journal.journalID === journalID);
 
-    const { journalName, journalDesc, market, startCapital } = journal || {};
+    const { journalName, journalDesc, market, startCapital, balance } =
+      journal || {};
+
+    // console.log('Balance: ', balance);
 
     const initialData = { journalName, journalDesc, market, startCapital };
 
@@ -180,21 +184,51 @@ function CreateJournal(props) {
     }
 
     fetchBody.journalID = journalID;
-    // console.log('Initial Form Data: ', initialData);
+    if (fetchBody.market) {
+      fetchBody.market = fetchBody.market.toUpperCase();
+    }
 
-    // console.log('Data to be updated: ', fetchBody);
+    if (fetchBody.startCapital) {
+      fetchBody.oldStartCapital = initialData.startCapital;
+      fetchBody.oldBalance = balance;
+    }
+    console.log('Initial Form Data: ', initialData);
+
+    console.log('Data to be updated: ', fetchBody);
 
     updateJournal(username, fetchBody);
   }
 
+  // For confirming if user wants to cancel editing
+  function confirmEditCancel() {
+    setModalState({
+      show: true,
+      type: 'confirm',
+      message: 'Cancel Editing',
+      actionHandler: () => {
+        setEditJournal(false);
+        if (journals) {
+          setFormData({
+            journalName,
+            journalDesc,
+            market,
+            startCapital,
+          });
+        }
+        setModalState({ show: false });
+      },
+    });
+  }
+
   return (
-    <section className={`${style.container}`}>
+    <section className={`container ${style.container}`}>
       <Modal modalState={modalState} setModalState={setModalState} />
       <PagePrompt
         show={editJournal}
         message={`Cancel Journal ${editMode ? 'Editing' : 'Creation'}?`}
       />
 
+      {/* Header */}
       <header
         className={`flex justify-content-between align-items-center ${style.pageHeader}`}>
         <h2>{editMode ? `${formData.journalName}` : 'Create Journal'}</h2>
@@ -203,7 +237,11 @@ function CreateJournal(props) {
             <FiSettings
               className={`icon ${editJournal && style.editBtn}`}
               onClick={() => {
-                setEditJournal(prev => !prev);
+                if (editJournal) {
+                  confirmEditCancel();
+                } else {
+                  setEditJournal(true);
+                }
               }}
             />
             <FiTrash2
@@ -213,7 +251,9 @@ function CreateJournal(props) {
           </div>
         )}
       </header>
-      <hr></hr>
+
+      {/* <hr></hr> */}
+      <div className={`${style.divider}`}></div>
 
       <form>
         <div className={`${style.formHolder}`}>
@@ -280,17 +320,14 @@ function CreateJournal(props) {
         </div>
         {editJournal && (
           <div className={`flex justify-content-between ${style.btnGroup}`}>
-            <div>
+            <div className={`${style.btn}`}>
               <SmallButton
                 btnText={`${editMode ? 'Update' : 'Create'} Journal`}
                 clickHandler={editMode ? updateHandler : addJournal}
               />
             </div>
-            <div>
-              <SmallButton
-                btnText={`Cancel ${editMode ? 'Edit' : 'Creation'}`}
-                clickHandler={cancelCreate}
-              />
+            <div className={`${style.btn}`}>
+              <SmallButton btnText='Cancel' clickHandler={cancelCreate} />
             </div>
           </div>
         )}

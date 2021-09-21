@@ -25,6 +25,7 @@ export function updateFlagState(payload) {
 }
 
 export function resetSessionRestored(payload) {
+  console.log('Called reset session flag action');
   return {
     type: RESET_SESSION_RESTORED,
     payload,
