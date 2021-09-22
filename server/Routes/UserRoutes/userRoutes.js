@@ -741,7 +741,7 @@ router.post('/deleteTrade', async (req, res) => {
 router.post('/createTrade', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyTrade;
 
-  // console.log('Creating Trade: ', data);
+  console.log('Creating Trade: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -760,7 +760,7 @@ router.post('/createTrade', async (req, res) => {
 
       trade.userID = req.session.userID;
 
-      // console.log('Trade to be inserted: ', trade);
+      console.log('Trade to be inserted: ', trade);
       tradesCollection
         .insertOne(trade)
         .then(result => {

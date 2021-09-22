@@ -147,7 +147,7 @@ function JournalPreferences(props) {
         },
       ],
       actionHandler: (evt, formData) => {
-        console.log('Form Data: ', formData);
+        // console.log('Form Data: ', formData);
 
         // Add strategy name to list
         setStrategyList(prev => {
@@ -183,7 +183,7 @@ function JournalPreferences(props) {
     }
 
     // Send data
-    console.log('Pref data: ', prefData);
+    // console.log('Pref data: ', prefData);
     updatePreferences(username, prefData);
   }
 

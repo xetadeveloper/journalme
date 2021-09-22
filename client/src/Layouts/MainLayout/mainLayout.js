@@ -78,7 +78,7 @@ function MainLayout(props) {
   // Use an effect to deal with error here
   useEffect(() => {
     if (isError) {
-      console.log('Error Occured: ', error);
+      // console.log('Error Occured: ', error);
       addErrorModal(error.message);
       resetErrorFlag();
     }

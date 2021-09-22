@@ -234,7 +234,7 @@ function TradeDetails(props) {
 
     const tradeData = {};
 
-    console.log('Data to be sent: ', formData);
+    // console.log('Data to be sent: ', formData);
 
     for (let prop in formData) {
       if (formData[prop].required && !formData[prop].value) {
@@ -256,13 +256,13 @@ function TradeDetails(props) {
     }
 
     if (sendData) {
-      console.log('Journal ID: ', journalID);
+      // console.log('Journal ID: ', journalID);
       tradeData.journalID = journalID;
       if (tradeData.tradeStatus === 'Lost') {
         tradeData.pl = 0 - tradeData.pl;
       }
 
-      console.log('Sending form: ', tradeData);
+      // console.log('Sending form: ', tradeData);
       createTrade(username, tradeData);
     }
   }

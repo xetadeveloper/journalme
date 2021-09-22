@@ -128,7 +128,6 @@ const tradesSchema = {
       required: [
         'journalID',
         'userID',
-        'capital',
         'tradesize',
         'strategy',
         'entryTime',
@@ -167,7 +166,7 @@ const tradesSchema = {
           bsonType: 'date',
         },
         tradeStatus: {
-          enum: ['Win', 'Lost'],
+          enum: ['Won', 'Lost'],
         },
         leverage: {
           bsonType: 'int',
