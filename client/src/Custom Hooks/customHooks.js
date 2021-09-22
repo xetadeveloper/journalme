@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTrade, sendContactUsEmail } from '../Redux/Actions/appActions';
+import {
+  deleteTrade,
+  sendContactUsEmail,
+  showError,
+} from '../Redux/Actions/appActions';
 import { monthsArray } from '../config';
 import TradeSection from '../Components/TradeSection/tradeSection';
 import { useEffect, useState } from 'react';
@@ -9,6 +13,7 @@ import {
 } from '../Redux/Actions/flagActions';
 import { useHistory } from 'react-router-dom';
 import { reopenLastSession } from '../Redux/Actions/httpActions';
+import SlidingModal from '../Components/SlidingModal/slidingModal';
 
 // Hook for deleting trades
 export function useDeleteTrade(username, journalID, setModalState) {
@@ -85,7 +90,7 @@ export function useCreateDateRanges(props) {
 }
 
 // Hook for restoring user session
-export function useSessionReset() {
+export function useReopenSession() {
   const dispatch = useDispatch();
 
   const [changeNavbar, setChangeNavbar] = useState(false);
@@ -107,7 +112,7 @@ export function useSessionReset() {
   // Handles the reopening of last saved session
   useEffect(() => {
     if (!isLoggedIn) {
-      console.log('Restoring session');
+      // console.log('Restoring session');
       dispatch(reopenLastSession({ httpMiddleware: true, method: 'GET' }));
     }
   }, [isLoggedIn, reopenLastSession]);
@@ -115,7 +120,7 @@ export function useSessionReset() {
   // Handles reset rflag actions
   useEffect(() => {
     if (isSessionRestored) {
-      console.log('Session Restored ...');
+      // console.log('Session Restored ...');
       dispatch(resetSessionRestored());
     }
   }, [isSessionRestored, history, userInfo.username, resetSessionRestored]);
@@ -181,4 +186,45 @@ export function useSendMail() {
       })
     );
   };
+}
+
+// Hook to dispatch errors
+export function useShowError() {
+  const dispatch = useDispatch();
+  return function (error) {
+    dispatch(showError(error));
+  };
+}
+
+// Hook to create sliding error modals
+export function useCreateSlidingModals() {
+  const [slidingModals, setSlidingModals] = useState([]);
+
+  function addErrorModal(errorMsg) {
+    setSlidingModals(prev => [
+      ...prev,
+      {
+        slidingState: {
+          show: true,
+          message: errorMsg,
+        },
+      },
+    ]);
+  }
+
+  const modalComp = slidingModals.map((modalState, index) => {
+    const { slidingState } = modalState;
+    // console.log(`Modal State for modal ${index}: `, modalState);
+    return (
+      <SlidingModal
+        key={index}
+        modalIndex={index}
+        slidingState={slidingState}
+        slidingModals={slidingModals}
+        setSlidingModals={setSlidingModals}
+      />
+    );
+  });
+
+  return { addErrorModal, modalComp };
 }

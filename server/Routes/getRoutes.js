@@ -12,7 +12,7 @@ router.get('/serverhealth', (req, res) => {
 
 // For restoring session
 router.get('/restoreSession', (req, res) => {
-  console.log('Restore Session Route called....');
+  // console.log('Restore Session Route called....');
   // Check the session store if there's any session available
   if (req.session.userID) {
     res.status(200).send({

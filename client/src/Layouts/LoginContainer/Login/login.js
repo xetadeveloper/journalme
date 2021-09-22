@@ -1,27 +1,51 @@
 // Modules
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FiLoader } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 // Styles
 import style from '../loginContainer.module.css';
 
 export default function Login(props) {
-  const { handleSubmit, handleInputChange, errorFields } = props;
+  const { handleSubmit, handleInputChange, errorFields, resetForm } = props;
   const { showSignUpForm, setShowSignUpForm, isLoggedIn, username } = props;
 
   const history = useHistory();
+
+  const [isOperationOn, setIsOperationOn] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
       history.push(`/journal/${username}`);
     }
-  });
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isOperationOn) {
+      for (let field of Object.keys(errorFields)) {
+        if (errorFields[field]) {
+          setIsOperationOn(false);
+        }
+      }
+    }
+  }, [errorFields, isOperationOn]);
+
+  function getBtnText() {
+    if (isOperationOn) {
+      return <FiLoader className={`icon iconRotate ${style.rollIcon}`} />;
+    } else {
+      if (showSignUpForm) {
+        return 'Sign Up';
+      } else {
+        return 'Login';
+      }
+    }
+  }
 
   return (
     <form
       className={`grey-text flex flex-col  ${style.form}`}
-      autoComplete='on'
-      onSubmit={handleSubmit}>
+      autoComplete={true}>
       <div className={`${style.formItem}`}>
         <label className={`${style.formLabel}`}>Username</label>
         <input
@@ -87,12 +111,19 @@ export default function Login(props) {
           />
         </div>
       )}
-      <button type='submit' className={`${style.formBtn}`}>
-        {showSignUpForm ? 'Sign Up' : 'Login'}
+      <button
+        type='submit'
+        className={`${style.formBtn}`}
+        onClick={evt => {
+          setIsOperationOn(true);
+          handleSubmit(evt);
+        }}>
+        {getBtnText()}
       </button>
       <h6
         className={`${style.switchForm}`}
         onClick={() => {
+          resetForm();
           setShowSignUpForm(prev => !prev);
         }}>
         {showSignUpForm

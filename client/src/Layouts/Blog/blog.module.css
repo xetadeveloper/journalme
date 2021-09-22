@@ -9,17 +9,18 @@
 
 .blogPage {
   height: 100vh;
-  background-image: url(../../Images/kelly-sikkema-7hspi6m0yO4-unsplash.jpg);
+  /* background-image: url(../../Images/kelly-sikkema-7hspi6m0yO4-unsplash.jpg); */
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632340631/journalMe/siteImages/blogheaderbg.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   /* border: 1px solid black; */
 }
 
-.imgBlur{
-    height: 100%;
-    width: 100%;
-    background-color: #2525254f;
+.imgBlur {
+  height: 100%;
+  width: 100%;
+  background-color: #2525254f;
 }
 
 .blogHolder {

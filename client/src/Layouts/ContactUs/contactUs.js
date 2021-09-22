@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   observeElement,
   useSendMail,
-  useSessionReset,
+  useReopenSession,
 } from '../../Custom Hooks/customHooks';
 
 // Styles
@@ -15,7 +15,7 @@ import { FaArrowAltCircleDown, FaArrowAltCircleRight } from 'react-icons/fa';
 import { FiCheckCircle } from 'react-icons/fi';
 
 export default function ContactUs() {
-  const { changeNavbar, userInfo, isLoggedIn } = useSessionReset();
+  const { changeNavbar, userInfo, isLoggedIn } = useReopenSession();
 
   const sendEmail = useSendMail();
 

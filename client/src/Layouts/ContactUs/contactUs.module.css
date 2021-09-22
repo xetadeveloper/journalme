@@ -16,7 +16,7 @@
 
 .contactus {
   background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127258/journalMe/siteImages/contactusbg.jpg);
-  background-image: url(../../Images/contactus1.jpg);
+  /* background-image: url(../../Images/contactus1.jpg); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

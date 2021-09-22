@@ -21,7 +21,7 @@ export default function appReducer(state = initialState, action) {
     case POST_FAILED:
     case GET_FAILED:
     case GET_SUCCESSFUL:
-      console.log(`Action Type: ${type}`);
+      // console.log(`Action Type: ${type}`);
       return { ...state, ...payload };
       break;
 

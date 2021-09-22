@@ -31,6 +31,11 @@ import RecentTrades from './RecentTrades/recentTrades';
 import SlidingModal from '../../Components/SlidingModal/slidingModal';
 import CreateJournal from './CreateJournal/createJournal';
 import TradeAnalysis from './TradeAnalysis/tradeAnalysis';
+import {
+  useCreateSlidingModals,
+  useReopenSession,
+  useShowError,
+} from '../../Custom Hooks/customHooks';
 
 function MainLayout(props) {
   const isMobile = useMediaQuery({ query: '(max-width: 425px)' });
@@ -40,14 +45,13 @@ function MainLayout(props) {
   const orientation = { isMobile, isTablet, isWideScreen };
 
   // Redux Props
-  const { isLoggedIn, userInfo, getUserInfo, showError } = props;
+  const { userInfo, getUserInfo } = props;
   const { journalTrades, isError, error, resetErrorFlag } = props;
   const { resetSessionRestored, reopenLastSession, isSessionRestored } = props;
   const { loginRedirect, resetLoginRedirect, recentTrades } = props;
   const { userTrades } = props;
 
   // States
-  const [slidingModals, setSlidingModals] = useState([]);
   const [modalState, setModalState] = useState({ show: false });
 
   const { username, journals, firstname, preferences } = userInfo || {};
@@ -55,17 +59,17 @@ function MainLayout(props) {
   const { path } = useRouteMatch();
   const history = useHistory();
 
+  // Hooks
+  const showError = useShowError();
+  const { addErrorModal, modalComp } = useCreateSlidingModals();
+  const { isLoggedIn } = useReopenSession();
+
   // Handles reopening of last session
   useEffect(() => {
     if (!isLoggedIn) {
-      // We reopen last session if available
-      // console.log('Reopeoning last session in mainlayout');
       reopenLastSession();
     } else {
-      // Handles retreival of the journals if not in redux store
       if (!firstname) {
-        // Get userInfo from server
-        // console.log('getting user info from server');
         getUserInfo(username);
       }
     }
@@ -75,16 +79,7 @@ function MainLayout(props) {
   useEffect(() => {
     if (isError) {
       console.log('Error Occured: ', error);
-
-      setSlidingModals(prev => [
-        ...prev,
-        {
-          slidingState: {
-            show: true,
-            message: error.message,
-          },
-        },
-      ]);
+      addErrorModal(error.message);
       resetErrorFlag();
     }
   }, [isError]);
@@ -113,25 +108,6 @@ function MainLayout(props) {
     { linkName: 'About Us', linkPath: '/about' },
     { linkName: 'Need Help?', linkPath: '/contactus' },
   ];
-
-  // Creates Error or informational modals
-  function createSlidingModals() {
-    // console.log('Full Sliding MOdals State: ', slidingModals);
-
-    return slidingModals.map((modalState, index) => {
-      const { slidingState } = modalState;
-      // console.log(`Modal State for modal ${index}: `, modalState);
-      return (
-        <SlidingModal
-          key={index}
-          modalIndex={index}
-          slidingState={slidingState}
-          slidingModals={slidingModals}
-          setSlidingModals={setSlidingModals}
-        />
-      );
-    });
-  }
 
   // Redirects to trade creation page
   function handleCreateTrade(evt, error) {
@@ -187,6 +163,8 @@ function MainLayout(props) {
     });
   }
 
+  // Function that can be passed to child comp to getUserInfo
+  // Prevents connecting child comps to redux unnecessarily
   function handleGetUserInfo() {
     if (username) {
       getUserInfo(username);
@@ -212,11 +190,9 @@ function MainLayout(props) {
       <Modal modalState={modalState} setModalState={setModalState} />
 
       {/* Sliding Modal */}
-      {slidingModals.length ? (
-        <div className={`flex flex-col ${style.slidingModalHolder}`}>
-          {createSlidingModals()}
-        </div>
-      ) : null}
+      <div className={`flex flex-col ${style.slidingModalHolder}`}>
+        {modalComp}
+      </div>
 
       {isMobile || isWideScreen ? (
         <Navbar
@@ -403,8 +379,6 @@ function mapDispatchToProps(dispatch) {
     resetSessionRestored: () => dispatch(resetSessionRestored()),
 
     resetLoginRedirect: () => dispatch(resetLoginRedirect()),
-
-    showError: error => dispatch(showError(error)),
   };
 }
 

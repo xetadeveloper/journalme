@@ -10,11 +10,13 @@ import style from './navbar.module.css';
 import NavList from '../Navlist/navList';
 import SmallButton from '../Buttons/SmallButton/smallButton';
 import RoundButton from '../Buttons/RoundButton/roundButton';
+import { useShowError } from '../../Custom Hooks/customHooks';
 
 export default function Navbar(props) {
   const [showNav, setShowNav] = useState(false);
   const { navItemsList, handleCreateTrade, orientation } = props;
   const { isWideScreen, isMobile } = orientation;
+  const showError = useShowError();
 
   return (
     <nav

@@ -5,7 +5,7 @@ import React from 'react';
 import style from './footer.module.css';
 
 // Components
-import { FiInstagram, FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
+import { FiLinkedin, FiMail, FiTwitter } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 

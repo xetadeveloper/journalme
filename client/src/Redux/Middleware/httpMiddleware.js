@@ -13,7 +13,7 @@ export default function httpMiddleware(store) {
       const { payload } = action;
 
       if (payload && payload.httpMiddleware) {
-        console.log('Running fetch');
+        // console.log('Running fetch');
         store.dispatch(changeFetchStatus({ fetchStatus: 'fetching' }));
 
         const { url, method, fetchBody, headers } = payload;
@@ -30,7 +30,7 @@ export default function httpMiddleware(store) {
         fetch(url, fetchOptions)
           .then(response => response.json())
           .then(data => {
-            console.log('Fetch Result: ', data);
+            // console.log('Fetch Result: ', data);
             switch (method) {
               case 'GET':
                 if (data.app && data.app.error) {

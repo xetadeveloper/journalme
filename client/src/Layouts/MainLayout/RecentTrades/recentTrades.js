@@ -28,7 +28,7 @@ function RecentTrades(props) {
 
   // Handles rendering the trades
   function createDateRanges(trades) {
-    console.log('Trades: ', trades);
+    // console.log('Trades: ', trades);
     let tradeSections = monthsArray.map((month, index) => {
       let filtered = trades.filter(
         trade => new Date(trade.entryDate).getMonth() === index

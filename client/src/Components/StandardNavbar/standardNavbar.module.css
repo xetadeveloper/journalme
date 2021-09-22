@@ -21,20 +21,20 @@
   background-color: transparent;
   color: white;
   z-index: 1;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   width: 100%;
 }
 
 .navbar {
   /* border: 1px solid black; */
   margin: auto;
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 
 .greybg {
   background-color: #ffffff;
   color: #535353;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
   border-bottom: 1px solid #cecece;
 }
 
@@ -42,10 +42,26 @@
   font-family: Pacifico;
   cursor: pointer;
   font-size: 1.8em;
+  column-gap: 20px;
 }
 
 .logo:hover {
   color: #166cec;
+}
+
+.logoImg {
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  text-align: center;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: #166cec;
+  box-shadow: 0 0 10px 3px white;
+}
+
+.logo:hover .logoImg {
+  color: white;
 }
 
 .navlist {
@@ -63,6 +79,11 @@
   color: #166cec;
 }
 
+.greybg .logoImg{
+  color: white;
+  box-shadow: 0 0 10px 3px black;
+}
+
 .menuIcon {
   display: none;
   cursor: pointer;
@@ -72,9 +93,31 @@
   color: #166cec;
 }
 
-.loginBtn {
+.roundLoginBtn {
   height: 40px;
   width: 40px;
+}
+
+.btnGroup {
+  column-gap: 20px;
+}
+
+.loginBtn {
+  height: 30px;
+  font-size: 0.9rem;
+  width: 80px;
+  font-family: Arvo;
+  background-color: #166cec;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  box-shadow: 0 0 2px 2px #a7a7a7;
+}
+
+.loginBtn:hover {
+  background-color: white;
+  color: grey;
+  box-shadow: 0 0 2px 2px #166cec;
 }
 
 .loginTextLink {

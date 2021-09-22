@@ -19,7 +19,7 @@ function Logout(props) {
 
   return (
     <form className={`grey-text flex flex-col  ${style.form}`}>
-      <h4>We're so sorry to see you go :(</h4>
+      <h4>Make sure you come back okay? 😞</h4>
       <button
         type='button'
         className={`${style.formBtn}`}
@@ -30,7 +30,8 @@ function Logout(props) {
         Logout
       </button>
       <NavLink to={`/journal/${user}`} className={`${style.journalLink}`}>
-        Back to Journal?
+        Or why don't you just go back now? 
+        {/* Back to Journal? */}
       </NavLink>
     </form>
   );

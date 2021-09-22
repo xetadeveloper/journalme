@@ -8,7 +8,8 @@
 
 .headerContainer {
   /* border: 1px solid black; */
-  background-image: url(../../Images/pexels-nataliya-vaitkevich-6120205.jpg);
+  /* background-image: url(../../Images/pexels-nataliya-vaitkevich-6120205.jpg); */
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632340555/journalMe/siteImages/aboutusbg.jpg);
   background-size: cover;
   background-position: center;
   height: 300px;

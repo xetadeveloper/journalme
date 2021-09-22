@@ -6,7 +6,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import style from './tradeDetails.module.css';
 
 // Components
-import { FiSettings, FiTrash2 } from 'react-icons/fi';
+import { FiLoader, FiSettings, FiTrash2 } from 'react-icons/fi';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
 import TradeForm from './TradeForm/tradeForm';
 import Modal from '../../../Components/Modals/modal';
@@ -29,7 +29,7 @@ function TradeDetails(props) {
   const { journalTrades, strategies, userInfo } = props;
   const { username, journals } = userInfo || {};
   // Redux props
-  const { createTrade, getJournalTrades } = props;
+  const { createTrade, getJournalTrades, isError } = props;
   const { updateTrade, isUpdated, resetDataUpdatedFlag } = props;
   const { resetDataCreatedFlag, isCreated, showError } = props;
 
@@ -46,17 +46,17 @@ function TradeDetails(props) {
   // console.log('JournalID: ', journalID);
   // console.log('Create Mode: ', createMode);
 
-  console.log('Journals: ', journals);
+  // console.log('Journals: ', journals);
 
   const journal =
     journals && journals.find(journal => journal.journalID === journalID);
 
-  console.log('Journal: ', journal);
+  // console.log('Journal: ', journal);
   const trade =
     journalTrades &&
     !journalTrades.tradesNotFound &&
     journalTrades.trades.find(trade => trade._id == tradeID);
-  console.log('Journal Trades: ', journalTrades);
+  // console.log('Journal Trades: ', journalTrades);
   // console.log('Trade Found: ', trade);
 
   const { strategy, tradesize, tradeStatus } = trade || {};
@@ -93,6 +93,7 @@ function TradeDetails(props) {
   const [formData, setFormData] = useState(formInitial);
   const [editMode, setEditMode] = useState(createMode || false);
   const [modalState, setModalState] = useState({ show: false });
+  const [isOperationOn, setIsOperationOn] = useState(false);
 
   // console.log('Form Initial: ', formIntial);
   // console.log('FormData: ', formData);
@@ -116,6 +117,7 @@ function TradeDetails(props) {
   useEffect(() => {
     if (isCreated) {
       resetDataCreatedFlag();
+      setIsOperationOn(false);
 
       if (editMode) {
         setEditMode(false);
@@ -136,6 +138,7 @@ function TradeDetails(props) {
   useEffect(() => {
     if (isUpdated) {
       resetDataUpdatedFlag();
+      setIsOperationOn(false);
       setModalState({
         show: true,
         type: 'message',
@@ -147,11 +150,17 @@ function TradeDetails(props) {
     }
   }, [isUpdated]);
 
+  useEffect(() => {
+    if (isError && isOperationOn) {
+      setIsOperationOn(false);
+    }
+  }, [isError]);
+
   function handleUpdate(evt) {
     evt.preventDefault();
     // console.log('Form Submitted...');
     // Validate form here and determine which input values to send
-
+    setIsOperationOn(true);
     const fetchBody = {};
 
     // console.log('FormData: ', formData);
@@ -220,6 +229,7 @@ function TradeDetails(props) {
   // Handles trade creation
   function handleCreate(evt) {
     evt.preventDefault();
+    setIsOperationOn(true);
     let sendData = true;
 
     const tradeData = {};
@@ -322,10 +332,16 @@ function TradeDetails(props) {
                 btnText={createMode ? 'Create Trade' : 'Update Trade'}
                 btnType='submit'
                 clickHandler={createMode ? handleCreate : handleUpdate}
-              />
+                disabled={isOperationOn}>
+                {isOperationOn && <FiLoader className={`icon iconRotate`} />}
+              </SmallButton>
             </div>
             <div className={`${style.formBtn}`}>
-              <SmallButton btnText='Cancel' clickHandler={confirmEditCancel}/>
+              <SmallButton
+                btnText='Cancel'
+                clickHandler={confirmEditCancel}
+                disabled={isOperationOn}
+              />
             </div>
           </div>
         )}
@@ -336,9 +352,9 @@ function TradeDetails(props) {
 
 function mapStateToProps(state) {
   // const { journalTrades } = state.app;
-  const { isUpdated, isCreated } = state.flags;
+  const { isUpdated, isCreated, isError } = state.flags;
 
-  return { isUpdated, isCreated };
+  return { isUpdated, isCreated, isError };
 }
 
 function mapDispatchToProps(dispatch) {

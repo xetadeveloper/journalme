@@ -32,11 +32,10 @@ async function connectDB(dbName = defaultDB) {
   }
 
   const db = client.db(dbName);
-  // const exists = ;
-  // console.log('DB Exists: ', exists);
   if (!(await checkDBExists(db, dbName))) {
     console.log('DB does not exist');
     await configureDB(db, DBCollections, validationLevel, validationAction);
+    console.log('Database created');
   }
 
   // Add to database pool

@@ -63,6 +63,9 @@
 }
 
 .modal-text {
+  /* border: 1px solid black; */
+  max-width: 300px;
+  line-height:25px;
   text-align: center;
   font-size: 1.1rem;
   margin-bottom: 30px;
@@ -112,6 +115,12 @@
   animation: spin 1s infinite ease-in-out;
 }
 
+@media screen and (max-width: 768px) {
+  .loading > h1 {
+    font-size: 1.5rem;
+  }
+}
+
 @media screen and (max-width: 425px) {
   .modal-body {
     min-height: 200px;
@@ -122,9 +131,5 @@
     padding-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0px 1px 5px 5px #e0e0e0;
-  }
-
-  .loading > h1 {
-    font-size: 1.5rem;
   }
 }

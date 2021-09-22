@@ -1,5 +1,5 @@
 // Modules
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 
 // Styles
@@ -7,9 +7,10 @@ import style from './sideNav.module.css';
 
 // Components
 import NavList from '../Navlist/navList';
-import { FiLogOut, FiPlus, FiUser } from 'react-icons/fi';
+import { FiLogOut } from 'react-icons/fi';
 import SmallButton from '../Buttons/SmallButton/smallButton';
 import RoundButton from '../Buttons/RoundButton/roundButton';
+import { FaPlus } from 'react-icons/fa';
 
 export default function SideNav(props) {
   const { navItemsList, handleCreateTrade } = props;
@@ -42,7 +43,7 @@ export default function SideNav(props) {
         onClick={handleCreateTrade}>
         <SmallButton>
           <h5 className={style.btnText}>New Trade</h5>
-          <FiPlus className={style.plusIcon} />
+          <FaPlus className={style.plusIcon} />
         </SmallButton>
       </div>
 

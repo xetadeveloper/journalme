@@ -123,6 +123,7 @@
 
 .btn {
   font-size: 0.9rem;
+  min-width: 70px;
 }
 
 .hiddenItem {

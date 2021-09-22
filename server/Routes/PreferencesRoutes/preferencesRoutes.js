@@ -30,7 +30,7 @@ const queryOptions = {
 router.post('/updatePreferences', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyPreferences;
 
-  console.log('Updating Preferences: ', data);
+  // console.log('Updating Preferences: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -41,11 +41,11 @@ router.post('/updatePreferences', async (req, res) => {
 
   const pref = new Preferences(data);
 
-  // console.log('Preferences Object: ', pref);
+  // // console.log('Preferences Object: ', pref);
 
   const propPref = appendPropertyName(data, 'preferences');
 
-  // console.log('Preferences to be appended: ', propPref);
+  // // console.log('Preferences to be appended: ', propPref);
 
   getDBInstance()
     .then(db => {
@@ -54,9 +54,9 @@ router.post('/updatePreferences', async (req, res) => {
       usersCollection
         .findOneAndUpdate({ username: user }, { $set: propPref }, queryOptions)
         .then(result => {
-          console.log(result);
+          // console.log(result);
           if (result.lastErrorObject.updatedExisting) {
-            console.log('Update successful...');
+            // console.log('Update successful...');
             res.status(200).json({
               app: {
                 userInfo: result.value,
@@ -64,7 +64,7 @@ router.post('/updatePreferences', async (req, res) => {
               flags: { isUpdated: true },
             });
           } else {
-            console.log('Update failed...');
+            // console.log('Update failed...');
             executionError(
               res,
               500,
@@ -87,7 +87,7 @@ router.post('/updatePreferences', async (req, res) => {
 router.post('/deleteStrategy', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyDeleteStrategy;
 
-  console.log('Deleting Strategy...', data);
+  // console.log('Deleting Strategy...', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -108,9 +108,9 @@ router.post('/deleteStrategy', async (req, res) => {
           { returnOriginal: false, projection: { password: 0 } }
         )
         .then(result => {
-          console.log('Result: ', result);
+          // console.log('Result: ', result);
           if (result.lastErrorObject.updatedExisting) {
-            console.log('Update Sucessful...');
+            // console.log('Update Sucessful...');
             res.status(200).json({
               app: {
                 userInfo: result.value,
@@ -118,7 +118,7 @@ router.post('/deleteStrategy', async (req, res) => {
               flags: { isDeleted: true },
             });
           } else {
-            console.log('Update Failed...');
+            // console.log('Update Failed...');
             executionError(
               res,
               500,

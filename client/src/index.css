@@ -310,6 +310,27 @@ p {
   margin: auto;
 }
 
+.divider {
+  width: 100%;
+  background-color: grey;
+  height: 1px;
+  margin: 10px 0 40px;
+  /* margin-bottom: 50px; */
+}
+
+@keyframes iconSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.iconRotate {
+  animation: iconSpin 1s infinite ease-in-out;
+}
+
 /* Media Queries */
 @media screen and (max-width: 768px) {
   .logo {

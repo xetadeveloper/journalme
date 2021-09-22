@@ -1,7 +1,7 @@
 import { errorTypes } from '../config.js';
 
 export function serverErrorFound(res, err, errMessage) {
-  console.log('Error occured in server operation....');
+  console.log('Error occured in server operation: ', err);
   res.status(500).json({
     app: {
       error: {
@@ -15,7 +15,7 @@ export function serverErrorFound(res, err, errMessage) {
 }
 
 export function dbOperationError(res, err, errMessage) {
-  console.log('Error occured in executing DB operation...');
+  console.log('Error occured in executing DB operation: ', err);
   res.status(500).json({
     app: {
       error: {
@@ -29,7 +29,7 @@ export function dbOperationError(res, err, errMessage) {
 }
 
 export function executionError(res, status, errType, errMessage) {
-  console.log('Error occured in an operation...');
+  console.log('Error occured in an operation: ', err);
   res.status(status).json({
     app: {
       error: {

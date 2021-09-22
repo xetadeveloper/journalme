@@ -55,7 +55,7 @@ export default function PagePrompt(props) {
               type: 'confirm',
               message,
               actionHandler: () => {
-                console.log('Just clicked yes to leave page..');
+                // console.log('Just clicked yes to leave page..');
                 setModalState({ show: false });
                 setRouteLeave(prev => {
                   return { ...prev, canLeave: true };

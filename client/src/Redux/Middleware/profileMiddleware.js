@@ -30,11 +30,11 @@ export default function profileMidleware(store) {
         // call fetch here
         fetch(url, fetchOptions)
           .then(response => {
-            console.log('Got a response');
+            // console.log('Got a response');
             return response.json();
           })
           .then(uploadRes => {
-            console.log('Upload Result: ', uploadRes);
+            // console.log('Upload Result: ', uploadRes);
 
             if (uploadRes.app && !uploadRes.app.error) {
               // Update

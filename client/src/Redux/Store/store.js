@@ -17,7 +17,7 @@ const store = createStore(
 );
 export default store;
 
-console.log("Store's Startup State", store.getState());
+// console.log("Store's Startup State", store.getState());
 store.subscribe(() => {
-  console.log("Store's State", store.getState());
+  // console.log("Store's State", store.getState());
 });

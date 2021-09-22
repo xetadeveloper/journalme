@@ -17,3 +17,12 @@
   background-color: rgb(22, 108, 236);
   color: rgb(250, 245, 245);
 }
+
+.btnContainer:disabled {
+  color: rgb(151, 150, 150);
+  cursor: initial;
+}
+
+.btnContainer:disabled:hover {
+  background-color: white;
+}

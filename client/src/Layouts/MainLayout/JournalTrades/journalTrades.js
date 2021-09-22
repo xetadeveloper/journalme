@@ -61,8 +61,8 @@ function JournalTrades(props) {
   const { search } = useLocation();
   const journalID = new URLSearchParams(search).get('journalID');
   const { url } = useRouteMatch();
-  console.log('URL: ', url);
-  console.log('Search: ', search);
+  // console.log('URL: ', url);
+  // console.log('Search: ', search);
   const history = useHistory();
 
   // console.log('ID: ', journalID);

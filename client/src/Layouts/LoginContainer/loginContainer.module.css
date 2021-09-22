@@ -1,18 +1,32 @@
 .loginContainer {
   /* border: 1px solid black; */
   color: white;
-  background-image: url('../../Images/pexels-lorenzo-241544.jpg');
+  /* background-image: url('../../Images/pexels-lorenzo-241544.jpg'); */
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127258/journalMe/siteImages/loginbg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
 }
 
-.container{
+.container {
   /* border: 1px solid white; */
   width: 100%;
   height: 100vh;
   margin: auto;
   max-width: 1400px;
+}
+
+.slidingModalHolder {
+  /* border: 1px solid blue; */
+  position: absolute;
+  top: 20px;
+  right: 0;
+  z-index: 200;
+  row-gap: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 300px;
+  color: rgb(80, 79, 79);
 }
 
 .logoHolder {
@@ -75,7 +89,6 @@
 .formContainer {
   /* border: 1px solid black; */
   flex-grow: 2;
-  /* background-color: #166cec60; */
   text-align: center;
 }
 
@@ -83,7 +96,7 @@
   /* border: 1px solid black; */
   background-color: white;
   row-gap: 30px;
-  padding: 30px 30px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 20px 8px #166cec;
 }
@@ -94,7 +107,7 @@
   column-gap: 10px;
   text-align: end;
   align-items: center;
-  font-size: inherit;
+  /* font-size: 0.8rem; */
   /* border: 1px solid black; */
 }
 
@@ -119,7 +132,7 @@
   background-color: transparent;
   font-weight: 900;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 0.9rem;
   color: #2e2d2d;
   outline: none;
 }
@@ -128,6 +141,10 @@
   color: white;
   background-color: #166cec;
   border: 1px solid grey;
+}
+
+.formBtn:hover .rollIcon {
+  color: white;
 }
 
 .error {
@@ -175,6 +192,17 @@
     height: 100%;
     /* background-color: #ffffff3a; */
     transition: max-width 0.3s ease-in-out;
+  }
+
+  .form {
+    row-gap: 20px;
+    padding: 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px 8px #166cec;
+  }
+
+  .formBtn {
+    height: 30px;
   }
 
   .showForm {

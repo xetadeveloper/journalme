@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   observeElement,
-  useSessionReset,
+  useReopenSession,
 } from '../../Custom Hooks/customHooks';
 
 // Styles
@@ -12,7 +12,7 @@ import StandardNavbar from '../../Components/StandardNavbar/standardNavbar';
 import Footer from '../../Components/Footer/footer';
 
 export default function About() {
-  const { changeNavbar, userInfo, isLoggedIn } = useSessionReset();
+  const { changeNavbar, userInfo, isLoggedIn } = useReopenSession();
 
   const [isAboutShown, setIsAboutShown] = useState(false);
   const aboutBody = useRef();

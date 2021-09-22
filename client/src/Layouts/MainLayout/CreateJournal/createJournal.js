@@ -1,6 +1,6 @@
 // Modules
 import React, { useEffect, useState } from 'react';
-import { FiSettings, FiTrash2 } from 'react-icons/fi';
+import { FiLoader, FiSettings, FiTrash2 } from 'react-icons/fi';
 import { connect } from 'react-redux';
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
@@ -28,7 +28,7 @@ function CreateJournal(props) {
   // Redux Props
   const { isUpdated, isDeleted, resetDataDeletedFlag } = props;
   const { createJournal, resetDataUpdatedFlag } = props;
-  const { deleteJournal, updateJournal } = props;
+  const { deleteJournal, updateJournal, isError } = props;
 
   const history = useHistory();
   const { url } = useRouteMatch();
@@ -56,9 +56,9 @@ function CreateJournal(props) {
   const [formData, setFormData] = useState(initialForm);
   const [modalState, setModalState] = useState({ show: false });
   const [editJournal, setEditJournal] = useState(editMode ? false : true);
+  const [isOperationOn, setIsOperationOn] = useState(false);
 
-  // Hooks
-
+  // console.log('Is operation on?: ', isOperationOn);
   // Effects
   // Handles succesful updates
   useEffect(() => {
@@ -79,9 +79,18 @@ function CreateJournal(props) {
         },
       });
 
+      setIsOperationOn(false);
+      setEditJournal(false);
       resetDataUpdatedFlag();
     }
   }, [isUpdated]);
+
+  // Handles toggling disabled mode between button
+  useEffect(() => {
+    if (isError && isOperationOn) {
+      setIsOperationOn(false);
+    }
+  }, [isError]);
 
   // Handles successful journal deletion
   useEffect(() => {
@@ -125,10 +134,10 @@ function CreateJournal(props) {
   // Sends journal to server to be created
   function addJournal(evt) {
     evt.preventDefault();
+    setIsOperationOn(true);
     formData.market = formData.market.toUpperCase();
 
     // console.log('Form to send: ', formData);
-    setEditJournal(false);
     createJournal(username, formData);
   }
 
@@ -162,7 +171,7 @@ function CreateJournal(props) {
   // Handles journal updating
   function updateHandler(evt) {
     evt.preventDefault();
-
+    setIsOperationOn(true);
     // Update Journal
     let fetchBody = {};
 
@@ -192,9 +201,9 @@ function CreateJournal(props) {
       fetchBody.oldStartCapital = initialData.startCapital;
       fetchBody.oldBalance = balance;
     }
-    console.log('Initial Form Data: ', initialData);
+    // console.log('Initial Form Data: ', initialData);
 
-    console.log('Data to be updated: ', fetchBody);
+    // console.log('Data to be updated: ', fetchBody);
 
     updateJournal(username, fetchBody);
   }
@@ -255,6 +264,7 @@ function CreateJournal(props) {
       {/* <hr></hr> */}
       <div className={`${style.divider}`}></div>
 
+      {/* Form */}
       <form>
         <div className={`${style.formHolder}`}>
           <div className={`${style.inputHolder}`}>
@@ -318,16 +328,24 @@ function CreateJournal(props) {
             </div>
           </div>
         </div>
+
+        {/* Buttons holder */}
         {editJournal && (
           <div className={`flex justify-content-between ${style.btnGroup}`}>
             <div className={`${style.btn}`}>
               <SmallButton
-                btnText={`${editMode ? 'Update' : 'Create'} Journal`}
+                btnText={editMode ? 'Update Journal' : 'Create Journal'}
                 clickHandler={editMode ? updateHandler : addJournal}
-              />
+                disabled={isOperationOn}>
+                {isOperationOn && <FiLoader className={`icon iconRotate`} />}
+              </SmallButton>
             </div>
             <div className={`${style.btn}`}>
-              <SmallButton btnText='Cancel' clickHandler={cancelCreate} />
+              <SmallButton
+                btnText='Cancel'
+                disabled={isOperationOn}
+                clickHandler={cancelCreate}
+              />
             </div>
           </div>
         )}
@@ -337,8 +355,8 @@ function CreateJournal(props) {
 }
 
 function mapStateToProps(state) {
-  const { isUpdated, isDeleted } = state.flags;
-  return { isUpdated, isDeleted };
+  const { isUpdated, isDeleted, isError } = state.flags;
+  return { isUpdated, isDeleted, isError };
 }
 
 function mapDispatchToProps(dispatch) {

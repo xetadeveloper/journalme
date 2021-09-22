@@ -16,7 +16,6 @@ import AboutUs from './Layouts/About/about';
 import ContactUs from './Layouts/ContactUs/contactUs';
 import LoginContainer from './Layouts/LoginContainer/loginContainer';
 import NotFound from './Layouts/NotFound/notFound';
-import ComponentTest from './Layouts/ComponentTest/componentTest';
 import Blog from './Layouts/Blog/blog';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
         <Route path='/contactus' component={ContactUs} />
         <Route path='/journal' component={MainLayout} />
         <Route path='/login' component={LoginContainer} />
-        <Route path='/test' component={ComponentTest} />
         <Route
           path='/logout'
           render={routeprops => (

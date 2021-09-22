@@ -36,10 +36,10 @@ const queryOptions = {
 //========== Journals ========//
 // Get all Journals
 router.get('/journals', async (req, res) => {
-  console.log('get all user info for journals: ', req.params);
+  // console.log('get all user info for journals: ', req.params);
 
   const { user } = req.params;
-  console.log('User: ', user);
+  // console.log('User: ', user);
 
   // Either two queries are run for user info and user trades or a lookup is used, find out which is faster
   getDBInstance()
@@ -63,13 +63,13 @@ router.get('/journals', async (req, res) => {
 
         aggCursor.toArray((err, result) => {
           if (err) {
-            console.log('Error: ', err);
+            // console.log('Error: ', err);
             dbOperationError(res, err, 'Error in finding user info');
             return;
           }
 
           if (result[0]) {
-            console.log('User found');
+            // console.log('User found');
             res.status(200).json({
               app: {
                 isLoggedIn: true,
@@ -88,7 +88,7 @@ router.get('/journals', async (req, res) => {
         });
       } catch (err) {
         dbOperationError(res, err, 'Error in finding user info');
-        console.log('Error in method: ', err);
+        // console.log('Error in method: ', err);
       }
     })
     .catch(err => {
@@ -100,7 +100,7 @@ router.get('/journals', async (req, res) => {
 router.post('/createJournal', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyJournal;
 
-  console.log('Creating journal: ', data);
+  // console.log('Creating journal: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -117,7 +117,7 @@ router.post('/createJournal', async (req, res) => {
       const journal = new Journal(data).convertMongoTypes({ createMode: true });
       journal.journalID = genUUID();
 
-      console.log('Journal to be inserted: ', journal);
+      // console.log('Journal to be inserted: ', journal);
       usersCollection
         .findOneAndUpdate(
           { username: user },
@@ -125,9 +125,9 @@ router.post('/createJournal', async (req, res) => {
           queryOptions
         )
         .then(updateResult => {
-          console.log('Result: ', updateResult);
+          // console.log('Result: ', updateResult);
           if (updateResult.lastErrorObject.updatedExisting) {
-            console.log('Journal Updated...');
+            // console.log('Journal Updated...');
             res.status(201).json({
               app: { userInfo: updateResult.value },
               flags: { isUpdated: true },
@@ -161,7 +161,7 @@ router.post('/createJournal', async (req, res) => {
 // Update Journal
 router.post('/updateJournal', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyJournalUpdate;
-  console.log('Updating Journal: ', data);
+  // console.log('Updating Journal: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -183,10 +183,10 @@ router.post('/updateJournal', async (req, res) => {
 
   const propJournal = appendPropertyName({ ...journal }, 'journals.$');
 
-  console.log('Journal Data: ', journal);
-  console.log('Prop Journal: ', propJournal);
-  // console.log('User: ', user);
-  console.log('JournalID: ', journal.journalID);
+  // console.log('Journal Data: ', journal);
+  // console.log('Prop Journal: ', propJournal);
+  // // console.log('User: ', user);
+  // console.log('JournalID: ', journal.journalID);
 
   getDBInstance()
     .then(db => {
@@ -199,16 +199,16 @@ router.post('/updateJournal', async (req, res) => {
           queryOptions
         )
         .then(returned => {
-          console.log('Update Result: ', returned);
+          // console.log('Update Result: ', returned);
 
           if (returned.lastErrorObject.updatedExisting) {
-            console.log('Update successful...');
+            // console.log('Update successful...');
             res.status(201).json({
               app: { userInfo: returned.value },
               flags: { isUpdated: true },
             });
           } else {
-            console.log('Update failed...');
+            // console.log('Update failed...');
             res.status(500).json({
               app: {
                 userInfo: returned.value,
@@ -235,7 +235,7 @@ router.post('/updateJournal', async (req, res) => {
 router.post('/deleteJournal', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyJournalDelete;
 
-  console.log('Deleting Journal: ', data);
+  // console.log('Deleting Journal: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -251,13 +251,13 @@ router.post('/deleteJournal', async (req, res) => {
       tradesCollection
         .deleteMany({ journalID: journalID })
         .then(deleteResult => {
-          console.log('All trades deleted sucessfully');
+          // console.log('All trades deleted sucessfully');
           const usersCollection = db.collection('users');
 
           const { user } = req.params;
-          console.log('Deleting Journal...');
-          // console.log('User: ', user);
-          // console.log('JournalID: ', journalID);
+          // console.log('Deleting Journal...');
+          // // console.log('User: ', user);
+          // // console.log('JournalID: ', journalID);
           usersCollection
             .findOneAndUpdate(
               { username: user },
@@ -265,7 +265,7 @@ router.post('/deleteJournal', async (req, res) => {
               queryOptions
             )
             .then(returned => {
-              console.log('Returned Delete: ', returned);
+              // console.log('Returned Delete: ', returned);
 
               if (returned.lastErrorObject.updatedExisting) {
                 res.status(200).json({
@@ -273,7 +273,7 @@ router.post('/deleteJournal', async (req, res) => {
                   flags: { isDeleted: true },
                 });
               } else {
-                console.log('Journal not deleted...');
+                // console.log('Journal not deleted...');
                 res.status(500).json({
                   app: {
                     isLoggedIn: true,
@@ -312,7 +312,7 @@ router.post('/deleteJournal', async (req, res) => {
 router.get('/trades', async (req, res) => {
   const data = appMode === 'prod' ? req.query : dummyTradeQuery;
 
-  console.log('Getting all trades: ', data);
+  // console.log('Getting all trades: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestQueryError(res);
@@ -322,7 +322,7 @@ router.get('/trades', async (req, res) => {
 
   const { journalID } = data;
 
-  console.log('UserId: ', userID);
+  // console.log('UserId: ', userID);
   getDBInstance()
     .then(db => {
       const tradesCollection = db.collection('trades');
@@ -335,14 +335,14 @@ router.get('/trades', async (req, res) => {
             return;
           }
 
-          console.log('Result: ', result);
+          // console.log('Result: ', result);
           if (result && result.length) {
-            console.log('Trades Found...');
+            // console.log('Trades Found...');
             res.status(200).json({
               app: { journalTrades: { journalID: journalID, trades: result } },
             });
           } else {
-            console.log('Trades not found...');
+            // console.log('Trades not found...');
             res.status(500).json({
               app: {
                 journalTrades: {
@@ -364,7 +364,7 @@ router.get('/trades', async (req, res) => {
 router.get('/oneTrade', async (req, res) => {
   const data = appMode === 'prod' ? req.query : dummyTradeQuery;
 
-  console.log('Getting specific trade: ', data);
+  // console.log('Getting specific trade: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestQueryError(res);
@@ -380,14 +380,14 @@ router.get('/oneTrade', async (req, res) => {
       tradesCollection
         .findOne({ _id: tradeID })
         .then(result => {
-          console.log('Result: ', result);
+          // console.log('Result: ', result);
           if (result) {
-            console.log('Trade Found...');
+            // console.log('Trade Found...');
             res.status(200).json({
               app: { currentTrade: result },
             });
           } else {
-            console.log('Trade not found...');
+            // console.log('Trade not found...');
             res.status(500).json({
               app: {
                 currentTrade: null,
@@ -414,7 +414,7 @@ router.get('/oneTrade', async (req, res) => {
 router.post('/updateTrade', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyTradeUpdate;
 
-  console.log('Updating trade: ', data);
+  // console.log('Updating trade: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -425,7 +425,7 @@ router.post('/updateTrade', async (req, res) => {
   delete data.tradeID;
   const trade = new Trade(data).removeEmptyFields().convertMongoTypes();
 
-  console.log('Updating Converted Trade: ', trade);
+  // console.log('Updating Converted Trade: ', trade);
 
   getDBInstance()
     .then(db => {
@@ -434,10 +434,10 @@ router.post('/updateTrade', async (req, res) => {
       tradesCollection
         .updateOne({ _id: ObjectID(tradeID) }, { $set: trade })
         .then(result => {
-          // console.log('Result: ', result);
+          // // console.log('Result: ', result);
 
           if (result.modifiedCount) {
-            console.log('Trade updated...');
+            // console.log('Trade updated...');
 
             // Update Journal if PL has changed
             if (trade.pl) {
@@ -453,7 +453,7 @@ router.post('/updateTrade', async (req, res) => {
                 )
                 .then(result => {
                   if (result) {
-                    console.log('Journals: ', result.journals);
+                    // console.log('Journals: ', result.journals);
                     const tradeJournal = result.journals.find(
                       journal => journal.journalID === trade.journalID
                     );
@@ -472,7 +472,7 @@ router.post('/updateTrade', async (req, res) => {
                       losingTrades,
                     };
 
-                    console.log('Updated Trade: ', trade);
+                    // console.log('Updated Trade: ', trade);
                     const plValue = Number(trade.pl.value);
 
                     if (prevPlValue < 0 && plValue > 0) {
@@ -517,10 +517,7 @@ router.post('/updateTrade', async (req, res) => {
                       'journals.$'
                     );
 
-                    console.log(
-                      'JournalUpdate Details: ',
-                      journalUpdateDetails
-                    );
+                    // console.log('JournalUpdate Details: ',journalUpdateDetails);
 
                     usersCollection
                       .findOneAndUpdate(
@@ -593,7 +590,7 @@ router.post('/updateTrade', async (req, res) => {
 router.post('/deleteTrade', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyTradeDelete;
 
-  console.log('Deleting Trade: ', data);
+  // console.log('Deleting Trade: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -602,7 +599,7 @@ router.post('/deleteTrade', async (req, res) => {
 
   const trade = new Trade(data).removeEmptyFields();
 
-  console.log('Trade to be deleted: ', trade);
+  // console.log('Trade to be deleted: ', trade);
 
   getDBInstance()
     .then(db => {
@@ -611,7 +608,7 @@ router.post('/deleteTrade', async (req, res) => {
       tradesCollection
         .deleteOne({ _id: ObjectID(trade._id) })
         .then(result => {
-          console.log('Result: ', result.deletedCount);
+          // console.log('Result: ', result.deletedCount);
 
           if (result.deletedCount) {
             // Update journal information
@@ -622,7 +619,7 @@ router.post('/deleteTrade', async (req, res) => {
               .findOne({ username: username }, { projection: { journals: 1 } })
               .then(result => {
                 if (result) {
-                  console.log('Journals: ', result.journals);
+                  // console.log('Journals: ', result.journals);
                   const tradeJournal = result.journals.find(
                     journal => journal.journalID === trade.journalID
                   );
@@ -639,7 +636,7 @@ router.post('/deleteTrade', async (req, res) => {
                     losingTrades,
                   };
 
-                  console.log('Deleted Trade: ', trade);
+                  // console.log('Deleted Trade: ', trade);
                   const plValue = Number(trade.pl);
 
                   if (plValue > 0) {
@@ -676,7 +673,7 @@ router.post('/deleteTrade', async (req, res) => {
                     'journals.$'
                   );
 
-                  console.log('JournalUpdate Details: ', journalUpdateDetails);
+                  // console.log('JournalUpdate Details: ', journalUpdateDetails);
 
                   usersCollection
                     .findOneAndUpdate(
@@ -744,7 +741,7 @@ router.post('/deleteTrade', async (req, res) => {
 router.post('/createTrade', async (req, res) => {
   const data = appMode === 'prod' ? req.body : dummyTrade;
 
-  console.log('Creating Trade: ', data);
+  // console.log('Creating Trade: ', data);
 
   if (!Object.entries(data).length) {
     emptyRequestBodyError(res);
@@ -763,13 +760,13 @@ router.post('/createTrade', async (req, res) => {
 
       trade.userID = req.session.userID;
 
-      console.log('Trade to be inserted: ', trade);
+      // console.log('Trade to be inserted: ', trade);
       tradesCollection
         .insertOne(trade)
         .then(result => {
-          // console.log('Insert Result: ', result);
+          // // console.log('Insert Result: ', result);
           if (result.insertedCount) {
-            console.log('Trade Inserted...');
+            // console.log('Trade Inserted...');
             const insertedTrade = result.ops;
             // Update journal information
             const usersCollection = db.collection('users');
@@ -779,7 +776,7 @@ router.post('/createTrade', async (req, res) => {
               .findOne({ username: username }, { projection: { journals: 1 } })
               .then(result => {
                 if (result) {
-                  // console.log('Journals: ', result.journals);
+                  // // console.log('Journals: ', result.journals);
                   const tradeJournal = result.journals.find(
                     journal => journal.journalID === trade.journalID
                   );
@@ -797,9 +794,9 @@ router.post('/createTrade', async (req, res) => {
                     losingTrades,
                   };
 
-                  console.log('Inserted Trade: ', trade);
+                  // console.log('Inserted Trade: ', trade);
                   const plValue = Number(trade.pl.value);
-                  console.log('PLValue: ', plValue);
+                  // console.log('PLValue: ', plValue);
 
                   if (plValue > 0) {
                     // Profit
@@ -834,7 +831,7 @@ router.post('/createTrade', async (req, res) => {
                     'journals.$'
                   );
 
-                  console.log('JournalUpdate Details: ', journalUpdateDetails);
+                  // console.log('JournalUpdate Details: ', journalUpdateDetails);
 
                   usersCollection
                     .findOneAndUpdate(
@@ -905,7 +902,7 @@ router.post('/createTrade', async (req, res) => {
 
 // Get 10 recent trades
 router.get('/recentTrades', async (req, res) => {
-  console.log('Getting Recent Trades....');
+  // console.log('Getting Recent Trades....');
 
   const { userID } = req.session;
 
@@ -921,7 +918,7 @@ router.get('/recentTrades', async (req, res) => {
             return;
           }
 
-          // console.log('Result: ', result);
+          // // console.log('Result: ', result);
 
           if (result) {
             // Return trades to client

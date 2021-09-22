@@ -5,29 +5,22 @@
   /* border: 1px solid black; */
 }
 
-.cta {
-  background-color: #166cec;
-  color: white;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 10px 5px white;
-  width: 200px;
-  text-align: center;
-  display: inline-block;
-}
-
-.cta:hover {
-  background-color: #242323;
-  color: white;
-}
-
 .ctaAlt {
   background-color: white;
   color: rgb(87, 87, 87);
   box-shadow: 0 0 5px 1px #166cec;
   border: 1px solid #166cec;
-  border-radius: 20px;
-  width: 300px;
+  border-radius: 15px;
+  padding: 10px;
+  width: 150px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.ctaAlt:hover {
+  background-color: #166cec;
+  color: white;
+  box-shadow: 0 0 5px 1px white;
 }
 
 .footerContainer {
@@ -49,29 +42,16 @@
 .footerList {
   /* border: 1px solid white; */
   flex-wrap: wrap;
+  gap: 30px;
 }
 
 .footerItem {
   /* border: 1px solid white; */
   flex: 1;
-  column-gap: 20px;
   flex-flow: column wrap;
   row-gap: 30px;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  padding: 20px;
-}
-
-.footerItem > .ctaAlt {
-  padding: 10px;
-  width: 150px;
-  text-align: center;
-  font-size: 0.9em;
-}
-
-.footerItem > .ctaAlt:hover {
-  background-color: #166cec;
-  color: white;
 }
 
 .itemHeader {
@@ -101,16 +81,7 @@
     max-height: 100%;
   }
 
-  .cta {
-    font-size: 1.4em;
-  }
-
   .ctaAlt {
-    width: 200px;
-    font-size: 1.4em;
-  }
-
-  .footerItem > .ctaAlt {
-    font-size: 1.3em;
+    width: 150px;
   }
 }

@@ -93,6 +93,7 @@ select:disabled {
 
 .btnGroup > div {
   font-size: 0.8rem;
+  min-width: 70px;
 }
 
 .strategyHolder,

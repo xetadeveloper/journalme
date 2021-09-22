@@ -8,6 +8,7 @@ import { v4 as genUUID } from 'uuid';
 import { getRoutes, postRoutes } from './Routes/routes.js';
 import { serverErrorFound } from './Utility/errorHandling.js';
 import { closeClientInstance, getDBInstance } from './Database/mongoDB.js';
+import { closeTransport } from './Utility/MailSender/mailSend.js';
 
 const app = express();
 const productionMode = process.env.NODE_ENV == 'production';
@@ -47,12 +48,12 @@ app.use(express.static(path.join(path.resolve(), 'client', 'build')));
 // Handling all api requests
 app.use('/api', getRoutes, postRoutes);
 
-// Serve react app here
 app.get('/test', (req, res) => {
   console.log('Server Test Route...');
   res.send('Server is up and running...');
 });
 
+// Serve react app here
 if (productionMode) {
   app.get('/*', (req, res) => {
     res.sendFile(path.join(path.resolve(), 'client', 'build', 'index.html'));
@@ -74,9 +75,11 @@ app.listen(PORT, () => {
 process.on('exit', number => {
   console.log(`App exited with code: ${number}`);
   closeClientInstance();
+  closeTransport();
 });
 
 process.on('SIGINT', number => {
   console.log(`App exited with code: ${number}`);
   closeClientInstance();
+  closeTransport();
 });

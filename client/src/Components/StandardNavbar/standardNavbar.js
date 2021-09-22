@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // Styles
 import style from './standardNavbar.module.css';
 
 // Components
-import { FiBook, FiLogIn, FiMenu } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import { FiBook, FiMenu } from 'react-icons/fi';
 import RoundButton from '../Buttons/RoundButton/roundButton';
 
 export default function StandardNavbar(props) {
   const { changeNavbar, isLoggedIn, userInfo, linkColor } = props;
 
   const [showNavList, setShowNavList] = useState(false);
+  const history = useHistory();
 
   return (
     <nav className={`${style.navbarHolder} ${changeNavbar && style.greybg} `}>
       <div
         className={`flex justify-content-between align-items-center ${style.container} ${style.navbar}`}>
-        <NavLink to='/' className={`${style[linkColor]} ${style.logo}`}>
+        <div
+          to='/'
+          className={`flex justify-content-center align-items-center ${style[linkColor]} ${style.logo}`}>
+          {/* <img src={logoImage} alt='JournalMe Logo' /> */}
+          <div className={`flex justify-content-center align-items-center ${style.logoImg}`}>
+            J
+          </div>
           JournalMe
-        </NavLink>
+        </div>
         {/* Navigation */}
-        {/* Move this to the middle of the nav */}
         <div>
           <FiMenu
             className={`${style.menuIcon} ${style[linkColor]}`}
@@ -53,27 +59,49 @@ export default function StandardNavbar(props) {
                 {isLoggedIn ? 'Journals' : 'Login'}
               </NavLink>
             </li>
+            {!isLoggedIn && (
+              <li
+                className={`${style.navItem} ${style[linkColor]} ${style.loginTextLink}`}>
+                <NavLink to='/login?signup=true'>Sign Up</NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
         {/* Do a user button here for login or signup */}
-        <NavLink
-          className={`${style.loginHolder}`}
-          to={`${isLoggedIn ? `/journal/${userInfo.username}` : '/login'}`}>
+        <div className={`${style.loginHolder}`}>
           {isLoggedIn ? (
-            <div className={`${style.loginBtn}`}>
+            <div
+              className={`${style.roundLoginBtn}`}
+              onClick={() => {
+                history.push(`/journal/${userInfo.username}`);
+              }}>
               <RoundButton>
                 <FiBook />
               </RoundButton>
             </div>
           ) : (
-            <div className={`${style.loginBtn}`}>
-              <RoundButton>
-                <FiLogIn />
-              </RoundButton>
+            <div className={`flex ${style.btnGroup}`}>
+              {/* Login btn */}
+              <button
+                className={`${style.loginBtn}`}
+                onClick={() => {
+                  history.push('/login');
+                }}>
+                Login
+              </button>
+
+              {/* Sign up btn */}
+              <button
+                className={`${style.loginBtn}`}
+                onClick={() => {
+                  history.push('/login?signup=true');
+                }}>
+                Sign Up
+              </button>
             </div>
           )}
-        </NavLink>
+        </div>
       </div>
     </nav>
   );

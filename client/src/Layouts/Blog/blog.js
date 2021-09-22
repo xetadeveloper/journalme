@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { FaArrowAltCircleDown, FaArrowAltCircleRight } from 'react-icons/fa';
 import StandardNavbar from '../../Components/StandardNavbar/standardNavbar';
-import { useSessionReset } from '../../Custom Hooks/customHooks';
+import { useReopenSession } from '../../Custom Hooks/customHooks';
 
 import style from './blog.module.css';
 
 export default function Blog() {
-  const { changeNavbar, userInfo, isLoggedIn } = useSessionReset();
+  const { changeNavbar, userInfo, isLoggedIn } = useReopenSession();
 
   const initialData = {
     email: '',

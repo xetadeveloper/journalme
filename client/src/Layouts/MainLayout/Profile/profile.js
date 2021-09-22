@@ -8,14 +8,17 @@ import defaultUser from '../../../Images/user icon.png';
 
 // Components
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
-import { FiPlusCircle, FiSettings, FiTrash, FiUserPlus } from 'react-icons/fi';
+import {
+  FiLoader,
+  FiPlusCircle,
+  FiSettings,
+  FiTrash,
+  FiUserPlus,
+} from 'react-icons/fi';
 import Modal from '../../../Components/Modals/modal';
 import PagePrompt from '../../../Components/PagePrompt/pagePrompt';
 import { connect } from 'react-redux';
-import {
-  deleteUser,
-  updateProfile,
-} from '../../../Redux/Actions/appActions';
+import { deleteUser, updateProfile } from '../../../Redux/Actions/appActions';
 import {
   resetDataDeletedFlag,
   resetDataUpdatedFlag,
@@ -29,7 +32,7 @@ function Profile(props) {
 
   // Redux Props
   const { updateProfile, deleteUser, isDeleted, isUpdated } = props;
-  const { resetDataUpdatedFlag, resetDataDeletedFlag } = props;
+  const { resetDataUpdatedFlag, resetDataDeletedFlag, isError } = props;
 
   const { username, email, firstname, lastname, userPic } = userInfo || {};
   const { picURL } = userPic || {};
@@ -50,6 +53,7 @@ function Profile(props) {
   const [userImg, setUserImg] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [modalState, setModalState] = useState({ show: false });
+  const [isOperationOn, setIsOperationOn] = useState(false);
 
   const fileRef = useRef();
 
@@ -74,6 +78,13 @@ function Profile(props) {
     }
   }, [isLoggedIn, userInfo]);
 
+  // Handles toggling disabled mode between button
+  useEffect(() => {
+    if (isError && isOperationOn) {
+      setIsOperationOn(false);
+    }
+  }, [isError]);
+
   // handles setting the profile picture
   useEffect(() => {
     if (picURL) {
@@ -91,6 +102,7 @@ function Profile(props) {
   // Resets the updated flag
   useEffect(() => {
     if (isUpdated) {
+      setIsOperationOn(false);
       resetDataUpdatedFlag();
       if (editMode) {
         setEditMode(false);
@@ -113,11 +125,13 @@ function Profile(props) {
 
   // Handles updating user info
   function handleInfoUpdate() {
-    setModalState({
-      show: true,
-      type: 'loading',
-      message: 'Uploading Data',
-    });
+    // setModalState({
+    //   show: true,
+    //   type: 'loading',
+    //   message: 'Uploading Data',
+    // });
+
+    setIsOperationOn(true);
 
     console.log('Sending update info to server...');
     const profileForm = new FormData();
@@ -195,7 +209,11 @@ function Profile(props) {
       message: 'Are you sure you want to delete your account?',
       actionHandler: () => {
         // delete account from server
-        deleteUser(username);
+        if (userPic && userPic.publicID) {
+          deleteUser(username, { picPublicID: userPic.publicID });
+        } else {
+          deleteUser(username);
+        }
       },
     });
   }
@@ -235,8 +253,7 @@ function Profile(props) {
           />
         </div>
       </header>
-      <hr></hr>
-
+      <div className='divider'></div>
       {/* User Details */}
       <section
         className={`flex flex-col align-items-center ${style.detailContainer}`}>
@@ -334,13 +351,16 @@ function Profile(props) {
           hidden={!editMode}>
           <div className={style.btn}>
             <SmallButton
-              btnText='Update Info'
-              clickHandler={handleInfoUpdate}
-            />
+              btnText='Update Profile'
+              disabled={isOperationOn}
+              clickHandler={handleInfoUpdate}>
+              {isOperationOn && <FiLoader className={`icon iconRotate`} />}
+            </SmallButton>
           </div>
           <div className={style.btn}>
             <SmallButton
-              btnText='Cancel Edit'
+              btnText='Cancel'
+              disabled={isOperationOn}
               clickHandler={() => {
                 setModalState({
                   show: true,
@@ -363,9 +383,9 @@ function Profile(props) {
 }
 
 function mapStateToProps(state) {
-  const { isUpdated, isDeleted } = state.flags;
+  const { isUpdated, isDeleted, isError } = state.flags;
 
-  return { isUpdated, isDeleted };
+  return { isUpdated, isDeleted, isError };
 }
 
 function mapDispatchToProps(dispatch) {

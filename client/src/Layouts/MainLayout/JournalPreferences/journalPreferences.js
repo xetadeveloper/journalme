@@ -1,6 +1,13 @@
 // Modules
 import React, { useEffect, useState } from 'react';
-import { FiPlus, FiSettings, FiTrash } from 'react-icons/fi';
+import { FaInfoCircle, FaPaintRoller } from 'react-icons/fa';
+import {
+  FiCircle,
+  FiLoader,
+  FiPlus,
+  FiSettings,
+  FiTrash,
+} from 'react-icons/fi';
 import { connect } from 'react-redux';
 import SmallButton from '../../../Components/Buttons/SmallButton/smallButton';
 import Modal from '../../../Components/Modals/modal';
@@ -15,7 +22,7 @@ function JournalPreferences(props) {
   const { userInfo, orientation } = props;
 
   // Redux Props
-  const { resetDataUpdatedFlag, updatePreferences, isUpdated } = props;
+  const { resetDataUpdatedFlag, updatePreferences, isUpdated, isError } = props;
 
   const { preferences, username } = userInfo || {};
   const { strategies, currency, saveSession } = preferences || {};
@@ -33,6 +40,7 @@ function JournalPreferences(props) {
   const [modalState, setModalState] = useState({ show: false });
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState(initialFormState);
+  const [isOperationOn, setIsOperationOn] = useState(false);
 
   // console.log('Form Data: ', formData);
   // console.log('List: ', strategyList);
@@ -48,6 +56,7 @@ function JournalPreferences(props) {
   // Handles successful update
   useEffect(() => {
     if (isUpdated) {
+      setIsOperationOn(false);
       setModalState({
         show: true,
         type: 'message',
@@ -57,6 +66,13 @@ function JournalPreferences(props) {
       setEditMode(false);
     }
   }, [isUpdated]);
+
+  // Handles toggling disabled mode between button
+  useEffect(() => {
+    if (isError && isOperationOn) {
+      setIsOperationOn(false);
+    }
+  }, [isError]);
 
   // For rendering options
   function renderOptions(optionList) {
@@ -83,26 +99,25 @@ function JournalPreferences(props) {
 
   // For rendering list items
   function renderListItems(list) {
-    return (
-      strategyList.length &&
-      strategyList.map((listItem, index) => {
-        return (
-          <li
-            key={index}
-            className={`flex justify-content-between align-items-center ${style.listItem}`}>
-            {listItem}
-            {editMode && (
-              <FiTrash
-                className={`${style.listItemTrash}`}
-                onClick={() => {
-                  handleDeleteStrategy(index);
-                }}
-              />
-            )}
-          </li>
-        );
-      })
-    );
+    return strategyList.length
+      ? strategyList.map((listItem, index) => {
+          return (
+            <li
+              key={index}
+              className={`flex justify-content-between align-items-center ${style.listItem}`}>
+              {listItem}
+              {editMode && (
+                <FiTrash
+                  className={`${style.listItemTrash}`}
+                  onClick={() => {
+                    handleDeleteStrategy(index);
+                  }}
+                />
+              )}
+            </li>
+          );
+        })
+      : null;
   }
 
   // For confirming if user wants to cancel editing
@@ -154,6 +169,7 @@ function JournalPreferences(props) {
   // Handles the updating of preferences
   function handlePreferencesUpdate() {
     const prefData = {};
+    setIsOperationOn(true);
 
     // Change saveSession to true or false
     formData.saveSession = formData.saveSession === 'Yes' ? true : false;
@@ -192,7 +208,7 @@ function JournalPreferences(props) {
           }}
         />
       </header>
-      <hr></hr>
+      <div className={'divider'}></div>
       <div
         className={`flex flex-col justify-content-center align-items-center ${style.strategyHolder} ${style.optionItem}`}>
         <h4>Trading Strategies</h4>
@@ -238,12 +254,15 @@ function JournalPreferences(props) {
             <SmallButton
               btnText='Update Preferences'
               clickHandler={handlePreferencesUpdate}
-            />
+              disabled={isOperationOn}>
+              {isOperationOn && <FiLoader className={`icon iconRotate`} />}
+            </SmallButton>
           </div>
           <div>
             <SmallButton
               btnText='Cancel Edit'
               clickHandler={confirmEditCancel}
+              disabled={isOperationOn}
             />
           </div>
         </div>
@@ -253,8 +272,8 @@ function JournalPreferences(props) {
 }
 
 function mapStateToProps(state) {
-  const { isUpdated } = state.flags;
-  return { isUpdated };
+  const { isUpdated, isError } = state.flags;
+  return { isUpdated, isError };
 }
 
 function mapDispatchToProps(dispatch) {

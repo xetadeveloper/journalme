@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   observeElement,
-  useSessionReset,
+  useReopenSession,
 } from '../../Custom Hooks/customHooks';
 
 // Styles
@@ -15,7 +15,7 @@ import StandardNavbar from '../../Components/StandardNavbar/standardNavbar';
 import { FiBarChart2, FiEdit3, FiMonitor } from 'react-icons/fi';
 
 export default function LandingPage() {
-  const { changeNavbar, userInfo, isLoggedIn } = useSessionReset();
+  const { changeNavbar, userInfo, isLoggedIn } = useReopenSession();
   const [isInfoCard, setIsInfoCard] = useState(false);
   const [isTradingStyle, setIsTradingStyle] = useState(false);
 

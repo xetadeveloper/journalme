@@ -47,6 +47,7 @@
 
 .formBtn {
   font-size: 0.8rem;
+  min-width: 70px;
 }
 
 .formContainer {

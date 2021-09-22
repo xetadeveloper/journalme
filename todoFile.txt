@@ -7,13 +7,12 @@ Server
 
     Complex (1hr):
     - Find out why the app is crashing and not sending info to client after crash
-    - Add nodemailer for sending mail to  gmail
+    - Fix the session expiring
+    - Switch mongo query type from findOneAnd___ to normal type since returnOriginal parameter will soon be deprecated
 
     Medium (30mins): 
-    - Handle static files with middleware before deploying
     - Make sure the user does not upload profile images larger than 300 x 300
     - Make sure there is transformation before saving user image in profileRoutes
-    - Have to make sure when starting capital is updated it shows in the journal balance
     - Make sure user cannot change startingcapital to 0
 
     Easy(15mins): 
@@ -26,9 +25,10 @@ Client:
     Complex (1hr):
     - implement useMemo for the dependencies in login useEffect
     - Deal with printing responsive charts on resize of screen
-    - Clean console logs
     - Make sure the browser gets the up to date pictures instead of old cached ones
     - Seems like each journal will have it's own currency type
+    - Convert all pages not in the main app itself to be static pages, while the main app uses 
+      react
 
     Medium (30mins): 
     - Fix the showTradeList and CollapseTrades states in trade section
@@ -39,7 +39,6 @@ Client:
     Easy(15mins): 
     - Add icons to the modals
     - Create own select component
-    - Fix the currency label by checking which of the currencies the user preferred
 
 
 

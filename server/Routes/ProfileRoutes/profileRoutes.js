@@ -32,7 +32,6 @@ router.post('/updateUser', async (req, res) => {
 
   form.parse(req, (err, data, files) => {
     if (err) {
-      console.log('Error: ', err);
       executionError(
         res,
         500,
@@ -48,16 +47,16 @@ router.post('/updateUser', async (req, res) => {
       return;
     }
 
-    console.log('Updating User: ');
-    console.log('Fields: ', data);
-    console.log('Files: ', files);
+    // console.log('Updating User: ');
+    // console.log('Fields: ', data);
+    // console.log('Files: ', files);
 
     const { user } = req.params;
     const userDetails = new User(data).removeEmptyFields();
 
     if (files.userPic) {
       // Upload file here to cloudinary, if it doesn't work then return error
-      console.log('Uploading profile picture....');
+      // console.log('Uploading profile picture....');
       cloudinary.uploader.upload(
         files.userPic.path,
         {
@@ -69,7 +68,7 @@ router.post('/updateUser', async (req, res) => {
         },
         (err, result) => {
           if (err) {
-            console.log('Error in upload: ', err);
+            // console.log('Error in upload: ', err);
             executionError(
               res,
               500,
@@ -79,14 +78,14 @@ router.post('/updateUser', async (req, res) => {
             // log 'Unable to upload image
           } else {
             // add the url to the details
-            console.log('Upload Result: ', result);
+            // console.log('Upload Result: ', result);
 
             userDetails.userPic = {
               picURL: result.url,
               publicID: result.public_id,
             };
 
-            console.log('User Details to upload: ', userDetails);
+            // console.log('User Details to upload: ', userDetails);
 
             uploadToDB(res, userDetails, user);
           }
@@ -100,10 +99,37 @@ router.post('/updateUser', async (req, res) => {
 
 // Deleting a user's account
 router.post('/deleteUser', async (req, res) => {
-  console.log('Deleting User...');
+  const data = req.body;
+
+  // console.log('Deleting User: ', data);
+
+  // if (!Object.entries(data).length && !Object.entries(files).length) {
+  //   emptyRequestBodyError(res);
+  //   return;
+  // }
 
   const { user } = req.params;
   const { userID } = req.session;
+
+  const { picPublicID } = data;
+
+  // Delete cloudinary image
+  if (picPublicID) {
+    cloudinary.uploader
+      .destroy(picPublicID)
+      .then(response => {
+        // console.log('Response: ', response);
+        if (response.result === 'ok') {
+          // console.log('Image succesfully deleted');
+        } else {
+          // console.log('Image not deleted');
+        }
+      })
+      .catch(err => {
+        // Log error
+        console.log('Error occured in cloudinary delete: ', err);
+      });
+  }
 
   getDBInstance()
     .then(db => {
@@ -113,8 +139,8 @@ router.post('/deleteUser', async (req, res) => {
       tradesCollection
         .deleteMany({ userID: ObjectID(userID) })
         .then(tradeDelete => {
-          // console.log('Result: ', tradeDelete);
-          console.log('All trades deleted sucessfully');
+          // // console.log('Result: ', tradeDelete);
+          // console.log('All trades deleted sucessfully');
 
           // Delete the User
           const usersCollection = db.collection('users');
@@ -122,7 +148,7 @@ router.post('/deleteUser', async (req, res) => {
             .deleteOne({ username: user, _id: ObjectID(userID) })
             .then(result => {
               if (result.deletedCount) {
-                console.log('User Deletion Successful....');
+                // console.log('User Deletion Successful....');
 
                 req.session.destroy();
                 res.status(200).json({
@@ -130,7 +156,7 @@ router.post('/deleteUser', async (req, res) => {
                   flags: { isDeleted: true },
                 });
               } else {
-                console.log('User Deletion Failed....');
+                // console.log('User Deletion Failed....');
                 executionError(
                   res,
                   500,
@@ -169,7 +195,7 @@ router.post('/updatePassword', async (req, res) => {
     return;
   }
 
-  console.log('Updating Password: ', data);
+  // console.log('Updating Password: ', data);
 
   const { newPassword, oldPassword, confirmPassword } = data;
   const { user } = req.params;
@@ -182,7 +208,7 @@ router.post('/updatePassword', async (req, res) => {
         usersCollection
           .findOne({ username: user }, { projection: { password: 1 } })
           .then(result => {
-            console.log('Search Result: ', result);
+            // console.log('Search Result: ', result);
             if (result) {
               const { password } = result;
 
@@ -199,7 +225,7 @@ router.post('/updatePassword', async (req, res) => {
                         )
                         .then(result => {
                           if (result.modifiedCount) {
-                            console.log('Password Updated...');
+                            // console.log('Password Updated...');
 
                             res.status(201).json({
                               flags: { isUpdated: true },
@@ -247,7 +273,7 @@ router.post('/updatePassword', async (req, res) => {
         serverErrorFound(res, err, err.stack);
       });
   } else {
-    console.log('New Passwords do not match...');
+    // console.log('New Passwords do not match...');
     executionError(res, 400, updateerror, 'New Passwords Do Not Match');
   }
 });
@@ -260,7 +286,7 @@ function uploadToDB(res, userDetails, user) {
       getDBInstance()
         .then(db => {
           const usersCollection = db.collection('users');
-          console.log('Updating user with details: ', userInfo);
+          // console.log('Updating user with details: ', userInfo);
 
           usersCollection
             .findOneAndUpdate(
@@ -269,16 +295,16 @@ function uploadToDB(res, userDetails, user) {
               { returnOriginal: false, projection: { password: 0 } }
             )
             .then(result => {
-              console.log('Result: ', result);
+              // console.log('Result: ', result);
 
               if (result.lastErrorObject.updatedExisting) {
-                console.log('Update Successful...');
+                // console.log('Update Successful...');
                 res.status(200).json({
                   app: { userInfo: result.value },
                   flags: { isUpdated: true },
                 });
               } else {
-                console.log('Update Failed...');
+                // console.log('Update Failed...');
                 executionError(
                   res,
                   500,

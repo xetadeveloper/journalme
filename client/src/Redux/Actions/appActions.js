@@ -65,7 +65,7 @@ export function getUserInfo(payload) {
 }
 
 export function getJournalTrades(payload) {
-  // console.log('trade payload: ', payload);
+  // // console.log('trade payload: ', payload);
   if (payload) {
     payload.url = `/api/${payload.username}/trades?journalID=${payload.journalID}`;
   }
@@ -76,7 +76,7 @@ export function getJournalTrades(payload) {
 }
 
 export function updateTrade(payload) {
-  console.log('update trade payload: ', payload);
+  // console.log('update trade payload: ', payload);
   if (payload) {
     payload.url = `/api/${payload.username}/updateTrade`;
   }
@@ -88,7 +88,7 @@ export function updateTrade(payload) {
 }
 
 export function deleteTrade(payload) {
-  console.log('delete trade payload: ', payload);
+  // console.log('delete trade payload: ', payload);
   if (payload) {
     payload.url = `/api/${payload.username}/deleteTrade`;
   }
@@ -100,7 +100,7 @@ export function deleteTrade(payload) {
 }
 
 export function showError(payload) {
-  console.log('show error payload: ', payload);
+  // console.log('show error payload: ', payload);
 
   return {
     type: SHOW_ERROR,
@@ -109,7 +109,7 @@ export function showError(payload) {
 }
 
 export function updateProfile(payload) {
-  console.log('update user payload: ', payload);
+  // console.log('update user payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/profile/updateUser`;
@@ -122,7 +122,7 @@ export function updateProfile(payload) {
 }
 
 export function updatePassword(payload) {
-  console.log('update password payload: ', payload);
+  // console.log('update password payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/profile/updatePassword`;
@@ -135,7 +135,7 @@ export function updatePassword(payload) {
 }
 
 export function updatePreferences(payload) {
-  console.log('update preferences payload: ', payload);
+  // console.log('update preferences payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/preferences/updatePreferences`;
@@ -148,7 +148,7 @@ export function updatePreferences(payload) {
 }
 
 export function deleteUser(payload) {
-  console.log('delete user payload: ', payload);
+  // console.log('delete user payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/profile/deleteUser`;
@@ -161,7 +161,7 @@ export function deleteUser(payload) {
 }
 
 export function getRecentTrades(payload) {
-  console.log('get recent trades payload: ', payload);
+  // console.log('get recent trades payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/recentTrades`;
@@ -174,7 +174,7 @@ export function getRecentTrades(payload) {
 }
 
 export function createTrade(payload) {
-  console.log('create trade payload: ', payload);
+  // console.log('create trade payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/createTrade`;
@@ -187,7 +187,7 @@ export function createTrade(payload) {
 }
 
 export function createJournal(payload) {
-  console.log('create journal payload: ', payload);
+  // console.log('create journal payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/createJournal`;
@@ -200,7 +200,7 @@ export function createJournal(payload) {
 }
 
 export function updateJournal(payload) {
-  console.log('update journal payload: ', payload);
+  // console.log('update journal payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/updateJournal`;
@@ -213,7 +213,7 @@ export function updateJournal(payload) {
 }
 
 export function sendContactUsEmail(payload) {
-  console.log('contact us email payload: ', payload);
+  // console.log('contact us email payload: ', payload);
 
   if (payload) {
     payload.url = `/api/contactusmail`;
@@ -226,7 +226,7 @@ export function sendContactUsEmail(payload) {
 }
 
 export function deleteJournal(payload) {
-  console.log('delete journal payload: ', payload);
+  // console.log('delete journal payload: ', payload);
 
   if (payload) {
     payload.url = `/api/${payload.username}/deleteJournal`;
