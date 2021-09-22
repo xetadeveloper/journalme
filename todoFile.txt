@@ -35,6 +35,8 @@ Client:
     - Fix the currency thing so that the correct currency shows based on user preferences,
       currency list is already in config.js
     - Make the page go to the top when changing pages
+    - Make it that when a journal balance is 0 you cannpt create any more trades
+    - Implement journal borrowing
 
     Easy(15mins): 
     - Add icons to the modals

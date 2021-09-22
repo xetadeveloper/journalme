@@ -140,10 +140,9 @@
 }
 
 .tradingStyle {
-  /* background-color: black; */
   color: white;
-  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
-  /* background-image: url(../../Images/pexels-brian-ngali-4913817.jpg); */
+  /* background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg); */
+  background-image: url(../../Images/tradingStyle.jpg);
   background-position: center;
   background-size: cover;
   height: 100vh;
