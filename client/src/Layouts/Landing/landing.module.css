@@ -140,8 +140,8 @@
 
 .tradingStyle {
   color: white;
-  /* background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg); */
-  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127258/journalMe/siteImages/landingHeader.jpg);
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
+  /* background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127258/journalMe/siteImages/landingHeader.jpg); */
   background-position: center;
   background-size: cover;
   height: 100vh;
