@@ -142,8 +142,10 @@
 .tradingStyle {
   color: white;
   background: #302f2f
-    url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
+    url(https://res.cloudinary.com/xetadev/image/upload/v1632406049/journalMe/siteImages/real_ngali_fjmond.jpg);
   background-origin: border-box;
+  /* background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632406049/journalMe/siteImages/tradingStyle2_zs8byk.jpg); */
+  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632406051/journalMe/siteImages/tradingStyle1_iw5nsd.jpg);
   background-position: center center;
   background-size: cover;
   height: 100vh;
@@ -192,6 +194,8 @@
   text-align: start;
   row-gap: 20px;
   background-color: #0000004f;
+  background-color: rgba(255, 255, 255, 0.705);
+  color: rgb(71, 71, 71);
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 0 15px 3px #d6d6d6;

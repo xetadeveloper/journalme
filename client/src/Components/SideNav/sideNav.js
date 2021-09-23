@@ -21,7 +21,7 @@ export default function SideNav(props) {
     <aside className={`flex flex-col grey-bg ${style.container}`}>
       <div
         className={`flex justify-content-between align-items-center ${style.menuContainer}`}>
-        <Link to='#'>
+        <Link to='/'>
           <h2 className={`logo`}>JournalMe </h2>
         </Link>
 
