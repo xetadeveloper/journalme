@@ -139,6 +139,8 @@
   /* border: 1px solid black; */
   padding-top: 10px;
   align-self: start;
+  color: rgb(82, 80, 80);
+  /* font-size: 1.2em; */
 }
 
 .formInput {
@@ -207,16 +209,23 @@ hr {
 /* Media Queries */
 @media screen and (max-width: 768px) {
   .container {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .contactus {
     /* border: 1px solid black; */
     background-position: left;
   }
+  
+  .formItem {
+    /* border: 1px solid black; */
+    grid-template-columns: 80px 1fr;
+    font-size: 1.2em;
+  }
 
   .formInput {
     min-width: 0;
+    line-height: 25px;
   }
 
   .submitBtn {
@@ -250,10 +259,6 @@ hr {
     width: 100%;
   }
 
-  .formItem {
-    /* border: 1px solid black; */
-    grid-template-columns: 50px 1fr;
-  }
 
   .rightIcon {
     display: none;

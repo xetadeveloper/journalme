@@ -89,7 +89,7 @@ function LoginContainer(props) {
 
   function handleInputChange(evt) {
     setFormData(prev => {
-      return { ...prev, [evt.target.name]: evt.target.value };
+      return { ...prev, [evt.target.name]: evt.target.value.trim() };
     });
   }
 
@@ -156,23 +156,20 @@ function LoginContainer(props) {
               setShowMobileForm(false);
             }}
           />
-          {
-            /* Add autocomplete to form */
-            logout ? (
-              <Logout user={username} />
-            ) : (
-              <Login
-                handleSubmit={handleSubmit}
-                handleInputChange={handleInputChange}
-                errorFields={errorFields}
-                showSignUpForm={showSignUpForm}
-                setShowSignUpForm={setShowSignUpForm}
-                isLoggedIn={isLoggedIn}
-                username={username}
-                resetForm={resetForm}
-              />
-            )
-          }
+          {logout ? (
+            <Logout user={username} />
+          ) : (
+            <Login
+              handleSubmit={handleSubmit}
+              handleInputChange={handleInputChange}
+              errorFields={errorFields}
+              showSignUpForm={showSignUpForm}
+              setShowSignUpForm={setShowSignUpForm}
+              isLoggedIn={isLoggedIn}
+              username={username}
+              resetForm={resetForm}
+            />
+          )}
         </div>
       </div>
     </div>

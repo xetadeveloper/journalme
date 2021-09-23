@@ -115,6 +115,7 @@
   .formItem {
     grid-template-columns: 100px 1fr;
     /* border: 1px solid black; */
+    font-size: 1.3rem;
   }
 
   .comments {

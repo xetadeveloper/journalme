@@ -52,7 +52,7 @@
 .textHeader {
   /* border: 1px solid black; */
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.6em;
   position: relative;
   left: -1000px;
 }
@@ -110,7 +110,7 @@
 
 @media screen and (max-width: 768px) {
   .container {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .bodyHolder {

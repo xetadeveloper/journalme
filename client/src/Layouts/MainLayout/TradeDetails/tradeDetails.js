@@ -295,7 +295,7 @@ function TradeDetails(props) {
         {!createMode && (
           <div className={`flex ${style.btnHolder}`}>
             <FiSettings
-              className={`${editMode && style.editBtn}`}
+              className={`icon ${editMode && style.editBtn}`}
               onClick={() => {
                 if (editMode) {
                   confirmEditCancel();
@@ -307,7 +307,7 @@ function TradeDetails(props) {
             />
             <FiTrash2
               onClick={!editMode ? handleDeleteClick : undefined}
-              className={`${editMode && style.btnDisabled}`}
+              className={`icon ${editMode && style.btnDisabled}`}
             />
           </div>
         )}

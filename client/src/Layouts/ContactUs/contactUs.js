@@ -137,7 +137,7 @@ export default function ContactUs() {
                     value={formData.message}
                     onChange={handleInputChange}
                     required
-                    rows={8}
+                    rows={6}
                   />
                 </div>
                 <button

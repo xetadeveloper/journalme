@@ -73,6 +73,7 @@
 .formLabel {
   /* border: 1px solid black; */
   align-self: center;
+  color: rgb(77, 76, 76);
 }
 
 .formInput {
@@ -90,11 +91,12 @@
 
 .submitBtn {
   border: 2px solid #166cec;
+  color: rgb(43, 42, 42);
   width: 100%;
   height: 40px;
   border-radius: 8px;
   font-family: Arvo;
-  font-size: 1em;
+  font-size: 1.1em;
   background-color: white;
 }
 
@@ -107,7 +109,7 @@
 /* Media Queries */
 @media screen and (max-width: 768px) {
   .container {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .formInput {
@@ -123,6 +125,7 @@
   .formItem {
     /* border: 1px solid black; */
     grid-template-columns: 50px 1fr;
+    font-size: 1.2em;
   }
 }
 
