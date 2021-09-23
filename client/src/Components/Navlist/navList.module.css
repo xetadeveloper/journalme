@@ -53,3 +53,18 @@
   column-gap: 0;
   padding: 0;
 }
+
+@media screen and (max-width: 425px) {
+  .userBtn {
+    height: 50px;
+    width: 50px;
+  }
+
+  .userIcon {
+    font-size: 1.5rem;
+  }
+
+  .cancel{
+    font-size: 1.8rem;
+  }
+}

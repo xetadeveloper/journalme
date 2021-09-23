@@ -9,3 +9,9 @@
   background-color: #166cec;
   color: white;
 }
+
+@media screen and (max-width: 425px) {
+  .item{
+    font-size: 1.2rem;
+  }
+}

@@ -141,8 +141,10 @@
 
 .tradingStyle {
   color: white;
-  background-image: url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
-  background-position: center;
+  background: #302f2f
+    url(https://res.cloudinary.com/xetadev/image/upload/v1632127260/journalMe/siteImages/tradingStyle.jpg);
+  background-origin: border-box;
+  background-position: center center;
   background-size: cover;
   height: 100vh;
   max-height: 1000px;

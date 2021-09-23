@@ -92,7 +92,6 @@
 
 .detailsHolderSmall .detail {
   grid-template-columns: 70px 1fr 1fr;
-  font-size: 12px;
 }
 
 .detailsHolderSmall .password {
@@ -147,5 +146,23 @@
   .detail {
     /* border: 1px solid black; */
     grid-template-columns: 1fr 3fr !important;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .detail {
+    font-size: 1.1rem;
+  }
+
+  .smallHeader {
+    font-size: 1.8rem;
+  }
+
+  .optionBtn {
+    font-size: 1.5rem;
+  }
+
+  .btn{
+    font-size: 1.2rem;
   }
 }

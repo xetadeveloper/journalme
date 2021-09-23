@@ -73,5 +73,8 @@
     font-size: 1.4rem;
   }
 
-
+  .formBtn {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
 }

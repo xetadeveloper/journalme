@@ -191,7 +191,7 @@ function JournalTrades(props) {
         message={`Cancel Trades Deletion?`}
       />
 
-      {/* Scrolls to the search filters */}
+      {/* FAB btn that scrolls to the search filters */}
       {!deleteMultipleState && (
         <div
           className={`${style.searchFab}`}

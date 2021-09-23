@@ -11,7 +11,7 @@
   height: 50px;
   width: 50px;
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   right: 10px;
 }
 
@@ -234,5 +234,14 @@
 
   .showAllTrades > h5 {
     width: 50px;
+  }
+
+  .searchFab {
+    height: 50px;
+    width: 50px;
+  }
+
+  .searchIcon {
+    font-size: 1.5rem;
   }
 }

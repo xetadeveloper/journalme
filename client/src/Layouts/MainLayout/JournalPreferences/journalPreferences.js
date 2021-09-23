@@ -192,10 +192,10 @@ function JournalPreferences(props) {
       <Modal modalState={modalState} setModalState={setModalState} />
       <PagePrompt
         show={editMode}
-        message={`Cancel Journal Preferences Editing?`}
+        message={`Cancel Editing?`}
       />
 
-      <header className={`flex justify-content-between align-items-center`}>
+      <header className={`flex justify-content-between align-items-center `}>
         <h2>Journal Preferences</h2>
         <FiSettings
           className={`${style.icon} ${editMode && style.blueIcon}`}

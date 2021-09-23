@@ -120,13 +120,9 @@ export default function Home(props) {
           </div>
         )}
 
-        {!isMobile && !isWideScreen && (
-          <NavLink
-            to={`${url}/createJournal`}
-            className={style.createJournalBtn}>
-            <SmallButton btnText='Create Journal' />
-          </NavLink>
-        )}
+        <NavLink to={`${url}/createJournal`} className={style.createJournalBtn}>
+          <SmallButton btnText='Create Journal' />
+        </NavLink>
 
         <div className={style.searchField}>
           <SearchBar
@@ -135,7 +131,7 @@ export default function Home(props) {
           />
         </div>
       </section>
-      
+
       {/* Body of the home */}
       {journals && journals.length ? (
         <section

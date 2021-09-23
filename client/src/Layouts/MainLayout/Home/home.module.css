@@ -77,6 +77,8 @@
 @media screen and (max-width: 768px), (min-width: 1441px) {
   .topBar {
     justify-content: center;
+    padding: 0 10px 0;
+    justify-content: space-between;
   }
 }
 
@@ -84,5 +86,10 @@
   .searchField {
     width: 700px;
     text-align: center;
+  }
+}
+@media screen and (min-width: 425px) {
+  .topBar{
+    justify-content: space-between;
   }
 }

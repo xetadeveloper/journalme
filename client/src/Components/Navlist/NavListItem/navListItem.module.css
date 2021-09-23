@@ -109,3 +109,10 @@
 .caretIconDown {
   transition: transform 0.2s ease-out;
 }
+
+
+@media screen and (max-width: 425px) {
+  .navlink{
+    font-size: 1.3rem;
+  }
+}
