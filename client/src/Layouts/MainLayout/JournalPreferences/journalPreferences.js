@@ -190,10 +190,7 @@ function JournalPreferences(props) {
   return (
     <section className={`container ${style.container}`}>
       <Modal modalState={modalState} setModalState={setModalState} />
-      <PagePrompt
-        show={editMode}
-        message={`Cancel Editing?`}
-      />
+      <PagePrompt show={editMode} message={`Cancel Editing?`} />
 
       <header className={`flex justify-content-between align-items-center `}>
         <h2>Journal Preferences</h2>
@@ -210,7 +207,8 @@ function JournalPreferences(props) {
       </header>
       <div className={'divider'}></div>
       <div
-        className={`flex flex-col justify-content-center align-items-center ${style.strategyHolder} ${style.optionItem}`}>
+        className={`flex flex-col justify-content-center align-items-center ${style.strategyHolder}
+         ${style.optionItem}`}>
         <h4>Trading Strategies</h4>
         <ul className={`flex flex-col ${style.strategyList}`}>
           {strategies && renderListItems(strategies)}

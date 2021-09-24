@@ -142,17 +142,7 @@ function CreateJournal(props) {
   }
 
   function cancelCreate() {
-    // setModalState({
-    //   show: true,
-    //   type: 'confirm',
-    //   message: `Cancel journal ${editMode ? 'editing' : 'creation'}?`,
-    //   actionHandler: () => {
-    //     editMode ? setEditJournal(false) : history.push(parentURL);
-    //     setModalState({ show: false });
-    //   },
-    // });
-
-    history.goBack();
+    history.push(parentURL);
   }
 
   // Handles journal deletion
