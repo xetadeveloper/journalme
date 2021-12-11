@@ -4,8 +4,8 @@
   "description": "a trader's journal",
   "type": "module",
   "main": "server.js",
-  "engines" : {
-    "node" : "15.6.0"
+  "engines": {
+    "node": "15.6.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
     "server": "nodemon server/server.js",
     "client": "npm run start --prefix ./client",
     "app": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "XETA",
   "license": "ISC",
