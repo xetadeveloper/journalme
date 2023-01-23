@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/contactus' component={ContactUs} />
+        <Route path='/contact-us' component={ContactUs} />
         <Route path='/journal' component={MainLayout} />
         <Route path='/login' component={LoginContainer} />
         <Route

@@ -45,7 +45,7 @@ export default function StandardNavbar(props) {
               <NavLink to='/about'>About</NavLink>
             </li>
             <li className={`${style.navItem} ${style[linkColor]}`}>
-              <NavLink to='/contactus'>Contact Us</NavLink>
+              <NavLink to='/contact-us'>Contact Us</NavLink>
             </li>
             <li className={`${style.navItem} ${style[linkColor]}`}>
               <NavLink to='/blog'>Blog</NavLink>
