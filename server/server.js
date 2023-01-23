@@ -1,6 +1,7 @@
 import './config.js';
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import session from 'express-session';
 import mongoDBSession from 'connect-mongodb-session';
 import { v4 as genUUID } from 'uuid';
@@ -15,8 +16,9 @@ const productionMode = process.env.NODE_ENV == 'production';
 const clientIndexPath = path.join(path.resolve(), '../client', 'build', 'index.html');
 const buildPath = path.join(path.resolve(), '../client', 'build');
 
-console.log('Build path: ', buildPath);
+console.log('Build exists: ', fs.existsSync(buildPath));
 console.log('Environment: ', process.env.NODE_ENV);
+console.log('express secret: ', process.env.sessionSecret);
 
 const dbUrl = productionMode ? process.env.prodDBUrl : process.env.devDBUrl;
 
