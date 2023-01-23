@@ -1,6 +1,7 @@
 import './config.js';
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import session from 'express-session';
 import mongoDBSession from 'connect-mongodb-session';
 import { v4 as genUUID } from 'uuid';
@@ -12,11 +13,13 @@ import { closeTransport } from './Utility/MailSender/mailSend.js';
 
 const app = express();
 const productionMode = process.env.NODE_ENV == 'production';
-const clientIndexPath = path.join(path.resolve(), '../client', 'build', 'index.html');
-const buildPath = path.join(path.resolve(), '../client', 'build');
+const clientIndexPath = path.join(path.resolve(), 'client', 'build', 'index.html');
+const buildPath = path.join(path.resolve(), 'client', 'build');
 
 console.log('Build path: ', buildPath);
+console.log('Build exists: ', fs.existsSync(buildPath));
 console.log('Environment: ', process.env.NODE_ENV);
+console.log('Is env loaded: ', process.env.envLoadTest);
 
 const dbUrl = productionMode ? process.env.prodDBUrl : process.env.devDBUrl;
 
@@ -59,7 +62,7 @@ app.get('/test', (req, res) => {
 });
 
 // Serve react app here
-if (productionMode || true) {
+if (productionMode) {
     app.get('/*', (req, res) => {
         // console.log('Client url: ', clientUrl);
         res.sendFile(clientIndexPath);
