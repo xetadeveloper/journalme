@@ -59,7 +59,7 @@ app.get('/test', (req, res) => {
 });
 
 // Serve react app here
-if (productionMode || true) {
+if (productionMode) {
     app.get('/*', (req, res) => {
         // console.log('Client url: ', clientUrl);
         res.sendFile(clientIndexPath);

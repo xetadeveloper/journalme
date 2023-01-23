@@ -14,6 +14,6 @@ export const errorTypes = {
     inputerror: 'inputerror',
 };
 
-export const appMode = 'prod';
+export const appMode = 'dev';
 
 export const saltRounds = 10;
