@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "nixpacks",
-    "buildCommand": "npm install --prefix client && npm run build --prefix client"
+    "buildCommand": "yarn --cwd client install"
   },
   "deploy": {
     "startCommand": "echo starting!",
