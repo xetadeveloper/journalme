@@ -2,11 +2,11 @@
     "$schema": "https://railway.app/railway.schema.json",
     "build": {
         "builder": "nixpacks",
-        "buildCommand": "yarn --cwd client install"
+        "buildCommand": "yarn --cwd client install && yarn --cwd client build"
     },
     "deploy": {
         "startCommand": "echo starting!",
-        "healthcheckPath": "/serverhealth",
+        "healthcheckPath": "/api/serverhealth",
         "healthcheckTimeout": 100,
         "restartPolicyType": "never"
     }
