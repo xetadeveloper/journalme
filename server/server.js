@@ -13,12 +13,13 @@ import { closeTransport } from './Utility/MailSender/mailSend.js';
 
 const app = express();
 const productionMode = process.env.NODE_ENV == 'production';
-const clientIndexPath = path.join(path.resolve(), '../client', 'build', 'index.html');
-const buildPath = path.join(path.resolve(), '../client', 'build');
+const clientIndexPath = path.join(path.resolve(), 'client', 'build', 'index.html');
+const buildPath = path.join(path.resolve(), 'client', 'build');
 
+console.log('Build path: ', buildPath);
 console.log('Build exists: ', fs.existsSync(buildPath));
 console.log('Environment: ', process.env.NODE_ENV);
-console.log('express secret: ', process.env.sessionSecret);
+console.log('Is env loaded: ', process.env.envLoadTest);
 
 const dbUrl = productionMode ? process.env.prodDBUrl : process.env.devDBUrl;
 
