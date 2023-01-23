@@ -2,7 +2,7 @@
     "$schema": "https://railway.app/railway.schema.json",
     "build": {
         "builder": "nixpacks",
-        "buildCommand": "yarn --cwd client install && CI=false yarn --cwd client build"
+        "buildCommand": "yarn --cwd client install && NODE_OPTIONS=--openssl-legacy-provider CI=false yarn --cwd client build"
     },
     "deploy": {
         "startCommand": "yarn start",
