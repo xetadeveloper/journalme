@@ -1,118 +1,116 @@
 .linkContainer {
-  text-align: center;
-  /* border: 1px solid black; */
+    text-align: center;
+    /* border: 1px solid black; */
 }
 
 .border {
-  border: 1px solid #d6d6d6;
-  border-left: none;
-  border-right: none;
-  border-top: none;
+    border: 1px solid #d6d6d6;
+    border-left: none;
+    border-right: none;
+    border-top: none;
 }
 
 .navlink {
-  display: inline-block;
-  width: 100%;
-  padding: 30px 20px;
-  align-items: center;
-  cursor: pointer;
-  font-size: 0.9rem;
+    display: inline-block;
+    width: 100%;
+    padding: 30px 20px;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
-.navlink > *{
-  /* border: 1px solid black; */
+.navlink > * {
+    /* border: 1px solid black; */
 }
 
 .navlinkWide {
-  padding: 10px 20px;
-  position: relative;
-  /* border: 1px solid black; */
+    padding: 10px 20px;
+    position: relative;
+    /* border: 1px solid black; */
 }
 
 .bluebg:hover {
-  background-color: #166cec;
-  color: white;
+    background-color: #166cec;
+    color: white;
 }
 
 .navlink:hover,
 .accordionLink {
-  border-radius: 10px;
+    border-radius: 10px;
 }
 
 .navlinkWide:hover {
-  background-color: #f6f6f6;
-  border-radius: 0;
-  color: #737272;
-  background-color: #166cec;
-  color: white;
+    background-color: #f6f6f6;
+    border-radius: 0;
+    color: #737272;
+    background-color: #166cec;
+    color: white;
 }
 
-
-.navlinkAccordion{
-  display: flex;
-  flex-direction: column;
+.navlinkAccordion {
+    display: flex;
+    flex-direction: column;
 }
 
 .accordionLink {
-  background-color: #dfdfdf;
-  width: 80%;
+    background-color: #dfdfdf;
+    width: 80%;
 }
 
 .accordionLinkWide {
-  position: absolute;
-  top: 100%;
-  /* z-index: 5; */
-  width: 100%;
+    position: absolute;
+    top: 100%;
+    /* z-index: 5; */
+    width: 100%;
 }
 
 .accordionLink > * {
-  border: 1px solid rgb(168, 168, 168);
-  border-left: none;
-  border-right: none;
-  border-top: none;
+    border: 1px solid rgb(168, 168, 168);
+    border-left: none;
+    border-right: none;
+    border-top: none;
 }
 
 .accordionLink > li:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .hideAccordion {
-  /* border: 1px solid black; */
-  max-height: 0;
+    /* border: 1px solid black; */
+    max-height: 0;
 }
 
 .showAccordion {
-  max-height: 500px;
+    max-height: 500px;
 }
 
 .hideAccordion,
 .showAccordion {
-  overflow: hidden;
-  transition: max-height 0.2s ease-in-out;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out;
 }
 
 .caretIcon {
-  font-size: 20px;
-  cursor: pointer;
-  /* border: 1px solid black; */
+    font-size: 20px;
+    cursor: pointer;
+    /* border: 1px solid black; */
 }
 
 .caretIconUp {
-  transform: rotate(0deg);
+    transform: rotate(0deg);
 }
 
 .caretIconDown {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 .caretIconUp,
 .caretIconDown {
-  transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out;
 }
 
-
 @media screen and (max-width: 425px) {
-  .navlink{
-    font-size: 1.3rem;
-  }
+    .navlink {
+        font-size: 1.3rem;
+    }
 }
