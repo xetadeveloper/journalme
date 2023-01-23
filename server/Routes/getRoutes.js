@@ -23,7 +23,7 @@ router.get('/restoreSession', (req, res) => {
       flags: { isSessionRestored: true },
     });
   } else {
-    res.status(400).send({
+    res.status(401).send({
       app: { isLoggedIn: false },
       flags: { isSessionRestored: false, loginRedirect: true },
     });
