@@ -10,7 +10,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server/server.js",
-        "dev": "nodemon server/server.js"
+        "dev": "nodemon server/server.js",
+        "build": "cd client && yarn install && NODE_OPTIONS=--openssl-legacy-provider CI=false yarn --cwd client build"
     },
     "author": "XETA",
     "license": "ISC",
